@@ -1,0 +1,31 @@
+{
+    "name": "ocramius/ocra-cached-view-resolver",
+    "description": "Cached view template path resolver to speed up the ZF2 view layer by avoiding stat calls",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "zf2",
+        "zendframework",
+        "zend framework 2",
+        "performance"
+    ],
+    "homepage": "https://github.com/Ocramius/OcraCachedViewResolver",
+    "authors": [
+        {
+            "name": "Marco Pivetta",
+            "email": "ocramius@gmail.com",
+            "homepage": "http://ocramius.github.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "zendframework/zend-servicemanager": "2.*",
+        "zendframework/zend-mvc": "2.*",
+        "zendframework/zend-view": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "OcraCachedViewResolver\\": "src/"
+        }
+    }
+}
