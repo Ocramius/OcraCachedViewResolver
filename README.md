@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/Ocramius/OcraCachedViewResolver.png?branch=master)](https://travis-ci.org/Ocramius/OcraCachedViewResolver)
+
 # OcraCachedViewResolver
 
 OcraCachedViewResolver is performance-oriented Zend Framework 2 Module that increases performance
