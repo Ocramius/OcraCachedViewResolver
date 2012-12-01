@@ -57,9 +57,6 @@ class CachedResolver implements ResolverInterface
     {
         $entry = $this->cache->getItem($name, $success);
 
-        /*$this->cache->setItem('TEST?', 'TST?');
-        $this->cache->getItem('TEST?', $success);
-        die(var_dump($success));*/
         if ($success) {
             return $entry;
         }
