@@ -32,6 +32,9 @@ return array(
         'cache' => array(
             // configuration to be passed to `Zend\Cache\StorageFactory#factory()` here
         ),
+
+        // following is the key used to store the template map in the cache adapter
+        'cached_template_map_key' => 'cached_template_map',
     ),
 );
 ```
