@@ -68,12 +68,10 @@ class TemplateMapCompilerFunctionalTest extends PHPUnit_Framework_TestCase
         $resolver->addPath(__DIR__ . '/_files/subdir2');
         $resolver->addPath(__DIR__ . '/_files/subdir1');
 
-        $this->assertSame(
-            array(
-                'template2'       => __DIR__ . '/_files/subdir1/template2.phtml',
-                'valid/template4' => __DIR__ . '/_files/subdir1/valid/template4.phtml'
-            ),
-            $this->compiler->compileMap($resolver)
-        );
+        $map = $this->compiler->compileMap($resolver);
+
+        $this->assertCount(2, $map);
+        $this->assertSame(__DIR__ . '/_files/subdir1/template2.phtml', $map['template2']);
+        $this->assertSame(__DIR__ . '/_files/subdir1/valid/template4.phtml', $map['valid/template4']);
     }
 }

@@ -69,13 +69,10 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
             )));
 
         $map = $this->compiler->compileMap($mapResolver);
-        $this->assertEquals(
-            array(
-                'a' => 'b',
-                'c' => 'd',
-            ),
-            $map
-        );
+
+        $this->assertCount(2, $map);
+        $this->assertSame('b', $map['a']);
+        $this->assertSame('d', $map['c']);
     }
 
     /**
@@ -113,12 +110,9 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
 
         $map = $this->compiler->compileMap($templatePathStack);
 
-        $this->assertSame(
-            array(
-                'template2'       => __DIR__ . '/_files/subdir2/template2.phtml',
-                'valid/template4' => __DIR__ . '/_files/subdir1/valid/template4.phtml'
-            ),
-            $map);
+        $this->assertCount(2, $map);
+        $this->assertSame(__DIR__ . '/_files/subdir2/template2.phtml', $map['template2']);
+        $this->assertSame(__DIR__ . '/_files/subdir1/valid/template4.phtml', $map['valid/template4']);
     }
 
     /**
@@ -170,15 +164,11 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
 
         $map = $this->compiler->compileMap($aggregateResolver);
 
-        $this->assertSame(
-            array(
-                'a' => 'override-a-value',
-                'b' => 'b-value',
-                'c' => 'c-value',
-                'd' => 'override-d-value',
-                'e' => 'e-value',
-            ),
-            $map
-        );
+        $this->assertCount(5, $map);
+        $this->assertSame('override-a-value', $map['a']);
+        $this->assertSame('b-value', $map['b']);
+        $this->assertSame('c-value', $map['c']);
+        $this->assertSame('override-d-value', $map['d']);
+        $this->assertSame('e-value', $map['e']);
     }
 }
