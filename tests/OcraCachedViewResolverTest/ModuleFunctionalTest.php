@@ -62,7 +62,8 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $moduleManager = $this->serviceManager->get('ModuleManager');
         $moduleManager->loadModules();
 
-        $this->originalResolver = $this->getMock('Zend\View\Resolver\ResolverInterface');
+        $this->originalResolver = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
+        $this->originalResolver->expects($this->once())->method('getMap')->will($this->returnValue(array('a' => 'b')));
         $this->serviceManager->setService('OcraCachedViewResolver\\Resolver\\OriginalResolver', $this->originalResolver);
     }
 
@@ -78,20 +79,25 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
             $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
         );
 
-        $resolver = $this->serviceManager->get('ViewResolver');
+        /* @var $resolver \Zend\View\Resolver\TemplateMapResolver */
+        $resolver = $this->serviceManager->get('OcraCachedViewResolver\\Resolver\\CompiledMapResolver');
 
-        $this->assertInstanceOf('OcraCachedViewResolver\\Resolver\\CachedResolver', $resolver);
+        $this->assertInstanceOf('Zend\View\Resolver\TemplateMapResolver', $resolver);
         $this->assertSame($resolver, $this->serviceManager->get('ViewResolver'));
+        $this->assertNotSame($resolver, $this->originalResolver);
+
+        $this->assertSame(array('a' => 'b'), $resolver->getMap());
+
     }
 
     public function testCachesResolvedTemplates()
     {
-        $this->originalResolver->expects($this->once())->method('resolve')->will($this->returnValue('tpl/path'));
-        /* @var $resolver \OcraCachedViewResolver\Resolver\CachedResolver */
-        $resolver = $this->serviceManager->get('ViewResolver');
+        /* @var $cache \Zend\Cache\Storage\StorageInterface */
+        $cache = $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache');
 
-        $this->assertSame('tpl/path', $resolver->resolve('tpl-name'));
-        $this->assertSame('tpl/path', $resolver->resolve('tpl-name'));
-        $this->assertSame('tpl/path', $resolver->resolve('tpl-name'));
+        $this->assertFalse($cache->hasItem('cached_template_map'));
+        $this->serviceManager->create('ViewResolver');
+        $this->assertSame(array('a' => 'b'), $cache->getItem('cached_template_map'));
+        $this->serviceManager->create('ViewResolver');
     }
 }

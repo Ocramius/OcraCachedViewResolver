@@ -55,6 +55,7 @@ class Module implements ServiceProviderInterface, ConfigProviderInterface, InitP
                 'cache' => array(
                     'adapter' => 'apc',
                 ),
+                'cached_template_map_key' => 'cached_template_map',
             ),
         );
     }
@@ -66,13 +67,13 @@ class Module implements ServiceProviderInterface, ConfigProviderInterface, InitP
     {
         return array(
             'factories' => array(
-                'ViewResolver' => 'OcraCachedViewResolver\\Factory\\CachedResolverFactory',
+                'ViewResolver' => 'OcraCachedViewResolver\\Factory\\CompiledMapResolverFactory',
                 'OcraCachedViewResolver\\Resolver\\OriginalResolver' => 'Zend\\Mvc\\Service\\ViewResolverFactory',
                 'OcraCachedViewResolver\\Cache\\ResolverCache' => 'OcraCachedViewResolver\\Factory\\CacheFactory',
             ),
             'aliases' => array(
                 'Zend\\View\\Resolver\\AggregateResolver' => 'OcraCachedViewResolver\\Resolver\\OriginalResolver',
-                'OcraCachedViewResolver\\Resolver\\CachedResolver' => 'ViewResolver',
+                'OcraCachedViewResolver\\Resolver\\CompiledMapResolver' => 'ViewResolver',
             ),
         );
     }

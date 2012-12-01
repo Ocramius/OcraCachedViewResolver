@@ -20,26 +20,43 @@ namespace OcraCachedViewResolver\Factory;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use OcraCachedViewResolver\Resolver\CachedResolver;
+
+use Zend\View\Resolver\TemplateMapResolver;
+
+use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
 
 /**
- * Factory responsible of building an {@see \OcraCachedViewResolver\Resolver\CachedResolver}
+ * Factory responsible of building a {@see \Zend\View\Resolver\TemplateMapResolver}
+ * from cached template definitions
  *
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class CachedResolverFactory implements FactoryInterface
+class CompiledMapResolverFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        $config = $serviceLocator->get('Config');
+
+        /* @var $cache \Zend\Cache\Storage\StorageInterface */
+        $cache = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
+
+        $map = $cache->getItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $success);
+
+        if ($success) {
+            return new TemplateMapResolver($map);
+        }
+
         /* @var $originalResolver \Zend\View\Resolver\ResolverInterface */
         $originalResolver = $serviceLocator->get('OcraCachedViewResolver\\Resolver\\OriginalResolver');
-        /* @var $cache \Zend\Cache\Storage\StorageInterface */
-        $cache            = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
+        $compiler         = new TemplateMapCompiler();
+        $map              = $compiler->compileMap($originalResolver);
 
-        return new CachedResolver($originalResolver, $cache);
+        $cache->setItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $map);
+
+        return new TemplateMapResolver($map);
     }
 }
