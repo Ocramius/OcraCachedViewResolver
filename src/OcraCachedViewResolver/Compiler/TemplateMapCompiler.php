@@ -104,11 +104,11 @@ class TemplateMapCompiler
             foreach ($iterator as $file) {
                 $filePath      = $file->getRealPath();
                 $fileName      = pathinfo($filePath, PATHINFO_FILENAME);
-                $relativePath  = trim(str_replace($path, '', $file->getPath()), '/');
-                $templateName = trim($relativePath . '/' . $fileName, '/');
+                $relativePath  = trim(str_replace($path, '', $file->getPath()), '/\\');
+                $templateName  = str_replace('\\', '/', trim($relativePath . '/' . $fileName, '/'));
 
                 if ($fileName && ($resolvedPath = $resolver->resolve($templateName))) {
-                    $map[$templateName] = $resolvedPath;
+                    $map[$templateName] = realpath($resolvedPath);
                 }
             }
         }

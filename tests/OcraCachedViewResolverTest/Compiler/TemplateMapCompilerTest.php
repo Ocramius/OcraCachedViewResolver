@@ -111,8 +111,15 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         $map = $this->compiler->compileMap($templatePathStack);
 
         $this->assertCount(2, $map);
-        $this->assertSame(__DIR__ . '/_files/subdir2/template2.phtml', $map['template2']);
-        $this->assertSame(__DIR__ . '/_files/subdir1/valid/template4.phtml', $map['valid/template4']);
+
+        $template2 = realpath(__DIR__ . '/_files/subdir2/template2.phtml');
+        $template4 = realpath(__DIR__ . '/_files/subdir1/valid/template4.phtml');
+
+        $this->assertInternalType('string', $template2);
+        $this->assertInternalType('string', $template4);
+
+        $this->assertSame($template2, $map['template2']);
+        $this->assertSame($template4, $map['valid/template4']);
     }
 
     /**
