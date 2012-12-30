@@ -6,7 +6,7 @@ php:
 
 before_script:
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --prefer-dist
+  - php composer.phar install
   - wget http://cs.sensiolabs.org/get/php-cs-fixer.phar
 
 script:
