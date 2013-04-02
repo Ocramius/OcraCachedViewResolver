@@ -18,7 +18,6 @@
 
 namespace OcraCachedViewResolver;
 
-use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\InitProviderInterface;
 use Zend\ModuleManager\ModuleManagerInterface;
@@ -30,18 +29,18 @@ use Zend\ServiceManager\ServiceManager;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class Module implements ServiceProviderInterface, ConfigProviderInterface, InitProviderInterface
+class Module implements ConfigProviderInterface, InitProviderInterface
 {
     /**
      * {@inheritDoc}
-     *
-     *  @todo find a better way to achieve overriding of services
      */
     public function init(ModuleManagerInterface $moduleManager)
     {
         /* @var $moduleManager \Zend\ModuleManager\ModuleManager */
         /* @var $serviceManager \Zend\ServiceManager\ServiceManager */
         $serviceManager = $moduleManager->getEvent()->getParam('ServiceManager');
+
+        // We need to override services defined in the service listener
         $serviceManager->setAllowOverride(true);
     }
 
@@ -57,23 +56,16 @@ class Module implements ServiceProviderInterface, ConfigProviderInterface, InitP
                 ),
                 'cached_template_map_key' => 'cached_template_map',
             ),
-        );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                'ViewResolver' => 'OcraCachedViewResolver\\Factory\\CompiledMapResolverFactory',
-                'OcraCachedViewResolver\\Resolver\\OriginalResolver' => 'Zend\\Mvc\\Service\\ViewResolverFactory',
-                'OcraCachedViewResolver\\Cache\\ResolverCache' => 'OcraCachedViewResolver\\Factory\\CacheFactory',
-            ),
-            'aliases' => array(
-                'Zend\\View\\Resolver\\AggregateResolver' => 'OcraCachedViewResolver\\Resolver\\OriginalResolver',
-                'OcraCachedViewResolver\\Resolver\\CompiledMapResolver' => 'ViewResolver',
+            'service_manager' => array(
+                'factories' => array(
+                    'ViewResolver' => 'OcraCachedViewResolver\\Factory\\CompiledMapResolverFactory',
+                    'OcraCachedViewResolver\\Resolver\\OriginalResolver' => 'Zend\\Mvc\\Service\\ViewResolverFactory',
+                    'OcraCachedViewResolver\\Cache\\ResolverCache' => 'OcraCachedViewResolver\\Factory\\CacheFactory',
+                ),
+                'aliases' => array(
+                    'Zend\\View\\Resolver\\AggregateResolver' => 'OcraCachedViewResolver\\Resolver\\OriginalResolver',
+                    'OcraCachedViewResolver\\Resolver\\CompiledMapResolver' => 'ViewResolver',
+                ),
             ),
         );
     }
