@@ -87,7 +87,6 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $this->assertNotSame($resolver, $this->originalResolver);
 
         $this->assertSame(array('a' => 'b'), $resolver->getMap());
-
     }
 
     public function testCachesResolvedTemplates()
