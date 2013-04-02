@@ -22,7 +22,8 @@
         "zendframework/zend-servicemanager": "2.*",
         "zendframework/zend-mvc": "2.*",
         "zendframework/zend-view": "2.*",
-        "zendframework/zend-cache": "2.*"
+        "zendframework/zend-cache": "2.*",
+        "zendframework/zend-config": "2.*"
     },
     "autoload": {
         "psr-0": {
