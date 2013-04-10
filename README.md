@@ -39,6 +39,16 @@ return array(
 );
 ```
 
+### Prevent cache collisions
+
+APC is shared memory. Depending on your server configuration this might lead to conflicts between projects. To prevent (ugly) collisions in the shared APC the following trick (or something similar) could be employed.
+
+```php
+    'ocra_cached_view_resolver' => array(
+        'cached_template_map_key' => realpath(__DIR__)
+    ),
+```
+
 ## Testing
 
 After having installed via composer:
@@ -47,3 +57,5 @@ After having installed via composer:
 cd path/to/ocra-cached-view-resolver
 phpunit
 ```
+
+
