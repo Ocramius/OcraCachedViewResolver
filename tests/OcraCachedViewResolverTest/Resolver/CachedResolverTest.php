@@ -115,31 +115,3 @@ class CachedResolverTest extends PHPUnit_Framework_TestCase
         $this->assertSame(3, $cache->hits);
     }
 }
-
-class MockCache extends Memory
-{
-    /**
-     * @var mixed
-     */
-    public $item;
-
-    public $hits = 0;
-
-    /**
-     * Disabling parent constructor
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getItem($key, & $success = null, & $casToken = null)
-    {
-        $success = true;
-        $this->hits += 1;
-
-        return $this->item;
-    }
-}

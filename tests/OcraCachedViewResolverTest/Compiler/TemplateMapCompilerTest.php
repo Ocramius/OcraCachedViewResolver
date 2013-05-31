@@ -63,10 +63,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         $mapResolver
             ->expects($this->any())
             ->method('getMap')
-            ->will($this->returnValue(array(
-                'a' => 'b',
-                'c' => 'd',
-            )));
+            ->will($this->returnValue(array('a' => 'b', 'c' => 'd')));
 
         $map = $this->compiler->compileMap($mapResolver);
 
@@ -86,10 +83,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         $paths
             ->expects($this->any())
             ->method('toArray')
-            ->will($this->returnValue(array(
-                __DIR__ . '/_files/subdir2',
-                __DIR__ . '/_files/subdir1',
-            )));
+            ->will($this->returnValue(array(__DIR__ . '/_files/subdir2', __DIR__ . '/_files/subdir1')));
 
         $templatePathStack
             ->expects($this->any())
@@ -98,15 +92,19 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         $templatePathStack
             ->expects($this->any())
             ->method('resolve')
-            ->will($this->returnCallback(function ($name) {
-                $keys = array(
-                    'template2'       => __DIR__ . '/_files/subdir2/template2.phtml',
-                    'template3'       => false,
-                    'valid/template4' => __DIR__ . '/_files/subdir1/valid/template4.phtml',
-                );
+            ->will(
+                $this->returnCallback(
+                    function ($name) {
+                        $keys = array(
+                            'template2'       => __DIR__ . '/_files/subdir2/template2.phtml',
+                            'template3'       => false,
+                            'valid/template4' => __DIR__ . '/_files/subdir1/valid/template4.phtml',
+                        );
 
-                return $keys[$name];
-            }));
+                        return $keys[$name];
+                    }
+                )
+            );
 
         $map = $this->compiler->compileMap($templatePathStack);
 
@@ -133,37 +131,23 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         $mapResolver1
             ->expects($this->any())
             ->method('getMap')
-            ->will($this->returnValue(array(
-                'a' => 'a-value',
-                'b' => 'b-value',
-            )));
+            ->will($this->returnValue(array('a' => 'a-value', 'b' => 'b-value')));
         $mapResolver2 = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
         $mapResolver2
             ->expects($this->any())
             ->method('getMap')
-            ->will($this->returnValue(array(
-                'c' => 'c-value',
-                'd' => 'd-value',
-            )));
+            ->will($this->returnValue(array('c' => 'c-value', 'd' => 'd-value')));
         $mapResolver3 = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
         $mapResolver3
             ->expects($this->any())
             ->method('getMap')
-            ->will($this->returnValue(array(
-                'a' => 'override-a-value',
-                'd' => 'override-d-value',
-                'e' => 'e-value',
-            )));
+            ->will($this->returnValue(array('a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value')));
 
         $iterator = $this->getMock('Zend\Stdlib\PriorityQueue');
         $iterator
             ->expects($this->any())
             ->method('toArray')
-            ->will($this->returnValue(array(
-                $mapResolver1,
-                $mapResolver2,
-                $mapResolver3,
-            )));
+            ->will($this->returnValue(array($mapResolver1, $mapResolver2, $mapResolver3)));
         $aggregateResolver
             ->expects($this->any())
             ->method('getIterator')

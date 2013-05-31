@@ -1,6 +1,6 @@
-[![Build Status](https://secure.travis-ci.org/Ocramius/OcraCachedViewResolver.png?branch=master)](https://travis-ci.org/Ocramius/OcraCachedViewResolver)
-
 # OcraCachedViewResolver
+
+[![Travis-CI Build Status](https://api.travis-ci.org/Ocramius/OcraCachedViewResolver.png?branch=master)](https://travis-ci.org/Ocramius/OcraCachedViewResolver) [![Coverage Status](https://coveralls.io/repos/Ocramius/OcraCachedViewResolver/badge.png)](https://coveralls.io/r/Ocramius/OcraCachedViewResolver) [![Dependency Status](https://www.versioneye.com/package/php--ocramius--ocra-cached-view-resolver/badge.png)](https://www.versioneye.com/package/php--ocramius--ocra-cached-view-resolver)
 
 OcraCachedViewResolver is performance-oriented Zend Framework 2 Module that increases performance
 in your application by caching the process of resolving template names to paths.
