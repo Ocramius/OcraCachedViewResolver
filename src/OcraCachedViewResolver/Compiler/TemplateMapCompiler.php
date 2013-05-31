@@ -48,6 +48,8 @@ class TemplateMapCompiler
      *
      * @param ResolverInterface $resolver
      *
+     * @throws \Zend\View\Exception\InvalidArgumentException
+     *
      * @return array
      */
     public function compileMap(ResolverInterface $resolver)

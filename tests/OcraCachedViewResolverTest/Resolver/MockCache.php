@@ -16,32 +16,43 @@
  * and is licensed under the MIT license.
  */
 
-ini_set('error_reporting', E_ALL);
+namespace OcraCachedViewResolverTest\Resolver;
 
-$files = array(__DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../autoload.php');
+use Zend\Cache\Storage\Adapter\Memory;
 
-foreach ($files as $file) {
-    if (file_exists($file)) {
-        $loader = require $file;
+/**
+ * Mock cache used for introspection on cache usage
+ *
+ * @author  Marco Pivetta <ocramius@gmail.com>
+ * @license MIT
+ */
+class MockCache extends Memory
+{
+    /**
+     * @var mixed
+     */
+    public $item;
 
-        break;
+    /**
+     * @var int
+     */
+    public $hits = 0;
+
+    /**
+     * Disabling parent constructor
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getItem($key, & $success = null, & $casToken = null)
+    {
+        $success = true;
+        $this->hits += 1;
+
+        return $this->item;
     }
 }
-
-if (! isset($loader)) {
-    throw new RuntimeException('vendor/autoload.php could not be found. Did you install via composer?');
-}
-
-$loader->add('OcraCachedViewResolverTest\\', __DIR__);
-
-$configFiles = array(__DIR__ . '/TestConfiguration.php', __DIR__ . '/TestConfiguration.php.dist');
-
-foreach ($configFiles as $configFile) {
-    if (file_exists($configFile)) {
-        $config = require $configFile;
-
-        break;
-    }
-}
-
-unset($file, $file, $loader, $configFiles, $configFile, $config);
