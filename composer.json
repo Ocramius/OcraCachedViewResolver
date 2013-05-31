@@ -26,9 +26,10 @@
         "zendframework/zend-config": "2.*"
     },
     "require-dev": {
-        "satooshi/php-coveralls":    "~0.6",
-        "phpunit/phpunit":           "~3.7",
-        "squizlabs/php_codesniffer": "~1.4"
+        "satooshi/php-coveralls":      "~0.6",
+        "phpunit/phpunit":             "~3.7",
+        "squizlabs/php_codesniffer":   "~1.4",
+        "zendframework/zendframework": "2.*"
     },
     "autoload": {
         "psr-0": {
