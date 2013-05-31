@@ -64,7 +64,10 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
         $this->originalResolver = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
         $this->originalResolver->expects($this->once())->method('getMap')->will($this->returnValue(array('a' => 'b')));
-        $this->serviceManager->setService('OcraCachedViewResolver\\Resolver\\OriginalResolver', $this->originalResolver);
+        $this->serviceManager->setService(
+            'OcraCachedViewResolver\\Resolver\\OriginalResolver',
+            $this->originalResolver
+        );
     }
 
     public function testDefinedServices()
