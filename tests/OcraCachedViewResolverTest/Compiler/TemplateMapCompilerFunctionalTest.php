@@ -27,6 +27,8 @@ use Zend\View\Resolver\TemplatePathStack;
  *
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
+ *
+ * @group Functional
  */
 class TemplateMapCompilerFunctionalTest extends PHPUnit_Framework_TestCase
 {
