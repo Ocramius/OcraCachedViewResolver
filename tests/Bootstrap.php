@@ -32,7 +32,7 @@ if (! isset($loader)) {
     throw new RuntimeException('vendor/autoload.php could not be found. Did you install via composer?');
 }
 
-$loader->add('ZfrRestTest\\', __DIR__);
+$loader->add('OcraCachedViewResolverTest\\', __DIR__);
 
 $configFiles = array(__DIR__ . '/TestConfiguration.php', __DIR__ . '/TestConfiguration.php.dist');
 
