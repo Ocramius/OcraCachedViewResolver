@@ -26,6 +26,8 @@ use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
  *
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
+ *
+ * @group Coverage
  */
 class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
 {
