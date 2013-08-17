@@ -48,8 +48,6 @@ class TemplateMapCompiler
      *
      * @param ResolverInterface $resolver
      *
-     * @throws \Zend\View\Exception\InvalidArgumentException
-     *
      * @return array
      */
     public function compileMap(ResolverInterface $resolver)
@@ -66,7 +64,7 @@ class TemplateMapCompiler
             return $this->compileFromTemplateMapResolver($resolver);
         }
 
-        throw new InvalidArgumentException(sprintf('Unsupported resolver of type "%s" given', get_class($resolver)));
+        return array();
     }
 
     /**
