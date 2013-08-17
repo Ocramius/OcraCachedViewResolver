@@ -21,6 +21,7 @@ namespace OcraCachedViewResolverTest;
 use PHPUnit_Framework_TestCase;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\View\Resolver\AggregateResolver;
 
 /**
  * Functional test to verify that the module initializes services correctly
@@ -41,6 +42,11 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
      * @var \Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
      */
     protected $originalResolver;
+
+    /**
+     * @var \Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
+     */
+    protected $fallbackResolver;
 
     /**
      * {@inheritDoc}
@@ -64,8 +70,14 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $moduleManager = $this->serviceManager->get('ModuleManager');
         $moduleManager->loadModules();
 
-        $this->originalResolver = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
-        $this->originalResolver->expects($this->once())->method('getMap')->will($this->returnValue(array('a' => 'b')));
+        $this->originalResolver = new AggregateResolver();
+        $mapResolver            = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
+        $this->fallbackResolver = $this->getMock('Zend\View\Resolver\ResolverInterface');
+
+        $mapResolver->expects($this->once())->method('getMap')->will($this->returnValue(array('a' => 'b')));
+
+        $this->originalResolver->attach($mapResolver, 10);
+        $this->originalResolver->attach($this->fallbackResolver, 5);
         $this->serviceManager->setService(
             'OcraCachedViewResolver\\Resolver\\OriginalResolver',
             $this->originalResolver
@@ -103,5 +115,20 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $this->serviceManager->create('ViewResolver');
         $this->assertSame(array('a' => 'b'), $cache->getItem('cached_template_map'));
         $this->serviceManager->create('ViewResolver');
+    }
+
+    public function testFallbackResolverCall()
+    {
+        /* @var $resolver \Zend\View\Resolver\TemplateMapResolver */
+        $resolver = $this->serviceManager->get('OcraCachedViewResolver\\Resolver\\CompiledMapResolver');
+
+        $this
+            ->fallbackResolver
+            ->expects($this->once())
+            ->method('resolve')
+            ->with('fallback.phtml')
+            ->will($this->returnValue('fallback-path.phtml'));
+
+        $this->assertSame('fallback-path.phtml', $resolver->resolve('fallback.phtml'));
     }
 }
