@@ -1,12 +1,14 @@
 # OcraCachedViewResolver
 
-[![Travis-CI Build Status](https://api.travis-ci.org/Ocramius/OcraCachedViewResolver.png?branch=master)](https://travis-ci.org/Ocramius/OcraCachedViewResolver) [![Coverage Status](https://coveralls.io/repos/Ocramius/OcraCachedViewResolver/badge.png)](https://coveralls.io/r/Ocramius/OcraCachedViewResolver) [![Dependency Status](https://www.versioneye.com/package/php--ocramius--ocra-cached-view-resolver/badge.png)](https://www.versioneye.com/package/php--ocramius--ocra-cached-view-resolver)
-
 OcraCachedViewResolver is performance-oriented Zend Framework 2 Module that increases performance
 in your application by caching the process of resolving template names to paths.
 
 In ZF2, the process of resolving template paths causes a lot of stat calls. This module adds
 a cache layer to avoid that.
+
+| Tests | Releases | Downloads | Dependencies |
+| ----- | -------- | ------- | ------------- | --------- | ------------ |
+|[![Build Status](https://travis-ci.org/Ocramius/OcraCachedViewResolver.png?branch=master)](https://travis-ci.org/Ocramius/OcraCachedViewResolver) [![Coverage Status](https://coveralls.io/repos/Ocramius/OcraCachedViewResolver/badge.png?branch=master)](https://coveralls.io/r/Ocramius/OcraCachedViewResolver)|[![Latest Stable Version](https://poser.pugx.org/ocramius/ocra-cached-view-resolver/v/stable.png)](https://packagist.org/packages/ocramius/ocra-cached-view-resolver) [![Latest Unstable Version](https://poser.pugx.org/ocramius/ocra-cached-view-resolver/v/unstable.png)](https://packagist.org/packages/ocramius/ocra-cached-view-resolver)|[![Total Downloads](https://poser.pugx.org/ocramius/ocra-cached-view-resolver/downloads.png)](https://packagist.org/packages/ocramius/ocra-cached-view-resolver)|[![Dependency Status](https://www.versioneye.com/package/php--ocramius--ocra-cached-view-resolver/badge.png)](https://www.versioneye.com/package/php--ocramius--ocra-cached-view-resolver)|
 
 ## Installation
 
@@ -14,10 +16,9 @@ The recommended way to install `ocramius/ocra-cached-view-resolver` is through
 [composer](http://getcomposer.org/):
 
 ```sh
-php composer.phar require ocramius/ocra-cached-view-resolver
+php composer.phar require ocramius/ocra-cached-view-resolver:*
 ```
 
-When asked for a version to install, type `*`.
 You can then enable the module in your `config/application.config.php`.
 
 ## Configuration
