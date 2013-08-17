@@ -19,9 +19,11 @@
 namespace OcraCachedViewResolverTest;
 
 use PHPUnit_Framework_TestCase;
+use UnexpectedValueException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\View\Resolver\AggregateResolver;
+use Zend\View\Resolver\TemplateMapResolver;
 
 /**
  * Functional test to verify that the module initializes services correctly
@@ -96,14 +98,24 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
             $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
         );
 
-        /* @var $resolver \Zend\View\Resolver\TemplateMapResolver */
+        /* @var $resolver \Zend\View\Resolver\AggregateResolver */
         $resolver = $this->serviceManager->get('OcraCachedViewResolver\\Resolver\\CompiledMapResolver');
 
-        $this->assertInstanceOf('Zend\View\Resolver\TemplateMapResolver', $resolver);
+        $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
         $this->assertSame($resolver, $this->serviceManager->get('ViewResolver'));
-        $this->assertNotSame($resolver, $this->originalResolver);
 
-        $this->assertSame(array('a' => 'b'), $resolver->getMap());
+        foreach ($resolver->getIterator() as $previousResolver) {
+            if ($previousResolver instanceof AggregateResolver) {
+                $this->assertSame($this->originalResolver, $previousResolver);
+            } elseif ($previousResolver instanceof TemplateMapResolver) {
+                $this->assertNotSame($previousResolver, $this->originalResolver);
+                $this->assertSame(array('a' => 'b'), $previousResolver->getMap());
+            } else {
+                throw new UnexpectedValueException(
+                    sprintf('Found unexpected resolver of type "%s"', get_class($previousResolver))
+                );
+            }
+        }
     }
 
     public function testCachesResolvedTemplates()

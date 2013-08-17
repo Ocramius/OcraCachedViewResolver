@@ -21,6 +21,7 @@ namespace OcraCachedViewResolver\Factory;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+use Zend\View\Resolver\AggregateResolver;
 use Zend\View\Resolver\TemplateMapResolver;
 
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
@@ -39,24 +40,25 @@ class CompiledMapResolverFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $config = $serviceLocator->get('Config');
-
+        $config            = $serviceLocator->get('Config');
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
-        $cache = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
+        $cache             = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
+        /* @var $originalResolver \Zend\View\Resolver\ResolverInterface */
+        $originalResolver  = $serviceLocator->get('OcraCachedViewResolver\\Resolver\\OriginalResolver');
+        $map               = $cache->getItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $success);
+        $aggregateResolver = new AggregateResolver();
 
-        $map = $cache->getItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $success);
+        $aggregateResolver->attach($originalResolver, 50);
 
-        if ($success) {
-            return new TemplateMapResolver($map);
+        if (! $success) {
+            $compiler = new TemplateMapCompiler();
+            $map      = $compiler->compileMap($originalResolver);
+
+            $cache->setItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $map);
         }
 
-        /* @var $originalResolver \Zend\View\Resolver\ResolverInterface */
-        $originalResolver = $serviceLocator->get('OcraCachedViewResolver\\Resolver\\OriginalResolver');
-        $compiler         = new TemplateMapCompiler();
-        $map              = $compiler->compileMap($originalResolver);
+        $aggregateResolver->attach(new TemplateMapResolver($map), 100);
 
-        $cache->setItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $map);
-
-        return new TemplateMapResolver($map);
+        return $aggregateResolver;
     }
 }
