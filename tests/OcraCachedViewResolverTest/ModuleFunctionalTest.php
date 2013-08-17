@@ -19,8 +19,11 @@
 namespace OcraCachedViewResolverTest;
 
 use PHPUnit_Framework_TestCase;
+use UnexpectedValueException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\View\Resolver\AggregateResolver;
+use Zend\View\Resolver\TemplateMapResolver;
 
 /**
  * Functional test to verify that the module initializes services correctly
@@ -41,6 +44,11 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
      * @var \Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
      */
     protected $originalResolver;
+
+    /**
+     * @var \Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
+     */
+    protected $fallbackResolver;
 
     /**
      * {@inheritDoc}
@@ -64,8 +72,14 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $moduleManager = $this->serviceManager->get('ModuleManager');
         $moduleManager->loadModules();
 
-        $this->originalResolver = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
-        $this->originalResolver->expects($this->once())->method('getMap')->will($this->returnValue(array('a' => 'b')));
+        $this->originalResolver = new AggregateResolver();
+        $mapResolver            = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
+        $this->fallbackResolver = $this->getMock('Zend\View\Resolver\ResolverInterface');
+
+        $mapResolver->expects($this->once())->method('getMap')->will($this->returnValue(array('a' => 'b')));
+
+        $this->originalResolver->attach($mapResolver, 10);
+        $this->originalResolver->attach($this->fallbackResolver, 5);
         $this->serviceManager->setService(
             'OcraCachedViewResolver\\Resolver\\OriginalResolver',
             $this->originalResolver
@@ -84,14 +98,24 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
             $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
         );
 
-        /* @var $resolver \Zend\View\Resolver\TemplateMapResolver */
+        /* @var $resolver \Zend\View\Resolver\AggregateResolver */
         $resolver = $this->serviceManager->get('OcraCachedViewResolver\\Resolver\\CompiledMapResolver');
 
-        $this->assertInstanceOf('Zend\View\Resolver\TemplateMapResolver', $resolver);
+        $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
         $this->assertSame($resolver, $this->serviceManager->get('ViewResolver'));
-        $this->assertNotSame($resolver, $this->originalResolver);
 
-        $this->assertSame(array('a' => 'b'), $resolver->getMap());
+        foreach ($resolver->getIterator() as $previousResolver) {
+            if ($previousResolver instanceof AggregateResolver) {
+                $this->assertSame($this->originalResolver, $previousResolver);
+            } elseif ($previousResolver instanceof TemplateMapResolver) {
+                $this->assertNotSame($previousResolver, $this->originalResolver);
+                $this->assertSame(array('a' => 'b'), $previousResolver->getMap());
+            } else {
+                throw new UnexpectedValueException(
+                    sprintf('Found unexpected resolver of type "%s"', get_class($previousResolver))
+                );
+            }
+        }
     }
 
     public function testCachesResolvedTemplates()
@@ -103,5 +127,20 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $this->serviceManager->create('ViewResolver');
         $this->assertSame(array('a' => 'b'), $cache->getItem('cached_template_map'));
         $this->serviceManager->create('ViewResolver');
+    }
+
+    public function testFallbackResolverCall()
+    {
+        /* @var $resolver \Zend\View\Resolver\TemplateMapResolver */
+        $resolver = $this->serviceManager->get('OcraCachedViewResolver\\Resolver\\CompiledMapResolver');
+
+        $this
+            ->fallbackResolver
+            ->expects($this->once())
+            ->method('resolve')
+            ->with('fallback.phtml')
+            ->will($this->returnValue('fallback-path.phtml'));
+
+        $this->assertSame('fallback-path.phtml', $resolver->resolve('fallback.phtml'));
     }
 }

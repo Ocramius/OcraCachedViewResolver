@@ -49,10 +49,9 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      */
-    public function testCompileFromUnknownResolverThrowsException()
+    public function testCompileFromUnknownResolverProducesEmptyMap()
     {
-        $this->setExpectedException('Zend\View\Exception\InvalidArgumentException');
-        $this->compiler->compileMap($this->getMock('Zend\View\Resolver\ResolverInterface'));
+        $this->assertSame(array(), $this->compiler->compileMap($this->getMock('Zend\View\Resolver\ResolverInterface')));
     }
 
     /**
