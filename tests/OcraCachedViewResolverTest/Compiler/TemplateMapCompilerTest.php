@@ -57,6 +57,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplateMapResolver
+     * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::addResolvedPath
      */
     public function testCompileFromMapResolver()
     {
@@ -76,6 +77,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
+     * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::addResolvedPath
      */
     public function testCompileFromTemplatePathStack()
     {
@@ -124,6 +126,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromAggregateResolver
+     * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::addResolvedPath
      */
     public function testCompileFromAggregateResolver()
     {
