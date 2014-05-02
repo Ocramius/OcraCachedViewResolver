@@ -13,7 +13,7 @@ before_script:
   - composer update --prefer-source
 
 script:
-  - ./vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml
+  - ./vendor/bin/phpunit
   - ./vendor/bin/phpcs --standard=PSR2 ./src/ ./tests/
 
 notifications:
