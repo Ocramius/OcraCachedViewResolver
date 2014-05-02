@@ -16,8 +16,5 @@ script:
   - ./vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml
   - ./vendor/bin/phpcs --standard=PSR2 ./src/ ./tests/
 
-after_script:
-  - php vendor/bin/coveralls -v
-
 notifications:
   irc: "irc.freenode.org#zftalk.modules"
