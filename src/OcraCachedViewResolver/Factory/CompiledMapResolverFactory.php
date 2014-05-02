@@ -45,7 +45,10 @@ class CompiledMapResolverFactory implements FactoryInterface
         $cache             = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
         /* @var $originalResolver \Zend\View\Resolver\ResolverInterface */
         $originalResolver  = $serviceLocator->get('OcraCachedViewResolver\\Resolver\\OriginalResolver');
-        $map               = $cache->getItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $success);
+        $cacheKey          = $config['ocra_cached_view_resolver']['cached_template_map_key'];
+        $map               = $cache->getItem($cacheKey, $success);
+        // following double-check is done since HHVM doesn't like the by-ref & $success param passed to `getItem`
+        $success           = $success || is_array($map) || $cache->hasItem($cacheKey);
         $aggregateResolver = new AggregateResolver();
 
         $aggregateResolver->attach($originalResolver, 50);
