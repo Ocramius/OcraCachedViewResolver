@@ -125,6 +125,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($cache->hasItem('cached_template_map'));
         $this->serviceManager->create('ViewResolver');
+        $this->assertTrue($cache->hasItem('cached_template_map'));
         $this->assertSame(array('a' => 'b'), $cache->getItem('cached_template_map'));
         $this->serviceManager->create('ViewResolver');
     }

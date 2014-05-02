@@ -45,12 +45,12 @@ class CompiledMapResolverFactory implements FactoryInterface
         $cache             = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
         /* @var $originalResolver \Zend\View\Resolver\ResolverInterface */
         $originalResolver  = $serviceLocator->get('OcraCachedViewResolver\\Resolver\\OriginalResolver');
-        $map               = $cache->getItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $success);
+        $map               = $cache->getItem($config['ocra_cached_view_resolver']['cached_template_map_key']);
         $aggregateResolver = new AggregateResolver();
 
         $aggregateResolver->attach($originalResolver, 50);
 
-        if (! $success) {
+        if (! is_array($map)) {
             $compiler = new TemplateMapCompiler();
             $map      = $compiler->compileMap($originalResolver);
 
