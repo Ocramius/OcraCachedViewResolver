@@ -18,18 +18,15 @@
 
 namespace OcraCachedViewResolver\Compiler;
 
-use CallbackFilterIterator;
-use SplFileInfo;
-use Zend\View\Resolver\ResolverInterface;
-use Zend\View\Resolver\TemplatePathStack;
-use Zend\View\Resolver\TemplateMapResolver;
-use Zend\View\Resolver\AggregateResolver;
-
-use Zend\Stdlib\ArrayUtils;
-
-use RecursiveDirectoryIterator;
 use FilesystemIterator;
+use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use SplFileInfo;
+use Zend\Stdlib\ArrayUtils;
+use Zend\View\Resolver\AggregateResolver;
+use Zend\View\Resolver\ResolverInterface;
+use Zend\View\Resolver\TemplateMapResolver;
+use Zend\View\Resolver\TemplatePathStack;
 
 /**
  * Template map generator that can build template map arrays from either
