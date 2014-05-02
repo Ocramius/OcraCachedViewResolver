@@ -35,6 +35,11 @@
             "OcraCachedViewResolver\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-0": {
+            "OcraCachedViewResolverTest\\": "tests/"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.1.x-dev"
