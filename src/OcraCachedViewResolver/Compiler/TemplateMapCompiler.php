@@ -18,6 +18,8 @@
 
 namespace OcraCachedViewResolver\Compiler;
 
+use CallbackFilterIterator;
+use SplFileInfo;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\Resolver\TemplatePathStack;
 use Zend\View\Resolver\TemplateMapResolver;
@@ -98,20 +100,34 @@ class TemplateMapCompiler
                 RecursiveIteratorIterator::LEAVES_ONLY
             );
 
-            /* @var $file \SplFileInfo */
             foreach ($iterator as $file) {
-                $filePath      = $file->getRealPath();
-                $fileName      = pathinfo($filePath, PATHINFO_FILENAME);
-                $relativePath  = trim(str_replace($path, '', $file->getPath()), '/\\');
-                $templateName  = str_replace('\\', '/', trim($relativePath . '/' . $fileName, '/'));
-
-                if ($fileName && ($resolvedPath = $resolver->resolve($templateName))) {
-                    $map[$templateName] = realpath($resolvedPath);
-                }
+                $this->addResolvedPath($file, $map, $path, $resolver);
             }
         }
 
         return $map;
+    }
+
+    /**
+     * Add the given file to the map if it corresponds to a resolved view
+     *
+     * @param SplFileInfo       $file
+     * @param array             $map
+     * @param string            $basePath
+     * @param TemplatePathStack $resolver
+     *
+     * @return void
+     */
+    private function addResolvedPath(SplFileInfo $file, array & $map, $basePath, TemplatePathStack $resolver)
+    {
+        $filePath      = $file->getRealPath();
+        $fileName      = pathinfo($filePath, PATHINFO_FILENAME);
+        $relativePath  = trim(str_replace($basePath, '', $file->getPath()), '/\\');
+        $templateName  = str_replace('\\', '/', trim($relativePath . '/' . $fileName, '/'));
+
+        if ($fileName && ($resolvedPath = $resolver->resolve($templateName))) {
+            $map[$templateName] = realpath($resolvedPath);
+        }
     }
 
     /**
