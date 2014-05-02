@@ -25,8 +25,6 @@ use Zend\View\Resolver\AggregateResolver;
 
 use Zend\Stdlib\ArrayUtils;
 
-use Zend\View\Exception\InvalidArgumentException;
-
 use RecursiveDirectoryIterator;
 use FilesystemIterator;
 use RecursiveIteratorIterator;
