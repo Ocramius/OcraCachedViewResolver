@@ -109,6 +109,16 @@ class TemplateMapCompiler
     }
 
     /**
+     * @param TemplateMapResolver $resolver
+     *
+     * @return array
+     */
+    protected function compileFromTemplateMapResolver(TemplateMapResolver $resolver)
+    {
+        return $resolver->getMap();
+    }
+
+    /**
      * Add the given file to the map if it corresponds to a resolved view
      *
      * @param SplFileInfo       $file
@@ -128,15 +138,5 @@ class TemplateMapCompiler
         if ($fileName && ($resolvedPath = $resolver->resolve($templateName))) {
             $map[$templateName] = realpath($resolvedPath);
         }
-    }
-
-    /**
-     * @param TemplateMapResolver $resolver
-     *
-     * @return array
-     */
-    protected function compileFromTemplateMapResolver(TemplateMapResolver $resolver)
-    {
-        return $resolver->getMap();
     }
 }
