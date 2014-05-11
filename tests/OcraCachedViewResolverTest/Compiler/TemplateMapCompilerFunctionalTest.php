@@ -65,10 +65,10 @@ class TemplateMapCompilerFunctionalTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $template4);
 
         $this->assertSame(
-            array(
+            [
                 'template2'       => $template2,
                 'valid/template4' => $template4,
-            ),
+            ],
             $this->compiler->compileMap($resolver)
         );
     }
