@@ -58,13 +58,13 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->locator  = $this->getMock(ServiceLocatorInterface::class);
-        $this->callback = $this->getMock(stdClass::class, array('__invoke'));
+        $this->callback = $this->getMock(stdClass::class, ['__invoke']);
         $this->cache    = $this->getMock(StorageInterface::class);
 
-        $this->locator->expects($this->any())->method('get')->will($this->returnValueMap(array(
-            array('Config', array('ocra_cached_view_resolver' => array('cached_template_map_key' => 'key-name'))),
-            array('OcraCachedViewResolver\\Cache\\ResolverCache', $this->cache),
-        )));
+        $this->locator->expects($this->any())->method('get')->will($this->returnValueMap([
+            ['Config', ['ocra_cached_view_resolver' => ['cached_template_map_key' => 'key-name']]],
+            ['OcraCachedViewResolver\\Cache\\ResolverCache', $this->cache],
+        ]));
     }
 
     public function testCreateServiceWithExistingCachedTemplateMap()
@@ -74,7 +74,7 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getItem')
             ->with('key-name')
-            ->will($this->returnValue(array('foo' => 'bar')));
+            ->will($this->returnValue(['foo' => 'bar']));
 
         $this->callback->expects($this->never())->method('__invoke');
 
@@ -93,10 +93,10 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreateServiceWithEmptyCachedTemplateMap()
     {
-        $realResolver = new TemplateMapResolver(array('bar' => 'baz'));
+        $realResolver = new TemplateMapResolver(['bar' => 'baz']);
 
         $this->cache->expects($this->once())->method('getItem')->with('key-name')->will($this->returnValue(null));
-        $this->cache->expects($this->once())->method('setItem')->with('key-name', array('bar' => 'baz'));
+        $this->cache->expects($this->once())->method('setItem')->with('key-name', ['bar' => 'baz']);
         $this->callback->expects($this->once())->method('__invoke')->will($this->returnValue($realResolver));
 
         $factory  = new CompiledMapResolverDelegatorFactory();
