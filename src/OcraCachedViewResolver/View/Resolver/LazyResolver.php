@@ -17,6 +17,7 @@
  */
 
 namespace OcraCachedViewResolver\View\Resolver;
+
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 
