@@ -20,6 +20,9 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 
 use PHPUnit_Framework_TestCase;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
+use stdClass;
+use Zend\View\Renderer\RendererInterface;
+use Zend\View\Resolver\ResolverInterface;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\View\Resolver\LazyResolver}
@@ -60,9 +63,9 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->resolverInstantiator = $this->getMock('stdClass', array('__invoke'));
-        $this->realResolver         = $this->getMock('Zend\View\Resolver\ResolverInterface');
-        $this->renderer             = $this->getMock('Zend\View\Renderer\RendererInterface');
+        $this->resolverInstantiator = $this->getMock(stdClass::class, array('__invoke'));
+        $this->realResolver         = $this->getMock(ResolverInterface::class);
+        $this->renderer             = $this->getMock(RendererInterface::class);
         $this->lazyResolver         = new LazyResolver($this->resolverInstantiator);
     }
 
