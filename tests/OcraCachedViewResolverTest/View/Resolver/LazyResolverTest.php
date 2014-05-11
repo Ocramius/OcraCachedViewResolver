@@ -83,5 +83,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
             ->method('resolve')
             ->with('view-name', $this->renderer)
             ->will($this->returnValue('path/to/script'));
+
+        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
 }
