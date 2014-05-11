@@ -55,6 +55,9 @@ class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInterface
     }
 
     /**
+     * Load from cache or fill the cache with the resolver's data, and provide an aggregate resolver
+     * with the filled cached map resolver and a fallback resolver
+     *
      * @param StorageInterface  $cache
      * @param AggregateResolver $resolver
      * @param string            $cacheKey
