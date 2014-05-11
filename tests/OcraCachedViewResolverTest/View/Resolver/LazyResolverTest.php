@@ -136,4 +136,16 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
         $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
         $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
+
+    /**
+     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
+     */
+    public function testLazyResolverRefusesNonCallableInstantiator()
+    {
+        $this->setExpectedException(
+            'OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException'
+        );
+
+        new LazyResolver($this);
+    }
 }
