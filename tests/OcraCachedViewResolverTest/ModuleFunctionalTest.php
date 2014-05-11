@@ -63,14 +63,14 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $this->serviceManager->setAllowOverride(true);
         $this->serviceManager->setService(
             'ApplicationConfig',
-            array(
-                'modules' => array('OcraCachedViewResolver'),
-                'module_listener_options' => array(
-                    'config_glob_paths'    => array(
+            [
+                'modules' => ['OcraCachedViewResolver'],
+                'module_listener_options' => [
+                    'config_glob_paths'    => [
                         __DIR__ . '/../testing.config.php',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         /* @var $moduleManager \Zend\ModuleManager\ModuleManager */
@@ -82,7 +82,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $mapResolver            = $this->getMock(TemplateMapResolver::class);
         $this->fallbackResolver = $this->getMock(ResolverInterface::class);
 
-        $mapResolver->expects($this->once())->method('getMap')->will($this->returnValue(array('a' => 'b')));
+        $mapResolver->expects($this->once())->method('getMap')->will($this->returnValue(['a' => 'b']));
 
         $this->originalResolver->attach($mapResolver, 10);
         $this->originalResolver->attach($this->fallbackResolver, 5);
@@ -114,7 +114,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
                 $this->assertSame($this->originalResolver, $previousResolver);
             } elseif ($previousResolver instanceof TemplateMapResolver) {
                 $this->assertNotSame($previousResolver, $this->originalResolver);
-                $this->assertSame(array('a' => 'b'), $previousResolver->getMap());
+                $this->assertSame(['a' => 'b'], $previousResolver->getMap());
             } else {
                 throw new UnexpectedValueException(
                     sprintf('Found unexpected resolver of type "%s"', get_class($previousResolver))
@@ -131,7 +131,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($cache->hasItem('cached_template_map'));
         $this->serviceManager->create('ViewResolver');
         $this->assertTrue($cache->hasItem('cached_template_map'));
-        $this->assertSame(array('a' => 'b'), $cache->getItem('cached_template_map'));
+        $this->assertSame(['a' => 'b'], $cache->getItem('cached_template_map'));
         $this->serviceManager->create('ViewResolver');
     }
 
