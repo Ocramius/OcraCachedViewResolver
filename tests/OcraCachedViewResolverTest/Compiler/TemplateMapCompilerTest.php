@@ -20,6 +20,12 @@ namespace OcraCachedViewResolverTest\Compiler;
 
 use PHPUnit_Framework_TestCase;
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
+use Zend\Stdlib\PriorityQueue;
+use Zend\Stdlib\SplStack;
+use Zend\View\Resolver\AggregateResolver;
+use Zend\View\Resolver\ResolverInterface;
+use Zend\View\Resolver\TemplateMapResolver;
+use Zend\View\Resolver\TemplatePathStack;
 
 /**
  * Template map compiler tests
@@ -53,7 +59,10 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
      */
     public function testCompileFromUnknownResolverProducesEmptyMap()
     {
-        $this->assertSame(array(), $this->compiler->compileMap($this->getMock('Zend\View\Resolver\ResolverInterface')));
+        /* @var $resolver ResolverInterface */
+        $resolver = $this->getMock(ResolverInterface::class);
+
+        $this->assertSame(array(), $this->compiler->compileMap($resolver));
     }
 
     /**
@@ -63,7 +72,8 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
      */
     public function testCompileFromMapResolver()
     {
-        $mapResolver = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
+        /* @var $mapResolver TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
+        $mapResolver = $this->getMock(TemplateMapResolver::class);
         $mapResolver
             ->expects($this->any())
             ->method('getMap')
@@ -83,8 +93,9 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
      */
     public function testCompileFromTemplatePathStack()
     {
-        $templatePathStack = $this->getMock('Zend\View\Resolver\TemplatePathStack');
-        $paths = $this->getMock('Zend\StdLib\SplStack');
+        /* @var $templatePathStack TemplatePathStack|\PHPUnit_Framework_MockObject_MockObject */
+        $templatePathStack = $this->getMock(TemplatePathStack::class);
+        $paths = $this->getMock(SplStack::class);
         $paths
             ->expects($this->any())
             ->method('toArray')
@@ -132,24 +143,28 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
      */
     public function testCompileFromAggregateResolver()
     {
-        $aggregateResolver = $this->getMock('Zend\View\Resolver\AggregateResolver');
-        $mapResolver1 = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
+        /* @var $aggregateResolver AggregateResolver|\PHPUnit_Framework_MockObject_MockObject */
+        $aggregateResolver = $this->getMock(AggregateResolver::class);
+        /* @var $mapResolver1 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
+        $mapResolver1 = $this->getMock(TemplateMapResolver::class);
         $mapResolver1
             ->expects($this->any())
             ->method('getMap')
             ->will($this->returnValue(array('a' => 'a-value', 'b' => 'b-value')));
-        $mapResolver2 = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
+        /* @var $mapResolver2 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
+        $mapResolver2 = $this->getMock(TemplateMapResolver::class);
         $mapResolver2
             ->expects($this->any())
             ->method('getMap')
             ->will($this->returnValue(array('c' => 'c-value', 'd' => 'd-value')));
-        $mapResolver3 = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
+        /* @var $mapResolver3 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
+        $mapResolver3 = $this->getMock(TemplateMapResolver::class);
         $mapResolver3
             ->expects($this->any())
             ->method('getMap')
             ->will($this->returnValue(array('a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value')));
 
-        $iterator = $this->getMock('Zend\Stdlib\PriorityQueue');
+        $iterator = $this->getMock(PriorityQueue::class);
         $iterator
             ->expects($this->any())
             ->method('toArray')
