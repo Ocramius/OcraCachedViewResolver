@@ -50,6 +50,8 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
             ->with('key-name')
             ->will($this->returnValue(array('foo' => 'bar')));
 
+        $callback->expects($this->never())->method('__invoke');
+
         $locator->expects($this->any())->method('get')->will($this->returnValueMap(array(
             array('Config', array('ocra_cached_view_resolver' => array('cached_template_map_key' => 'key-name'))),
             array('OcraCachedViewResolver\\Cache\\ResolverCache', $cache),
@@ -59,5 +61,12 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $resolver = $factory->createDelegatorWithName($locator, 'resolver', 'resolver', $callback);
 
         $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
+
+        $resolvers = $resolver->getIterator()->toArray();
+
+        $this->assertInstanceOf('OcraCachedViewResolver\View\Resolver\LazyResolver', $resolvers[0]);
+        $this->assertInstanceOf('Zend\View\Resolver\TemplateMapResolver', $resolvers[1]);
+
+        $this->assertSame('bar', $resolver->resolve('foo'));
     }
 }
