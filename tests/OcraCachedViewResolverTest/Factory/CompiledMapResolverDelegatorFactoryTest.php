@@ -35,30 +35,50 @@ use OcraCachedViewResolver\View\Resolver\LazyResolver;
  */
 class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Zend\ServiceManager\ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $locator;
+
+    /**
+     * @var callable|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $callback;
+
+    /**
+     * @var \Zend\Cache\Storage\StorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $cache;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp()
+    {
+        /* @var $locator */
+        $this->locator  = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        $this->callback = $this->getMock('stdLib', array('__invoke'));
+        $this->cache    = $this->getMock('Zend\Cache\Storage\StorageInterface');
+
+        $this->locator->expects($this->any())->method('get')->will($this->returnValueMap(array(
+            array('Config', array('ocra_cached_view_resolver' => array('cached_template_map_key' => 'key-name'))),
+            array('OcraCachedViewResolver\\Cache\\ResolverCache', $this->cache),
+        )));
+    }
+
     public function testCreateServiceWithExistingCachedTemplateMap()
     {
-        /* @var $locator \Zend\ServiceManager\ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $locator  = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        /* @var $callback callable|\PHPUnit_Framework_MockObject_MockObject */
-        $callback = $this->getMock('stdLib', array('__invoke'));
-        /* @var $cache \Zend\Cache\Storage\StorageInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $cache    = $this->getMock('Zend\Cache\Storage\StorageInterface');
-
-        $cache
+        $this
+            ->cache
             ->expects($this->once())
             ->method('getItem')
             ->with('key-name')
             ->will($this->returnValue(array('foo' => 'bar')));
 
-        $callback->expects($this->never())->method('__invoke');
-
-        $locator->expects($this->any())->method('get')->will($this->returnValueMap(array(
-            array('Config', array('ocra_cached_view_resolver' => array('cached_template_map_key' => 'key-name'))),
-            array('OcraCachedViewResolver\\Cache\\ResolverCache', $cache),
-        )));
+        $this->callback->expects($this->never())->method('__invoke');
 
         $factory  = new CompiledMapResolverDelegatorFactory();
-        $resolver = $factory->createDelegatorWithName($locator, 'resolver', 'resolver', $callback);
+        $resolver = $factory->createDelegatorWithName($this->locator, 'resolver', 'resolver', $this->callback);
 
         $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
 
