@@ -102,7 +102,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         );
 
         /* @var $resolver \Zend\View\Resolver\AggregateResolver */
-        $resolver = $this->serviceManager->get('OcraCachedViewResolver\\Resolver\\CompiledMapResolver');
+        $resolver = $this->serviceManager->get('ViewResolver');
 
         $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
         $this->assertSame($resolver, $this->serviceManager->get('ViewResolver'));
@@ -136,7 +136,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
     public function testFallbackResolverCall()
     {
         /* @var $resolver \Zend\View\Resolver\TemplateMapResolver */
-        $resolver = $this->serviceManager->get('OcraCachedViewResolver\\Resolver\\CompiledMapResolver');
+        $resolver = $this->serviceManager->get('ViewResolver');
 
         $this
             ->fallbackResolver
