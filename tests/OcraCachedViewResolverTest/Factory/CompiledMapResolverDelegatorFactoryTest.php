@@ -20,6 +20,9 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 use PHPUnit_Framework_TestCase;
+use stdClass;
+use Zend\Cache\Storage\StorageInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Resolver\TemplateMapResolver;
 
 /**
@@ -35,7 +38,7 @@ use Zend\View\Resolver\TemplateMapResolver;
 class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Zend\ServiceManager\ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $locator;
 
@@ -45,7 +48,7 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
     private $callback;
 
     /**
-     * @var \Zend\Cache\Storage\StorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var StorageInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $cache;
 
@@ -54,10 +57,9 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        /* @var $locator */
-        $this->locator  = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
-        $this->callback = $this->getMock('stdLib', array('__invoke'));
-        $this->cache    = $this->getMock('Zend\Cache\Storage\StorageInterface');
+        $this->locator  = $this->getMock(ServiceLocatorInterface::class);
+        $this->callback = $this->getMock(stdClass::class, array('__invoke'));
+        $this->cache    = $this->getMock(StorageInterface::class);
 
         $this->locator->expects($this->any())->method('get')->will($this->returnValueMap(array(
             array('Config', array('ocra_cached_view_resolver' => array('cached_template_map_key' => 'key-name'))),
