@@ -21,6 +21,9 @@ namespace OcraCachedViewResolver\Factory;
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
 
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
+
+use Zend\Cache\Storage\StorageInterface;
+
 use Zend\ServiceManager\DelegatorFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -46,23 +49,37 @@ class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInterface
         $config            = $serviceLocator->get('Config');
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
         $cache             = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
-        $map               = $cache->getItem($config['ocra_cached_view_resolver']['cached_template_map_key']);
-        $aggregateResolver = new AggregateResolver();
+        $cacheKey          = $config['ocra_cached_view_resolver']['cached_template_map_key'];
+
+        return $this->loadFromCache($cache, new AggregateResolver(), $cacheKey, $callback);;
+    }
+
+    /**
+     * @param StorageInterface  $cache
+     * @param AggregateResolver $resolver
+     * @param string            $cacheKey
+     * @param callable          $resolverCallback
+     *
+     * @return AggregateResolver
+     */
+    private function loadFromCache(StorageInterface $cache, AggregateResolver $resolver, $cacheKey, $resolverCallback)
+    {
+        $map = $cache->getItem($cacheKey);
 
         if (! is_array($map)) {
             /* @var $originalResolver \Zend\View\Resolver\ResolverInterface */
-            $originalResolver = $callback();
+            $originalResolver = $resolverCallback();
             $compiler         = new TemplateMapCompiler();
             $map              = $compiler->compileMap($originalResolver);
 
-            $cache->setItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $map);
-            $aggregateResolver->attach($originalResolver, 50);
+            $cache->setItem($cacheKey, $map);
+            $resolver->attach($originalResolver, 50);
         } else {
-            $aggregateResolver->attach(new LazyResolver($callback), 50);
+            $resolver->attach(new LazyResolver($resolverCallback), 50);
         }
 
-        $aggregateResolver->attach(new TemplateMapResolver($map), 100);
+        $resolver->attach(new TemplateMapResolver($map), 100);
 
-        return $aggregateResolver;
+        return $resolver;
     }
 }
