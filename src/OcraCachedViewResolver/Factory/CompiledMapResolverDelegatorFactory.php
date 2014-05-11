@@ -51,7 +51,7 @@ class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInterface
         $cache             = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
         $cacheKey          = $config['ocra_cached_view_resolver']['cached_template_map_key'];
 
-        return $this->loadFromCache($cache, new AggregateResolver(), $cacheKey, $callback);;
+        return $this->loadFromCache($cache, new AggregateResolver(), $cacheKey, $callback);
     }
 
     /**
