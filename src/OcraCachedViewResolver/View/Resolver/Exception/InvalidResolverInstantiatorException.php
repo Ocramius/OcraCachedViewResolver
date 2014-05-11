@@ -19,6 +19,7 @@
 namespace OcraCachedViewResolver\View\Resolver\Exception;
 
 use InvalidArgumentException;
+use Zend\View\Resolver\ResolverInterface;
 
 /**
  * Exception for invalid instantiators
@@ -49,7 +50,7 @@ class InvalidResolverInstantiatorException extends InvalidArgumentException impl
     public static function fromInvalidResolver($resolver)
     {
         return new self(sprintf(
-            'Invalid resolver found, expected `Zend\\View\\Resolver\\ResolverInterface`, `%s` given.',
+            'Invalid resolver found, expected `' . ResolverInterface::class . '`, `%s` given.',
             is_object($resolver) ? get_class($resolver) : gettype($resolver)
         ));
     }
