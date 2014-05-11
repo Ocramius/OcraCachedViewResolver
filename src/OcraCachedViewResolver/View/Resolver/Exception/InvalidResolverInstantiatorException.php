@@ -26,7 +26,7 @@ use InvalidArgumentException;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class InvalidResolverInstantiatorException extends InvalidArgumentException
+class InvalidResolverInstantiatorException extends InvalidArgumentException implements ExceptionInterface
 {
     /**
      * @param mixed $instantiator
