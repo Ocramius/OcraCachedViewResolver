@@ -18,10 +18,10 @@
 
 use Zend\Cache\Storage\Adapter\Memory;
 
-return array(
-    'ocra_cached_view_resolver' => array(
-        'cache' => array(
+return [
+    'ocra_cached_view_resolver' => [
+        'cache' => [
             'adapter' => Memory::class,
-        ),
-    ),
-);
+        ],
+    ],
+];
