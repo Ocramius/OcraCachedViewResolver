@@ -56,7 +56,13 @@ class LazyResolver implements ResolverInterface
     {
         if (! $this->resolver) {
             $resolverInstantiator = $this->resolverInstantiator;
-            $this->resolver       = $resolverInstantiator();
+            $resolver             =  $resolverInstantiator();
+
+            if (! $resolver instanceof ResolverInterface) {
+                throw InvalidResolverInstantiatorException::fromInvalidResolver($resolver);
+            }
+
+            $this->resolver = $resolver;
         }
 
         return $this->resolver->resolve($name, $renderer);
