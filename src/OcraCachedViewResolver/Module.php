@@ -44,9 +44,6 @@ class Module implements ConfigProviderInterface
                 'factories' => array(
                     'OcraCachedViewResolver\\Cache\\ResolverCache' => 'OcraCachedViewResolver\\Factory\\CacheFactory',
                 ),
-                'aliases' => array(
-                    'OcraCachedViewResolver\\Resolver\\CompiledMapResolver' => 'ViewResolver',
-                ),
                 'delegators' => array(
                     'ViewResolver' => array(
                         'OcraCachedViewResolver\\Factory\\CompiledMapResolverDelegatorFactory'
