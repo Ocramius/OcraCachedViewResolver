@@ -16,10 +16,12 @@
  * and is licensed under the MIT license.
  */
 
+use Zend\Cache\Storage\Adapter\Memory;
+
 return array(
     'ocra_cached_view_resolver' => array(
         'cache' => array(
-            'adapter' => 'memory',
+            'adapter' => Memory::class,
         ),
     ),
 );
