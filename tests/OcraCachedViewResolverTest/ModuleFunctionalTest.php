@@ -32,6 +32,8 @@ use Zend\View\Resolver\TemplateMapResolver;
  * @license MIT
  *
  * @group Functional
+ *
+ * @coversNothing
  */
 class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 {
