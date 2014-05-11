@@ -20,7 +20,6 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\Factory\CacheFactory;
 use PHPUnit_Framework_TestCase;
-use OcraCachedViewResolver\View\Resolver\LazyResolver;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\Factory\CacheFactory}
