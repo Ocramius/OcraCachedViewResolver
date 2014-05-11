@@ -19,9 +19,6 @@
 namespace OcraCachedViewResolver;
 
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\ModuleManager\Feature\InitProviderInterface;
-use Zend\ModuleManager\ModuleManagerInterface;
-use Zend\ServiceManager\ServiceManager;
 
 /**
  * OcraCachedViewResolver module
