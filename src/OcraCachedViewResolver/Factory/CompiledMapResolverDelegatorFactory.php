@@ -18,13 +18,13 @@
 
 namespace OcraCachedViewResolver\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
+use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
+
+use Zend\ServiceManager\DelegatorFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use Zend\View\Resolver\AggregateResolver;
 use Zend\View\Resolver\TemplateMapResolver;
-
-use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
 
 /**
  * Factory responsible of building a {@see \Zend\View\Resolver\TemplateMapResolver}
@@ -33,18 +33,20 @@ use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class CompiledMapResolverFactory implements FactoryInterface
+class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInterface
 {
     /**
      * {@inheritDoc}
+     *
+     * @return AggregateResolver
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createDelegatorWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName, $callback)
     {
         $config            = $serviceLocator->get('Config');
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
         $cache             = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
         /* @var $originalResolver \Zend\View\Resolver\ResolverInterface */
-        $originalResolver  = $serviceLocator->get('OcraCachedViewResolver\\Resolver\\OriginalResolver');
+        $originalResolver  = $callback();
         $map               = $cache->getItem($config['ocra_cached_view_resolver']['cached_template_map_key']);
         $aggregateResolver = new AggregateResolver();
 
