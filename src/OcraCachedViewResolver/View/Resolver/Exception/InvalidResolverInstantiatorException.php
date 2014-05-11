@@ -17,6 +17,7 @@
  */
 
 namespace OcraCachedViewResolver\View\Resolver\Exception;
+
 use InvalidArgumentException;
 
 /**
