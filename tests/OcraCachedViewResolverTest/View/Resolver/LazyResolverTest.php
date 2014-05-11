@@ -85,4 +85,24 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
+
+    /**
+     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
+     */
+    public function testResolveWithoutRenderer()
+    {
+        $this
+            ->resolverInstantiator
+            ->expects($this->once())
+            ->method('__invoke')
+            ->will($this->returnValue($this->realResolver));
+        $this
+            ->realResolver
+            ->expects($this->any())
+            ->method('resolve')
+            ->with('view-name', null)
+            ->will($this->returnValue('path/to/script'));
+
+        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name'));
+    }
 }
