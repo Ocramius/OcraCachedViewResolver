@@ -63,8 +63,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
         $this->resolverInstantiator = $this->getMock('stdClass', array('__invoke'));
         $this->realResolver         = $this->getMock('Zend\View\Resolver\ResolverInterface');
         $this->renderer             = $this->getMock('Zend\View\Renderer\RendererInterface');
-
-        $this->lazyResolver = new LazyResolver($this->resolverInstantiator);
+        $this->lazyResolver         = new LazyResolver($this->resolverInstantiator);
     }
 
     /**
