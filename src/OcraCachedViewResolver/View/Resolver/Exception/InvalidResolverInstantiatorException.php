@@ -40,4 +40,17 @@ class InvalidResolverInstantiatorException extends InvalidArgumentException impl
             is_object($instantiator) ? get_class($instantiator) : gettype($instantiator)
         ));
     }
+
+    /**
+     * @param mixed $resolver
+     *
+     * @return self
+     */
+    public static function fromInvalidResolver($resolver)
+    {
+        return new self(sprintf(
+            'Invalid resolver found, expected `Zend\\View\\Resolver\\ResolverInterface`, `%s` given.',
+            is_object($resolver) ? get_class($resolver) : gettype($resolver)
+        ));
+    }
 }
