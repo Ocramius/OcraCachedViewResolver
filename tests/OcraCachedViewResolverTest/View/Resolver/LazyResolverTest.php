@@ -105,4 +105,14 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name'));
     }
+
+    /**
+     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::__construct
+     */
+    public function testRealResolverNotCreatedIfNotNeeded()
+    {
+        $this->resolverInstantiator->expects($this->never())->method('__invoke');
+
+        new LazyResolver($this->resolverInstantiator);
+    }
 }
