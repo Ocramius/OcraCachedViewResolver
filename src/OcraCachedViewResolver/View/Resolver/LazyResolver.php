@@ -18,6 +18,7 @@
 
 namespace OcraCachedViewResolver\View\Resolver;
 
+use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 
@@ -42,7 +43,7 @@ class LazyResolver implements ResolverInterface
     public function __construct($resolverInstantiator)
     {
         if (! is_callable($resolverInstantiator)) {
-            //throw new
+            throw InvalidResolverInstantiatorException::fromInvalidInstantiator($resolverInstantiator);
         }
 
         $this->resolverInstantiator = $resolverInstantiator;
