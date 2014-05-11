@@ -42,11 +42,9 @@ class Module implements ConfigProviderInterface
             ),
             'service_manager' => array(
                 'factories' => array(
-                    'OcraCachedViewResolver\\Resolver\\OriginalResolver' => 'Zend\\Mvc\\Service\\ViewResolverFactory',
                     'OcraCachedViewResolver\\Cache\\ResolverCache' => 'OcraCachedViewResolver\\Factory\\CacheFactory',
                 ),
                 'aliases' => array(
-                    'Zend\\View\\Resolver\\AggregateResolver' => 'OcraCachedViewResolver\\Resolver\\OriginalResolver',
                     'OcraCachedViewResolver\\Resolver\\CompiledMapResolver' => 'ViewResolver',
                 ),
                 'delegators' => array(
