@@ -20,6 +20,7 @@ namespace OcraCachedViewResolver\Factory;
 
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
 
+use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use Zend\ServiceManager\DelegatorFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -45,18 +46,19 @@ class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInterface
         $config            = $serviceLocator->get('Config');
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
         $cache             = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
-        /* @var $originalResolver \Zend\View\Resolver\ResolverInterface */
-        $originalResolver  = $callback();
         $map               = $cache->getItem($config['ocra_cached_view_resolver']['cached_template_map_key']);
         $aggregateResolver = new AggregateResolver();
 
-        $aggregateResolver->attach($originalResolver, 50);
-
         if (! is_array($map)) {
-            $compiler = new TemplateMapCompiler();
-            $map      = $compiler->compileMap($originalResolver);
+            /* @var $originalResolver \Zend\View\Resolver\ResolverInterface */
+            $originalResolver = $callback();
+            $compiler         = new TemplateMapCompiler();
+            $map              = $compiler->compileMap($originalResolver);
 
             $cache->setItem($config['ocra_cached_view_resolver']['cached_template_map_key'], $map);
+            $aggregateResolver->attach($originalResolver, 50);
+        } else {
+            $aggregateResolver->attach(new LazyResolver($callback), 50);
         }
 
         $aggregateResolver->attach(new TemplateMapResolver($map), 100);
