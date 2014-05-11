@@ -36,23 +36,23 @@ class Module implements ConfigProviderInterface
      */
     public function getConfig()
     {
-        return array(
-            'ocra_cached_view_resolver' => array(
-                'cache' => array(
+        return [
+            'ocra_cached_view_resolver' => [
+                'cache' => [
                     'adapter' => Apc::class,
-                ),
+                ],
                 'cached_template_map_key' => 'cached_template_map',
-            ),
-            'service_manager' => array(
-                'factories' => array(
+            ],
+            'service_manager' => [
+                'factories' => [
                     'OcraCachedViewResolver\\Cache\\ResolverCache' => CacheFactory::class,
-                ),
-                'delegators' => array(
-                    'ViewResolver' => array(
+                ],
+                'delegators' => [
+                    'ViewResolver' => [
                         CompiledMapResolverDelegatorFactory::class => CompiledMapResolverDelegatorFactory::class,
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 }
