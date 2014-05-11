@@ -41,7 +41,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
     protected $serviceManager;
 
     /**
-     * @var \Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
+     * @var AggregateResolver|\Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
      */
     protected $originalResolver;
 
@@ -56,6 +56,8 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->serviceManager = new ServiceManager(new ServiceManagerConfig());
+
+        $this->serviceManager->setAllowOverride(true);
         $this->serviceManager->setService(
             'ApplicationConfig',
             array(
@@ -80,19 +82,18 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
         $this->originalResolver->attach($mapResolver, 10);
         $this->originalResolver->attach($this->fallbackResolver, 5);
-        $this->serviceManager->setService(
-            'OcraCachedViewResolver\\Resolver\\OriginalResolver',
-            $this->originalResolver
+
+        $originalResolver = $this->originalResolver;
+        $this->serviceManager->setFactory(
+            'ViewResolver',
+            function () use ($originalResolver) {
+                return $originalResolver;
+            }
         );
     }
 
     public function testDefinedServices()
     {
-        $this->assertSame(
-            $this->originalResolver,
-            $this->serviceManager->get('Zend\\View\\Resolver\\AggregateResolver')
-        );
-
         $this->assertInstanceOf(
             'Zend\\Cache\\Storage\\StorageInterface',
             $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
