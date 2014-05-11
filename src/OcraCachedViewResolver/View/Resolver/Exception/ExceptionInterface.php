@@ -16,43 +16,14 @@
  * and is licensed under the MIT license.
  */
 
-namespace OcraCachedViewResolverTest\Resolver;
-
-use Zend\Cache\Storage\Adapter\Memory;
+namespace OcraCachedViewResolver\View\Resolver\Exception;
 
 /**
- * Mock cache used for introspection on cache usage
+ * Base exception interface for resolvers provided by the `OcraCachedViewResolver` module
  *
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class MockCache extends Memory
+interface ExceptionInterface
 {
-    /**
-     * @var mixed
-     */
-    public $item;
-
-    /**
-     * @var int
-     */
-    public $hits = 0;
-
-    /**
-     * Disabling parent constructor
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getItem($key, & $success = null, & $casToken = null)
-    {
-        $success = true;
-        $this->hits += 1;
-
-        return $this->item;
-    }
 }

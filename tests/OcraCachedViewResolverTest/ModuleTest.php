@@ -16,12 +16,32 @@
  * and is licensed under the MIT license.
  */
 
-use Zend\Cache\Storage\Adapter\Memory;
+namespace OcraCachedViewResolverTest;
 
-return [
-    'ocra_cached_view_resolver' => [
-        'cache' => [
-            'adapter' => Memory::class,
-        ],
-    ],
-];
+use OcraCachedViewResolver\Module;
+use PHPUnit_Framework_TestCase;
+
+/**
+ * Tests for {@see \OcraCachedViewResolver\Module}
+ *
+ * @author  Marco Pivetta <ocramius@gmail.com>
+ * @license MIT
+ *
+ * @covers \OcraCachedViewResolver\Module
+ */
+class ModuleTest extends PHPUnit_Framework_TestCase
+{
+    public function testConfigIsAnArray()
+    {
+        $module = new Module();
+
+        $this->assertInternalType('array', $module->getConfig());
+    }
+
+    public function testConfigIsSerializable()
+    {
+        $module = new Module();
+
+        $this->assertSame($module->getConfig(), unserialize(serialize($module->getConfig())));
+    }
+}

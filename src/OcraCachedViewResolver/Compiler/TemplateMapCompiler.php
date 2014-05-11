@@ -61,7 +61,7 @@ class TemplateMapCompiler
             return $this->compileFromTemplateMapResolver($resolver);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -71,7 +71,7 @@ class TemplateMapCompiler
      */
     protected function compileFromAggregateResolver(AggregateResolver $resolver)
     {
-        $map = array();
+        $map = [];
 
         /* @var $queuedResolver ResolverInterface */
         foreach ($resolver->getIterator()->toArray() as $queuedResolver) {
@@ -88,7 +88,7 @@ class TemplateMapCompiler
      */
     protected function compileFromTemplatePathStack(TemplatePathStack $resolver)
     {
-        $map = array();
+        $map = [];
 
         foreach ($resolver->getPaths()->toArray() as $path) {
             $path     = realpath($path);

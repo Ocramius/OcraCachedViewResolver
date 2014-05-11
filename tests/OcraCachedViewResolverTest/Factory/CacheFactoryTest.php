@@ -16,43 +16,40 @@
  * and is licensed under the MIT license.
  */
 
-namespace OcraCachedViewResolver;
+namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\Factory\CacheFactory;
-use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
-use Zend\Cache\Storage\Adapter\Apc;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use PHPUnit_Framework_TestCase;
+use Zend\Cache\Storage\Adapter\Memory;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * OcraCachedViewResolver module
+ * Tests for {@see \OcraCachedViewResolver\Factory\CacheFactory}
  *
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
+ *
+ * @group Coverage
+ *
+ * @covers \OcraCachedViewResolver\Factory\CacheFactory
  */
-class Module implements ConfigProviderInterface
+class CacheFactoryTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function getConfig()
+    public function testCreateService()
     {
-        return [
+        /* @var $locator ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject */
+        $locator = $this->getMock(ServiceLocatorInterface::class);
+
+        $locator->expects($this->any())->method('get')->with('Config')->will($this->returnValue([
             'ocra_cached_view_resolver' => [
                 'cache' => [
-                    'adapter' => Apc::class,
-                ],
-                'cached_template_map_key' => 'cached_template_map',
-            ],
-            'service_manager' => [
-                'factories' => [
-                    'OcraCachedViewResolver\\Cache\\ResolverCache' => CacheFactory::class,
-                ],
-                'delegators' => [
-                    'ViewResolver' => [
-                        CompiledMapResolverDelegatorFactory::class => CompiledMapResolverDelegatorFactory::class,
-                    ],
+                    'adapter' => Memory::class,
                 ],
             ],
-        ];
+        ]));
+
+        $factory = new CacheFactory();
+
+        $this->assertInstanceOf('Zend\Cache\Storage\Adapter\Memory', $factory->createService($locator));
     }
 }

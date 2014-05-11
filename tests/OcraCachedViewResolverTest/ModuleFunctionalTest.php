@@ -23,6 +23,7 @@ use UnexpectedValueException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\View\Resolver\AggregateResolver;
+use Zend\View\Resolver\ResolverInterface;
 use Zend\View\Resolver\TemplateMapResolver;
 
 /**
@@ -32,6 +33,8 @@ use Zend\View\Resolver\TemplateMapResolver;
  * @license MIT
  *
  * @group Functional
+ *
+ * @coversNothing
  */
 class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 {
@@ -41,7 +44,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
     protected $serviceManager;
 
     /**
-     * @var \Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
+     * @var AggregateResolver|\Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
      */
     protected $originalResolver;
 
@@ -56,16 +59,18 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->serviceManager = new ServiceManager(new ServiceManagerConfig());
+
+        $this->serviceManager->setAllowOverride(true);
         $this->serviceManager->setService(
             'ApplicationConfig',
-            array(
-                'modules' => array('OcraCachedViewResolver'),
-                'module_listener_options' => array(
-                    'config_glob_paths'    => array(
+            [
+                'modules' => ['OcraCachedViewResolver'],
+                'module_listener_options' => [
+                    'config_glob_paths'    => [
                         __DIR__ . '/../testing.config.php',
-                    ),
-                ),
-            )
+                    ],
+                ],
+            ]
         );
 
         /* @var $moduleManager \Zend\ModuleManager\ModuleManager */
@@ -73,33 +78,33 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $moduleManager->loadModules();
 
         $this->originalResolver = new AggregateResolver();
-        $mapResolver            = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
-        $this->fallbackResolver = $this->getMock('Zend\View\Resolver\ResolverInterface');
+        /* @var $mapResolver TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
+        $mapResolver            = $this->getMock(TemplateMapResolver::class);
+        $this->fallbackResolver = $this->getMock(ResolverInterface::class);
 
-        $mapResolver->expects($this->once())->method('getMap')->will($this->returnValue(array('a' => 'b')));
+        $mapResolver->expects($this->once())->method('getMap')->will($this->returnValue(['a' => 'b']));
 
         $this->originalResolver->attach($mapResolver, 10);
         $this->originalResolver->attach($this->fallbackResolver, 5);
-        $this->serviceManager->setService(
-            'OcraCachedViewResolver\\Resolver\\OriginalResolver',
-            $this->originalResolver
+
+        $originalResolver = $this->originalResolver;
+        $this->serviceManager->setFactory(
+            'ViewResolver',
+            function () use ($originalResolver) {
+                return $originalResolver;
+            }
         );
     }
 
     public function testDefinedServices()
     {
-        $this->assertSame(
-            $this->originalResolver,
-            $this->serviceManager->get('Zend\\View\\Resolver\\AggregateResolver')
-        );
-
         $this->assertInstanceOf(
             'Zend\\Cache\\Storage\\StorageInterface',
             $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
         );
 
         /* @var $resolver \Zend\View\Resolver\AggregateResolver */
-        $resolver = $this->serviceManager->get('OcraCachedViewResolver\\Resolver\\CompiledMapResolver');
+        $resolver = $this->serviceManager->get('ViewResolver');
 
         $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
         $this->assertSame($resolver, $this->serviceManager->get('ViewResolver'));
@@ -109,7 +114,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
                 $this->assertSame($this->originalResolver, $previousResolver);
             } elseif ($previousResolver instanceof TemplateMapResolver) {
                 $this->assertNotSame($previousResolver, $this->originalResolver);
-                $this->assertSame(array('a' => 'b'), $previousResolver->getMap());
+                $this->assertSame(['a' => 'b'], $previousResolver->getMap());
             } else {
                 throw new UnexpectedValueException(
                     sprintf('Found unexpected resolver of type "%s"', get_class($previousResolver))
@@ -126,14 +131,14 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($cache->hasItem('cached_template_map'));
         $this->serviceManager->create('ViewResolver');
         $this->assertTrue($cache->hasItem('cached_template_map'));
-        $this->assertSame(array('a' => 'b'), $cache->getItem('cached_template_map'));
+        $this->assertSame(['a' => 'b'], $cache->getItem('cached_template_map'));
         $this->serviceManager->create('ViewResolver');
     }
 
     public function testFallbackResolverCall()
     {
         /* @var $resolver \Zend\View\Resolver\TemplateMapResolver */
-        $resolver = $this->serviceManager->get('OcraCachedViewResolver\\Resolver\\CompiledMapResolver');
+        $resolver = $this->serviceManager->get('ViewResolver');
 
         $this
             ->fallbackResolver
