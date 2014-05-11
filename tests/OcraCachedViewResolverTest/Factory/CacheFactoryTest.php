@@ -20,6 +20,7 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\Factory\CacheFactory;
 use PHPUnit_Framework_TestCase;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\Factory\CacheFactory}
@@ -35,8 +36,8 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
 {
     public function testCreateService()
     {
-        /* @var $locator \PHPUnit_Framework_MockObject_MockObject */
-        $locator = $this->getMock('Zend\ServiceManager\ServiceLocatorInterface');
+        /* @var $locator ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject */
+        $locator = $this->getMock(ServiceLocatorInterface::class);
 
         $locator->expects($this->any())->method('get')->with('Config')->will($this->returnValue(array(
             'ocra_cached_view_resolver' => array(
