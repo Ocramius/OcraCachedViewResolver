@@ -22,6 +22,7 @@ use OcraCachedViewResolver\Factory\CacheFactory;
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 use PHPUnit_Framework_TestCase;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
+use Zend\View\Resolver\TemplateMapResolver;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory}
@@ -88,5 +89,26 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\View\Resolver\TemplateMapResolver', $resolvers[1]);
 
         $this->assertSame('bar', $resolver->resolve('foo'));
+    }
+
+    public function testCreateServiceWithEmptyCachedTemplateMap()
+    {
+        $realResolver = new TemplateMapResolver(array('bar' => 'baz'));
+
+        $this->cache->expects($this->once())->method('getItem')->with('key-name')->will($this->returnValue(null));
+        $this->cache->expects($this->once())->method('setItem')->with('key-name', array('bar' => 'baz'));
+        $this->callback->expects($this->once())->method('__invoke')->will($this->returnValue($realResolver));
+
+        $factory  = new CompiledMapResolverDelegatorFactory();
+        $resolver = $factory->createDelegatorWithName($this->locator, 'resolver', 'resolver', $this->callback);
+
+        $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
+
+        $resolvers = $resolver->getIterator()->toArray();
+
+        $this->assertSame($realResolver, $resolvers[0]);
+        $this->assertInstanceOf('Zend\View\Resolver\TemplateMapResolver', $resolvers[1]);
+
+        $this->assertSame('baz', $resolver->resolve('bar'));
     }
 }
