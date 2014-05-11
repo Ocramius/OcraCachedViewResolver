@@ -23,6 +23,7 @@ use UnexpectedValueException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\View\Resolver\AggregateResolver;
+use Zend\View\Resolver\ResolverInterface;
 use Zend\View\Resolver\TemplateMapResolver;
 
 /**
@@ -77,8 +78,9 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $moduleManager->loadModules();
 
         $this->originalResolver = new AggregateResolver();
-        $mapResolver            = $this->getMock('Zend\View\Resolver\TemplateMapResolver');
-        $this->fallbackResolver = $this->getMock('Zend\View\Resolver\ResolverInterface');
+        /* @var $mapResolver TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
+        $mapResolver            = $this->getMock(TemplateMapResolver::class);
+        $this->fallbackResolver = $this->getMock(ResolverInterface::class);
 
         $mapResolver->expects($this->once())->method('getMap')->will($this->returnValue(array('a' => 'b')));
 
