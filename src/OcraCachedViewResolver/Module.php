@@ -29,21 +29,8 @@ use Zend\ServiceManager\ServiceManager;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class Module implements ConfigProviderInterface, InitProviderInterface
+class Module implements ConfigProviderInterface
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function init(ModuleManagerInterface $moduleManager)
-    {
-        /* @var $moduleManager \Zend\ModuleManager\ModuleManager */
-        /* @var $serviceManager \Zend\ServiceManager\ServiceManager */
-        $serviceManager = $moduleManager->getEvent()->getParam('ServiceManager');
-
-        // We need to override services defined in the service listener
-        $serviceManager->setAllowOverride(true);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -58,13 +45,18 @@ class Module implements ConfigProviderInterface, InitProviderInterface
             ),
             'service_manager' => array(
                 'factories' => array(
-                    'ViewResolver' => 'OcraCachedViewResolver\\Factory\\CompiledMapResolverFactory',
                     'OcraCachedViewResolver\\Resolver\\OriginalResolver' => 'Zend\\Mvc\\Service\\ViewResolverFactory',
                     'OcraCachedViewResolver\\Cache\\ResolverCache' => 'OcraCachedViewResolver\\Factory\\CacheFactory',
                 ),
                 'aliases' => array(
                     'Zend\\View\\Resolver\\AggregateResolver' => 'OcraCachedViewResolver\\Resolver\\OriginalResolver',
                     'OcraCachedViewResolver\\Resolver\\CompiledMapResolver' => 'ViewResolver',
+                ),
+                'delegators' => array(
+                    'ViewResolver' => array(
+                        'OcraCachedViewResolver\\Factory\\CompiledMapResolverDelegatorFactory'
+                            => 'OcraCachedViewResolver\\Factory\\CompiledMapResolverDelegatorFactory'
+                    ),
                 ),
             ),
         );
