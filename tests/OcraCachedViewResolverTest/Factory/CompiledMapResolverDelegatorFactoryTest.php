@@ -18,10 +18,8 @@
 
 namespace OcraCachedViewResolverTest\View\Resolver;
 
-use OcraCachedViewResolver\Factory\CacheFactory;
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 use PHPUnit_Framework_TestCase;
-use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use Zend\View\Resolver\TemplateMapResolver;
 
 /**
