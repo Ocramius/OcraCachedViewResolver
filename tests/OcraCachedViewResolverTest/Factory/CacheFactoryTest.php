@@ -50,6 +50,6 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
 
         $factory = new CacheFactory();
 
-        $this->assertInstanceOf('Zend\Cache\Storage\Adapter\Memory', $factory->createService($locator));
+        $this->assertInstanceOf(Memory::class, $factory->createService($locator));
     }
 }
