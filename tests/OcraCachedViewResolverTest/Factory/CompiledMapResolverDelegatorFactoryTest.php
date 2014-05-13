@@ -65,8 +65,19 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $this->cache    = $this->getMock(StorageInterface::class);
 
         $this->locator->expects($this->any())->method('get')->will($this->returnValueMap([
-            ['Config', ['ocra_cached_view_resolver' => ['cached_template_map_key' => 'key-name']]],
-            ['OcraCachedViewResolver\\Cache\\ResolverCache', $this->cache],
+            [
+                'Config',
+                [
+                    'ocra_cached_view_resolver' => [
+                        'cached_template_map_key' => 'key-name',
+                        'cache_service'           => 'cache_name'
+                    ],
+                ],
+            ],
+            [
+                'cache_name',
+                $this->cache,
+            ],
         ]));
     }
 

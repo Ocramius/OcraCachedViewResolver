@@ -40,10 +40,9 @@ final class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInter
      */
     public function createDelegatorWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName, $callback)
     {
-        $config   = $serviceLocator->get('Config');
+        $config = $serviceLocator->get('Config')['ocra_cached_view_resolver'];
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
-        $cache    = $serviceLocator->get('OcraCachedViewResolver\\Cache\\ResolverCache');
-        $cacheKey = $config['ocra_cached_view_resolver']['cached_template_map_key'];
+        $cache  = $serviceLocator->get($config['cache_service']);
 
         $resolver = new AggregateResolver();
 
