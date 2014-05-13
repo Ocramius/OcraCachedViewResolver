@@ -29,7 +29,7 @@ use Zend\Cache\StorageFactory;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class CacheFactory implements FactoryInterface
+final class CacheFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
