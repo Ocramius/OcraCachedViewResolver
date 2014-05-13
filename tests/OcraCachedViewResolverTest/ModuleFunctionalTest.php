@@ -21,7 +21,6 @@ namespace OcraCachedViewResolverTest;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
-use UnexpectedValueException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\View\Resolver\AggregateResolver;
