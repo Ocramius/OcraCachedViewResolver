@@ -93,7 +93,6 @@ final class CachingMapResolver implements ResolverInterface
             return;
         }
 
-        $compiler                 = new TemplateMapCompiler();
         $realResolverInstantiator = $this->realResolverInstantiator;
         $realResolver             = $realResolverInstantiator();
 
@@ -101,7 +100,7 @@ final class CachingMapResolver implements ResolverInterface
             throw InvalidResolverInstantiatorException::fromInvalidResolver($realResolver);
         }
 
-        $this->map = $compiler->compileMap($realResolver);
+        $this->map = (new TemplateMapCompiler())->compileMap($realResolver);
 
         $this->cache->setItem($this->cacheKey, $this->map);
     }
