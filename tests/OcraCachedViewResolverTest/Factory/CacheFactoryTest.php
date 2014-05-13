@@ -43,7 +43,7 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
 
         $locator->expects($this->any())->method('get')->with('Config')->will($this->returnValue([
             Module::CONFIG => [
-                'cache' => [
+                Module::CONFIG_CACHE_DEFINITION => [
                     'adapter' => Memory::class,
                 ],
             ],
