@@ -19,6 +19,8 @@
 namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
+use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
+use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 use Zend\Cache\Storage\StorageInterface;
@@ -86,7 +88,7 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $resolvers = $resolver->getIterator()->toArray();
 
         $this->assertInstanceOf('OcraCachedViewResolver\View\Resolver\LazyResolver', $resolvers[0]);
-        $this->assertInstanceOf('Zend\View\Resolver\TemplateMapResolver', $resolvers[1]);
+        $this->assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
 
         $this->assertSame('bar', $resolver->resolve('foo'));
     }
@@ -106,8 +108,8 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
 
         $resolvers = $resolver->getIterator()->toArray();
 
-        $this->assertSame($realResolver, $resolvers[0]);
-        $this->assertInstanceOf('Zend\View\Resolver\TemplateMapResolver', $resolvers[1]);
+        $this->assertInstanceOf(LazyResolver::class, $resolvers[0]);
+        $this->assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
 
         $this->assertSame('baz', $resolver->resolve('bar'));
     }
