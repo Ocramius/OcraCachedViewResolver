@@ -19,6 +19,7 @@
 namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
+use OcraCachedViewResolver\Module;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
@@ -68,9 +69,9 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
             [
                 'Config',
                 [
-                    'ocra_cached_view_resolver' => [
-                        'cached_template_map_key' => 'key-name',
-                        'cache_service'           => 'cache_name'
+                    Module::CONFIG => [
+                        Module::CONFIG_CACHE_KEY     => 'key-name',
+                        Module::CONFIG_CACHE_SERVICE => 'cache_name',
                     ],
                 ],
             ],

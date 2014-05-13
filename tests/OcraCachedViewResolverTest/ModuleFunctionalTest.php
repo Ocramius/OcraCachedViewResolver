@@ -134,7 +134,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($cache->hasItem('testing_cache_key'));
         $this->assertSame('b', $resolver->resolve('a'));
         $this->assertTrue($cache->hasItem('testing_cache_key'));
-        $this->assertSame(['a' => 'b'], $cache->getItem('cached_template_map'));
+        $this->assertSame(['a' => 'b'], $cache->getItem('testing_cache_key'));
         $this->serviceManager->create('ViewResolver');
     }
 
