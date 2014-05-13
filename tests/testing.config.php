@@ -23,6 +23,7 @@ return [
         'cache' => [
             'adapter' => Memory::class,
         ],
+        'cached_template_map_key' => 'testing_cache_key',
         'cache_service' => 'OcraCachedViewResolver\\Cache\\ResolverCache',
     ],
 ];
