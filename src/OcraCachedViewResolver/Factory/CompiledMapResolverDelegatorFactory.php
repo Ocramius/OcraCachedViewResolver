@@ -31,7 +31,7 @@ use Zend\View\Resolver\AggregateResolver;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInterface
+final class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInterface
 {
     /**
      * {@inheritDoc}
