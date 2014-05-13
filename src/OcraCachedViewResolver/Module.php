@@ -60,19 +60,13 @@ final class Module implements ConfigProviderInterface
     {
         return [
             self::CONFIG => [
-                self::CONFIG_CACHE_DEFINITION => [
-                    'adapter' => Apc::class,
-                ],
+                self::CONFIG_CACHE_DEFINITION => ['adapter' => Apc::class],
                 self::CONFIG_CACHE_KEY     => 'cached_template_map',
                 self::CONFIG_CACHE_SERVICE => 'OcraCachedViewResolver\\Cache\\DummyCache',
             ],
             'service_manager' => [
-                'invokables' => [
-                    'OcraCachedViewResolver\\Cache\\DummyCache' => BlackHole::class,
-                ],
-                'factories' => [
-                    'OcraCachedViewResolver\\Cache\\ResolverCache' => CacheFactory::class,
-                ],
+                'invokables' => ['OcraCachedViewResolver\\Cache\\DummyCache' => BlackHole::class],
+                'factories'  => ['OcraCachedViewResolver\\Cache\\ResolverCache' => CacheFactory::class],
                 'delegators' => [
                     'ViewResolver' => [
                         CompiledMapResolverDelegatorFactory::class => CompiledMapResolverDelegatorFactory::class,
