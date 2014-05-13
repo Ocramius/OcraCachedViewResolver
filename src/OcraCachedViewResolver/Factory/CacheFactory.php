@@ -39,6 +39,6 @@ final class CacheFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Config');
 
-        return StorageFactory::factory($config[Module::CONFIG]['cache']);
+        return StorageFactory::factory($config[Module::CONFIG][Module::CONFIG_CACHE_DEFINITION]);
     }
 }
