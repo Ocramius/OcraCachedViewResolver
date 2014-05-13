@@ -28,7 +28,7 @@ use Zend\View\Resolver\ResolverInterface;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class LazyResolver implements ResolverInterface
+final class LazyResolver implements ResolverInterface
 {
     /**
      * @var callable
