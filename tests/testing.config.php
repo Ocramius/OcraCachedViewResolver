@@ -21,7 +21,7 @@ use Zend\Cache\Storage\Adapter\Memory;
 
 return [
     Module::CONFIG => [
-        'cache' => [
+        Module::CONFIG_CACHE_DEFINITION => [
             'adapter' => Memory::class,
         ],
         Module::CONFIG_CACHE_KEY     => 'testing_cache_key',
