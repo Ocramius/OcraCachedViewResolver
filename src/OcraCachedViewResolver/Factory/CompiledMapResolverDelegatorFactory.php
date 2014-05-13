@@ -18,6 +18,7 @@
 
 namespace OcraCachedViewResolver\Factory;
 
+use OcraCachedViewResolver\Module;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use Zend\ServiceManager\DelegatorFactoryInterface;
@@ -40,14 +41,14 @@ final class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInter
      */
     public function createDelegatorWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName, $callback)
     {
-        $config = $serviceLocator->get('Config')['ocra_cached_view_resolver'];
+        $config = $serviceLocator->get('Config')[Module::CONFIG];
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
-        $cache  = $serviceLocator->get($config['cache_service']);
+        $cache  = $serviceLocator->get($config[Module::CONFIG_CACHE_SERVICE]);
 
         $resolver = new AggregateResolver();
 
         $resolver->attach(new LazyResolver($callback), 50);
-        $resolver->attach(new CachingMapResolver($cache, $cacheKey, $callback), 100);
+        $resolver->attach(new CachingMapResolver($cache, $config[Module::CONFIG_CACHE_KEY], $callback), 100);
 
         return $resolver;
     }
