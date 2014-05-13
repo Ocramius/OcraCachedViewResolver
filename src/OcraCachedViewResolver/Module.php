@@ -29,7 +29,7 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class Module implements ConfigProviderInterface
+final class Module implements ConfigProviderInterface
 {
     /**
      * {@inheritDoc}
