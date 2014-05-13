@@ -127,10 +127,10 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $cache = $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache');
 
         $this->assertFalse($cache->hasItem('testing_cache_key'));
-        
+
         /* @var $resolver AggregateResolver */
         $resolver = $this->serviceManager->create('ViewResolver');
-        
+
         $this->assertFalse($cache->hasItem('testing_cache_key'));
         $this->assertSame('b', $resolver->resolve('a'));
         $this->assertTrue($cache->hasItem('testing_cache_key'));
