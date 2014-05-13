@@ -33,17 +33,32 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 final class Module implements ConfigProviderInterface
 {
     /**
+     * Name of the cache namespace where configs for this module are wrapped
+     */
+    const CONFIG = 'ocra_cached_view_resolver';
+
+    /**
+     * Name of the config key referencing the cache service to be used when storing the cached map
+     */
+    const CONFIG_CACHE_SERVICE = 'cache_service';
+
+    /**
+     * Name of the config key referencing the cache key to be used when storing the cached map
+     */
+    const CONFIG_CACHE_KEY = 'cached_template_map_key';
+
+    /**
      * {@inheritDoc}
      */
     public function getConfig()
     {
         return [
-            'ocra_cached_view_resolver' => [
+            self::CONFIG => [
                 'cache' => [
                     'adapter' => Apc::class,
                 ],
-                'cached_template_map_key' => 'cached_template_map',
-                'cache_service'           => 'OcraCachedViewResolver\\Cache\\DummyCache',
+                self::CONFIG_CACHE_KEY     => 'cached_template_map',
+                self::CONFIG_CACHE_SERVICE => 'OcraCachedViewResolver\\Cache\\DummyCache',
             ],
             'service_manager' => [
                 'invokables' => [
