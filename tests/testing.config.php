@@ -16,14 +16,15 @@
  * and is licensed under the MIT license.
  */
 
+use OcraCachedViewResolver\Module;
 use Zend\Cache\Storage\Adapter\Memory;
 
 return [
-    'ocra_cached_view_resolver' => [
+    Module::CONFIG => [
         'cache' => [
             'adapter' => Memory::class,
         ],
-        'cached_template_map_key' => 'testing_cache_key',
-        'cache_service' => 'OcraCachedViewResolver\\Cache\\ResolverCache',
+        Module::CONFIG_CACHE_KEY     => 'testing_cache_key',
+        Module::CONFIG_CACHE_SERVICE => 'OcraCachedViewResolver\\Cache\\ResolverCache',
     ],
 ];
