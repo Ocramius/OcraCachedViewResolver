@@ -20,7 +20,6 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
-use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 use Zend\Cache\Storage\StorageInterface;
