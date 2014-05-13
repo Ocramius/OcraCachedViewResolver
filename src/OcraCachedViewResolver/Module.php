@@ -60,7 +60,7 @@ final class Module implements ConfigProviderInterface
     {
         return [
             self::CONFIG => [
-                'cache' => [
+                self::CONFIG_CACHE_DEFINITION => [
                     'adapter' => Apc::class,
                 ],
                 self::CONFIG_CACHE_KEY     => 'cached_template_map',
