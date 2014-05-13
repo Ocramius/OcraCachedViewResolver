@@ -18,6 +18,7 @@
 
 namespace OcraCachedViewResolverTest\View\Resolver;
 
+use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
 use PHPUnit_Framework_TestCase;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use stdClass;
@@ -145,9 +146,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyResolverRefusesNonCallableInstantiator()
     {
-        $this->setExpectedException(
-            'OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException'
-        );
+        $this->setExpectedException(InvalidResolverInstantiatorException::class);
 
         new LazyResolver($this);
     }
@@ -165,9 +164,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
 
         $lazyResolver = new LazyResolver($this->resolverInstantiator);
 
-        $this->setExpectedException(
-            'OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException'
-        );
+        $this->setExpectedException(InvalidResolverInstantiatorException::class);
 
         $lazyResolver->resolve('foo');
     }
