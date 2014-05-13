@@ -18,6 +18,7 @@
 
 namespace OcraCachedViewResolver\Factory;
 
+use OcraCachedViewResolver\Module;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Cache\StorageFactory;
@@ -38,6 +39,6 @@ final class CacheFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Config');
 
-        return StorageFactory::factory($config['ocra_cached_view_resolver']['cache']);
+        return StorageFactory::factory($config[Module::CONFIG]['cache']);
     }
 }
