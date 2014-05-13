@@ -38,6 +38,12 @@ final class Module implements ConfigProviderInterface
     const CONFIG = 'ocra_cached_view_resolver';
 
     /**
+     * Name of the config key referencing the array with cache definitions to be passed to
+     * the {@see \Zend\Cache\StorageFactory}
+     */
+    const CONFIG_CACHE_DEFINITION = 'cache';
+
+    /**
      * Name of the config key referencing the cache service to be used when storing the cached map
      */
     const CONFIG_CACHE_SERVICE = 'cache_service';
