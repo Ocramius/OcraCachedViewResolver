@@ -23,5 +23,6 @@ return [
         'cache' => [
             'adapter' => Memory::class,
         ],
+        'cache_service' => 'OcraCachedViewResolver\\Cache\\ResolverCache',
     ],
 ];
