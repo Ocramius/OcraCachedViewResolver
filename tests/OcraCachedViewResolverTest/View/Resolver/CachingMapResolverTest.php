@@ -135,6 +135,23 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
     }
 
+    public function testResolvingWithNonEmptyCacheWillNotHitResolverInstantiatorOrWriteToCache()
+    {
+        $this->resolverInstantiator->expects($this->never())->method('__invoke');
+        $this->cache->expects($this->never())->method('setItem');
+
+        $this
+            ->cache
+            ->expects($this->once())
+            ->method('getItem')
+            ->with($this->cacheKey)
+            ->will($this->returnValue(['view-name' => 'path/to/cached/script']));
+
+        $this->assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        $this->assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        $this->assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
+    }
+
     /**
      * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
      */
