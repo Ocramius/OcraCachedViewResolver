@@ -25,6 +25,7 @@ use PHPUnit_Framework_TestCase;
 use stdClass;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Resolver\AggregateResolver;
 use Zend\View\Resolver\TemplateMapResolver;
 
 /**
@@ -83,11 +84,11 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $factory  = new CompiledMapResolverDelegatorFactory();
         $resolver = $factory->createDelegatorWithName($this->locator, 'resolver', 'resolver', $this->callback);
 
-        $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
+        $this->assertInstanceOf(AggregateResolver::class, $resolver);
 
         $resolvers = $resolver->getIterator()->toArray();
 
-        $this->assertInstanceOf('OcraCachedViewResolver\View\Resolver\LazyResolver', $resolvers[0]);
+        $this->assertInstanceOf(LazyResolver::class, $resolvers[0]);
         $this->assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
 
         $this->assertSame('bar', $resolver->resolve('foo'));
@@ -104,7 +105,7 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $factory  = new CompiledMapResolverDelegatorFactory();
         $resolver = $factory->createDelegatorWithName($this->locator, 'resolver', 'resolver', $this->callback);
 
-        $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
+        $this->assertInstanceOf(AggregateResolver::class, $resolver);
 
         $resolvers = $resolver->getIterator()->toArray();
 
