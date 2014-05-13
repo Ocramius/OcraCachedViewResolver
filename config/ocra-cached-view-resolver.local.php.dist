@@ -6,8 +6,10 @@
  * Don't forget to tweak it for your needs!
  */
 
+use OcraCachedViewResolver\Module;
+
 return [
-    'ocra_cached_view_resolver' => [
+    Module::CONFIG => [
         // configuration to be passed to `Zend\Cache\StorageFactory#factory()`
         // see http://framework.zend.com/manual/2.3/en/modules/zend.cache.storage.adapter.html#quick-start
         // Used to instantiate service `'OcraCachedViewResolver\\Cache\\ResolverCache'`
@@ -22,8 +24,8 @@ return [
         ],
 
         // following is the key used to store the template map in the cache adapter
-        'cached_template_map_key' => 'cached_template_map',
+        Module::CONFIG_CACHE_KEY     => 'cached_template_map',
         // name of a service implementing the `Zend\Cache\Storage\StorageInterface`, used to cache the template map
-        'cache_service'           => 'OcraCachedViewResolver\\Cache\\ResolverCache',
+        Module::CONFIG_CACHE_SERVICE => 'OcraCachedViewResolver\\Cache\\ResolverCache',
     ],
 ];
