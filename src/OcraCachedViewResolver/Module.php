@@ -21,6 +21,7 @@ namespace OcraCachedViewResolver;
 use OcraCachedViewResolver\Factory\CacheFactory;
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 use Zend\Cache\Storage\Adapter\Apc;
+use Zend\Cache\Storage\Adapter\BlackHole;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
 /**
@@ -42,8 +43,12 @@ final class Module implements ConfigProviderInterface
                     'adapter' => Apc::class,
                 ],
                 'cached_template_map_key' => 'cached_template_map',
+                'cache_service'           => 'OcraCachedViewResolver\\Cache\\ResolverCache',
             ],
             'service_manager' => [
+                'invokables' => [
+                    'OcraCachedViewResolver\\Cache\\DummyCache' => BlackHole::class,
+                ],
                 'factories' => [
                     'OcraCachedViewResolver\\Cache\\ResolverCache' => CacheFactory::class,
                 ],
