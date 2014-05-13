@@ -18,8 +18,9 @@
 
 namespace OcraCachedViewResolverTest;
 
+use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
+use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
-use UnexpectedValueException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\View\Resolver\AggregateResolver;
@@ -82,7 +83,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $mapResolver            = $this->getMock(TemplateMapResolver::class);
         $this->fallbackResolver = $this->getMock(ResolverInterface::class);
 
-        $mapResolver->expects($this->once())->method('getMap')->will($this->returnValue(['a' => 'b']));
+        $mapResolver->expects($this->any())->method('getMap')->will($this->returnValue(['a' => 'b']));
 
         $this->originalResolver->attach($mapResolver, 10);
         $this->originalResolver->attach($this->fallbackResolver, 5);
@@ -106,20 +107,17 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         /* @var $resolver \Zend\View\Resolver\AggregateResolver */
         $resolver = $this->serviceManager->get('ViewResolver');
 
-        $this->assertInstanceOf('Zend\View\Resolver\AggregateResolver', $resolver);
+        $this->assertInstanceOf(AggregateResolver::class, $resolver);
         $this->assertSame($resolver, $this->serviceManager->get('ViewResolver'));
 
         foreach ($resolver->getIterator() as $previousResolver) {
-            if ($previousResolver instanceof AggregateResolver) {
-                $this->assertSame($this->originalResolver, $previousResolver);
-            } elseif ($previousResolver instanceof TemplateMapResolver) {
-                $this->assertNotSame($previousResolver, $this->originalResolver);
-                $this->assertSame(['a' => 'b'], $previousResolver->getMap());
-            } else {
-                throw new UnexpectedValueException(
-                    sprintf('Found unexpected resolver of type "%s"', get_class($previousResolver))
-                );
-            }
+            $this->assertThat(
+                $previousResolver,
+                $this->logicalOr(
+                    $this->isInstanceOf(CachingMapResolver::class),
+                    $this->isInstanceOf(LazyResolver::class)
+                )
+            );
         }
     }
 
@@ -129,7 +127,10 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $cache = $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache');
 
         $this->assertFalse($cache->hasItem('cached_template_map'));
-        $this->serviceManager->create('ViewResolver');
+        /* @var $resolver AggregateResolver */
+        $resolver = $this->serviceManager->create('ViewResolver');
+        $this->assertFalse($cache->hasItem('cached_template_map'));
+        $this->assertSame('b', $resolver->resolve('a'));
         $this->assertTrue($cache->hasItem('cached_template_map'));
         $this->assertSame(['a' => 'b'], $cache->getItem('cached_template_map'));
         $this->serviceManager->create('ViewResolver');

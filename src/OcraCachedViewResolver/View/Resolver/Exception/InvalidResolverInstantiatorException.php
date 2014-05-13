@@ -27,7 +27,7 @@ use Zend\View\Resolver\ResolverInterface;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class InvalidResolverInstantiatorException extends InvalidArgumentException implements ExceptionInterface
+final class InvalidResolverInstantiatorException extends InvalidArgumentException implements ExceptionInterface
 {
     /**
      * @param mixed $instantiator

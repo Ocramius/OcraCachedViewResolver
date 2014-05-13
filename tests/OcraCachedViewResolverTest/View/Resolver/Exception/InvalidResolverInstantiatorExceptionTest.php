@@ -34,20 +34,17 @@ class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCas
 {
     public function testInstanceOfBaseExceptionInterface()
     {
-        $exception = new InvalidResolverInstantiatorException();
-
-        $this->assertInstanceOf('OcraCachedViewResolver\View\Resolver\Exception\ExceptionInterface', $exception);
+        $this->assertInstanceOf(
+            InvalidResolverInstantiatorException::class,
+            new InvalidResolverInstantiatorException()
+        );
     }
 
     public function testFromInvalidNullInstantiator()
     {
         $exception = InvalidResolverInstantiatorException::fromInvalidInstantiator(null);
 
-        $this->assertInstanceOf(
-            'OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException',
-            $exception
-        );
-
+        $this->assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
         $this->assertSame(
             'Invalid instantiator given, expected `callable`, `NULL` given.',
             $exception->getMessage()
@@ -58,11 +55,7 @@ class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCas
     {
         $exception = InvalidResolverInstantiatorException::fromInvalidInstantiator($this);
 
-        $this->assertInstanceOf(
-            'OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException',
-            $exception
-        );
-
+        $this->assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
         $this->assertSame(
             'Invalid instantiator given, expected `callable`, `' . __CLASS__ . '` given.',
             $exception->getMessage()
@@ -73,11 +66,7 @@ class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCas
     {
         $exception = InvalidResolverInstantiatorException::fromInvalidResolver(null);
 
-        $this->assertInstanceOf(
-            'OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException',
-            $exception
-        );
-
+        $this->assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
         $this->assertSame(
             'Invalid resolver found, expected `Zend\View\Resolver\ResolverInterface`, `NULL` given.',
             $exception->getMessage()
@@ -88,11 +77,7 @@ class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCas
     {
         $exception = InvalidResolverInstantiatorException::fromInvalidResolver($this);
 
-        $this->assertInstanceOf(
-            'OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException',
-            $exception
-        );
-
+        $this->assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
         $this->assertSame(
             'Invalid resolver found, expected `Zend\View\Resolver\ResolverInterface`, `' . __CLASS__ . '` given.',
             $exception->getMessage()
