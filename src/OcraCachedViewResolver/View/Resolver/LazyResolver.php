@@ -23,7 +23,7 @@ use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 
 /**
- * OcraCachedViewResolver module
+ * Lazy resolver, only instantiates the actual resolver if it is needed
  *
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
