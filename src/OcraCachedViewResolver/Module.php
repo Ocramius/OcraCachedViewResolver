@@ -43,7 +43,7 @@ final class Module implements ConfigProviderInterface
                     'adapter' => Apc::class,
                 ],
                 'cached_template_map_key' => 'cached_template_map',
-                'cache_service'           => 'OcraCachedViewResolver\\Cache\\ResolverCache',
+                'cache_service'           => 'OcraCachedViewResolver\\Cache\\DummyCache',
             ],
             'service_manager' => [
                 'invokables' => [
