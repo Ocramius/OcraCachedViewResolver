@@ -30,7 +30,7 @@ use Zend\View\Resolver\ResolverInterface;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-class CachingMapResolver implements ResolverInterface
+final class CachingMapResolver implements ResolverInterface
 {
     /**
      * @var callable
