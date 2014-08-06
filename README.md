@@ -33,4 +33,5 @@ You can copy it to your application's `config/autoload` directory and remove the
 from the file name.
 
 Note that without this file (or similar configuration), `OcraCachedViewResolver` will use a so-called
-"blackhole" cache that doesn't actually cache anything.
+"blackhole" cache that doesn't actually cache anything. The provided `.dist` config file assumes that
+you have the `APC` extension installed: if that is not the case, please tweak this file.
