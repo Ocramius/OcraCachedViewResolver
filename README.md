@@ -20,7 +20,8 @@ php composer.phar require ocramius/ocra-cached-view-resolver:3.0.*
 ```
 
 If you use legacy/outdated PHP versions, such as `5.3.x` and `5.4.x`, you can use any
-`1.x` version of `ocramius/ocra-cached-view-resolver`.
+[`1.x`](https://github.com/Ocramius/OcraCachedViewResolver/tree/1.1.0) version 
+of `ocramius/ocra-cached-view-resolver`.
 
 You can then enable the module in your `config/application.config.php` by adding
 `'OcraCachedViewResolver'` to the `'modules'` section.
