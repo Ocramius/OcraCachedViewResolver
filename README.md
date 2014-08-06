@@ -31,3 +31,6 @@ Default configurations are provided in
 [config/ocra-cached-view-resolver.local.php.dist](config/ocra-cached-view-resolver.local.php.dist).
 You can copy it to your application's `config/autoload` directory and remove the `.dist` extension
 from the file name.
+
+Note that without this file (or similar configuration), `OcraCachedViewResolver` will use a so-called
+"blackhole" cache that doesn't actually cache anything.
