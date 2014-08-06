@@ -16,7 +16,7 @@ The recommended way to install `ocramius/ocra-cached-view-resolver` is through
 [composer](http://getcomposer.org/):
 
 ```sh
-php composer.phar require ocramius/ocra-cached-view-resolver:2.0.*
+php composer.phar require ocramius/ocra-cached-view-resolver:3.0.*
 ```
 
 If you use outdated PHP versions, such as `5.3.x` and `5.4.x`, you can use any
