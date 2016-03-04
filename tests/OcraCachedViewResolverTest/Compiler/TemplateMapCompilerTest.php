@@ -18,9 +18,9 @@
 
 namespace OcraCachedViewResolverTest\Compiler;
 
+use ArrayIterator;
 use PHPUnit_Framework_TestCase;
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
-use Zend\Stdlib\PriorityQueue;
 use Zend\Stdlib\SplStack;
 use Zend\View\Resolver\AggregateResolver;
 use Zend\View\Resolver\ResolverInterface;
@@ -159,10 +159,11 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
             ->method('getMap')
             ->will($this->returnValue(['a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value']));
 
+        $iterator = new ArrayIterator([$mapResolver1, $mapResolver2, $mapResolver3]);
         $aggregateResolver
             ->expects($this->any())
             ->method('getIterator')
-            ->will($this->returnValue([$mapResolver1, $mapResolver2, $mapResolver3]));
+            ->will($this->returnValue($iterator));
 
         $map = $this->compiler->compileMap($aggregateResolver);
 
