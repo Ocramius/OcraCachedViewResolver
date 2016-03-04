@@ -7,9 +7,14 @@ php:
   - hhvm
   - hhvm-nightly
 
+env:
+  matrix:
+    - DEPENDENCIES=""
+    - DEPENDENCIES="--prefer-lowest --prefer-stable"
+
 before_script:
   - composer self-update
-  - composer update --prefer-source
+  - composer update --prefer-source $DEPENDENCIES
 
 script:
   - ./vendor/bin/phpunit
