@@ -172,10 +172,10 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         $map = $this->compiler->compileMap($aggregateResolver);
 
         $this->assertCount(5, $map);
-        $this->assertSame('a-value', $map['a']);
+        $this->assertSame('a-value', $map['a']); // should not be overridden
         $this->assertSame('b-value', $map['b']);
         $this->assertSame('c-value', $map['c']);
-        $this->assertSame('d-value', $map['d']);
+        $this->assertSame('d-value', $map['d']); // should not be overridden
         $this->assertSame('e-value', $map['e']);
     }
 }
