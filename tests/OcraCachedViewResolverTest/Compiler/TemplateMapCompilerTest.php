@@ -159,15 +159,10 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
             ->method('getMap')
             ->will($this->returnValue(['a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value']));
 
-        $iterator = $this->getMock(PriorityQueue::class);
-        $iterator
-            ->expects($this->any())
-            ->method('toArray')
-            ->will($this->returnValue([$mapResolver1, $mapResolver2, $mapResolver3]));
         $aggregateResolver
             ->expects($this->any())
             ->method('getIterator')
-            ->will($this->returnValue($iterator));
+            ->will($this->returnValue([$mapResolver1, $mapResolver2, $mapResolver3]));
 
         $map = $this->compiler->compileMap($aggregateResolver);
 
