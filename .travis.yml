@@ -16,8 +16,11 @@ before_script:
   - composer update --prefer-source $DEPENDENCIES
 
 script:
-  - ./vendor/bin/phpunit
+  - ./vendor/bin/phpunit --coverage-clover ./clover.xml
   - ./vendor/bin/phpcs --standard=PSR2 ./src/ ./tests/
+
+after_script:
+  - if [ "$TRAVIS_PHP_VERSION" = '7.0' ] ; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./clover.xml; fi;
 
 notifications:
   irc: "irc.freenode.org#zftalk.modules"
