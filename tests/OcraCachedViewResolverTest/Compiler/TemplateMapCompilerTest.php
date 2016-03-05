@@ -18,9 +18,9 @@
 
 namespace OcraCachedViewResolverTest\Compiler;
 
+use ArrayIterator;
 use PHPUnit_Framework_TestCase;
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
-use Zend\Stdlib\PriorityQueue;
 use Zend\Stdlib\SplStack;
 use Zend\View\Resolver\AggregateResolver;
 use Zend\View\Resolver\ResolverInterface;
@@ -159,11 +159,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
             ->method('getMap')
             ->will($this->returnValue(['a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value']));
 
-        $iterator = $this->getMock(PriorityQueue::class);
-        $iterator
-            ->expects($this->any())
-            ->method('toArray')
-            ->will($this->returnValue([$mapResolver1, $mapResolver2, $mapResolver3]));
+        $iterator = new ArrayIterator([$mapResolver1, $mapResolver2, $mapResolver3]);
         $aggregateResolver
             ->expects($this->any())
             ->method('getIterator')
@@ -172,10 +168,10 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         $map = $this->compiler->compileMap($aggregateResolver);
 
         $this->assertCount(5, $map);
-        $this->assertSame('override-a-value', $map['a']);
+        $this->assertSame('a-value', $map['a']); // should not be overridden
         $this->assertSame('b-value', $map['b']);
         $this->assertSame('c-value', $map['c']);
-        $this->assertSame('override-d-value', $map['d']);
+        $this->assertSame('d-value', $map['d']); // should not be overridden
         $this->assertSame('e-value', $map['e']);
     }
 }

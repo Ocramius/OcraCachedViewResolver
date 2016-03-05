@@ -74,8 +74,8 @@ class TemplateMapCompiler
         $map = [];
 
         /* @var $queuedResolver ResolverInterface */
-        foreach ($resolver->getIterator()->toArray() as $queuedResolver) {
-            $map = ArrayUtils::merge($map, $this->compileMap($queuedResolver));
+        foreach ($resolver->getIterator() as $queuedResolver) {
+            $map = ArrayUtils::merge($this->compileMap($queuedResolver), $map);
         }
 
         return $map;
