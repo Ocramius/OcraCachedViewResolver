@@ -11,6 +11,10 @@ env:
     - DEPENDENCIES=""
     - DEPENDENCIES="--prefer-lowest --prefer-stable"
 
+matrix:
+  allow_failures:
+    - php: hhvm
+
 before_script:
   - composer self-update
   - composer update --prefer-source $DEPENDENCIES
