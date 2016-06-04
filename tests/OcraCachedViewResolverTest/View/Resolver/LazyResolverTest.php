@@ -77,7 +77,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->will(self::returnValue($this->realResolver));
         $this
@@ -97,7 +97,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->will(self::returnValue($this->realResolver));
         $this
@@ -127,7 +127,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->will(self::returnValue($this->realResolver));
         $this
@@ -158,7 +158,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->will(self::returnValue(null));
 

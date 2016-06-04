@@ -94,17 +94,17 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->will(self::returnValue($this->realResolver));
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with($this->cacheKey);
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setItem')
             ->with($this->cacheKey, ['view-name' => 'path/to/script']);
 
@@ -115,17 +115,17 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->will(self::returnValue($this->realResolver));
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with($this->cacheKey);
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setItem')
             ->with($this->cacheKey, ['view-name' => 'path/to/script']);
 
@@ -141,7 +141,7 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
 
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with($this->cacheKey)
             ->will(self::returnValue(['view-name' => 'path/to/cached/script']));
@@ -158,7 +158,7 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->will(self::returnValue($this->realResolver));
         $this
@@ -178,7 +178,7 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->will(self::returnValue(null));
 

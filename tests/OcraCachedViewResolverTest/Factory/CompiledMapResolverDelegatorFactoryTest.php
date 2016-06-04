@@ -86,7 +86,7 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with('key-name')
             ->will(self::returnValue(['foo' => 'bar']));
@@ -110,9 +110,9 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
     {
         $realResolver = new TemplateMapResolver(['bar' => 'baz']);
 
-        $this->cache->expects($this->once())->method('getItem')->with('key-name')->will(self::returnValue(null));
-        $this->cache->expects($this->once())->method('setItem')->with('key-name', ['bar' => 'baz']);
-        $this->callback->expects($this->once())->method('__invoke')->will(self::returnValue($realResolver));
+        $this->cache->expects(self::once())->method('getItem')->with('key-name')->will(self::returnValue(null));
+        $this->cache->expects(self::once())->method('setItem')->with('key-name', ['bar' => 'baz']);
+        $this->callback->expects(self::once())->method('__invoke')->will(self::returnValue($realResolver));
 
         $factory  = new CompiledMapResolverDelegatorFactory();
         $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);

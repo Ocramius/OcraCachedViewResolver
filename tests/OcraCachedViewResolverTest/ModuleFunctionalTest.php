@@ -151,7 +151,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
         $this
             ->fallbackResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolve')
             ->with('fallback.phtml')
             ->will(self::returnValue('fallback-path.phtml'));
