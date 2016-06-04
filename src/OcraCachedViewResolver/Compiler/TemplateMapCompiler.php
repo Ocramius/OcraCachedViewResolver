@@ -47,7 +47,7 @@ class TemplateMapCompiler
      *
      * @return array
      */
-    public function compileMap(ResolverInterface $resolver)
+    public function compileMap(ResolverInterface $resolver) : array
     {
         if ($resolver instanceof AggregateResolver) {
             return $this->compileFromAggregateResolver($resolver);
@@ -64,12 +64,7 @@ class TemplateMapCompiler
         return [];
     }
 
-    /**
-     * @param AggregateResolver $resolver
-     *
-     * @return array
-     */
-    protected function compileFromAggregateResolver(AggregateResolver $resolver)
+    protected function compileFromAggregateResolver(AggregateResolver $resolver) : array
     {
         $map = [];
 
@@ -85,8 +80,10 @@ class TemplateMapCompiler
      * @param TemplatePathStack $resolver
      *
      * @return array
+     *
+     * @throws \Zend\View\Exception\DomainException
      */
-    protected function compileFromTemplatePathStack(TemplatePathStack $resolver)
+    protected function compileFromTemplatePathStack(TemplatePathStack $resolver) : array
     {
         $map = [];
 
@@ -105,12 +102,7 @@ class TemplateMapCompiler
         return $map;
     }
 
-    /**
-     * @param TemplateMapResolver $resolver
-     *
-     * @return array
-     */
-    protected function compileFromTemplateMapResolver(TemplateMapResolver $resolver)
+    protected function compileFromTemplateMapResolver(TemplateMapResolver $resolver) : array
     {
         return $resolver->getMap();
     }
@@ -124,6 +116,8 @@ class TemplateMapCompiler
      * @param TemplatePathStack $resolver
      *
      * @return void
+     *
+     * @throws \Zend\View\Exception\DomainException
      */
     private function addResolvedPath(SplFileInfo $file, array & $map, $basePath, TemplatePathStack $resolver)
     {
