@@ -34,7 +34,7 @@ final class InvalidResolverInstantiatorException extends InvalidArgumentExceptio
      *
      * @return self
      */
-    public static function fromInvalidInstantiator($instantiator)
+    public static function fromInvalidInstantiator($instantiator) : self
     {
         return new self(sprintf(
             'Invalid instantiator given, expected `callable`, `%s` given.',
@@ -47,7 +47,7 @@ final class InvalidResolverInstantiatorException extends InvalidArgumentExceptio
      *
      * @return self
      */
-    public static function fromInvalidResolver($resolver)
+    public static function fromInvalidResolver($resolver) : self
     {
         return new self(sprintf(
             'Invalid resolver found, expected `' . ResolverInterface::class . '`, `%s` given.',
