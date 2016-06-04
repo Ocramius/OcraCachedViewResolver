@@ -18,9 +18,11 @@
 
 namespace OcraCachedViewResolver\Factory;
 
+use Interop\Container\ContainerInterface;
+use Interop\Container\Exception\ContainerException;
+use Interop\Container\Exception\NotFoundException;
 use OcraCachedViewResolver\Module;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Cache\Exception\InvalidArgumentException;
 use Zend\Cache\StorageFactory;
 
 /**
@@ -30,14 +32,18 @@ use Zend\Cache\StorageFactory;
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
  */
-final class CacheFactory implements FactoryInterface
+final class CacheFactory
 {
     /**
      * {@inheritDoc}
+     *
+     * @throws InvalidArgumentException
+     * @throws ContainerException
+     * @throws NotFoundException
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function createService(ContainerInterface $container)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
 
         return StorageFactory::factory($config[Module::CONFIG][Module::CONFIG_CACHE_DEFINITION]);
     }
