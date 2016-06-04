@@ -60,7 +60,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     /**
      * {@inheritDoc}
      *
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::__construct
+     * @throws \PHPUnit_Framework_Exception
      */
     protected function setUp()
     {

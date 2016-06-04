@@ -18,6 +18,8 @@
 
 namespace OcraCachedViewResolverTest;
 
+use Interop\Container\Exception\ContainerException;
+use Interop\Container\Exception\NotFoundException;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
@@ -57,6 +59,10 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
     /**
      * {@inheritDoc}
+     *
+     * @throws \PHPUnit_Framework_Exception
+     * @throws ContainerException
+     * @throws NotFoundException
      */
     public function setUp()
     {

@@ -58,6 +58,8 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * {@inheritDoc}
+     *
+     * @throws \PHPUnit_Framework_Exception
      */
     protected function setUp()
     {

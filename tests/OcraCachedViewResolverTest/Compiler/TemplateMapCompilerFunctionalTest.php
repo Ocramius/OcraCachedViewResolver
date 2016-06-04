@@ -51,6 +51,8 @@ class TemplateMapCompilerFunctionalTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
+     *
+     * @throws \Zend\View\Exception\InvalidArgumentException
      */
     public function testCompileFromTemplatePathStack()
     {
@@ -76,6 +78,8 @@ class TemplateMapCompilerFunctionalTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
+     *
+     * @throws \Zend\View\Exception\InvalidArgumentException
      */
     public function testCompileFromTemplatePathStackWithDifferentPaths()
     {
