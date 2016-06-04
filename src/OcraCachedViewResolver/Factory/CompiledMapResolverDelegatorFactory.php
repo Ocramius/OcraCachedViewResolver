@@ -19,6 +19,8 @@
 namespace OcraCachedViewResolver\Factory;
 
 use Interop\Container\ContainerInterface;
+use Interop\Container\Exception\ContainerException;
+use Interop\Container\Exception\NotFoundException;
 use OcraCachedViewResolver\Module;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
@@ -38,12 +40,15 @@ final class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInter
      * {@inheritDoc}
      *
      * @return AggregateResolver
+     *
+     * @throws ContainerException
+     * @throws NotFoundException
      */
     public function __invoke(ContainerInterface $container, $name, callable $callback, array $options = null)
     {
-        $config = $serviceLocator->get('Config')[Module::CONFIG];
+        $config = $container->get('Config')[Module::CONFIG];
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
-        $cache  = $serviceLocator->get($config[Module::CONFIG_CACHE_SERVICE]);
+        $cache  = $container->get($config[Module::CONFIG_CACHE_SERVICE]);
 
         $resolver = new AggregateResolver();
 

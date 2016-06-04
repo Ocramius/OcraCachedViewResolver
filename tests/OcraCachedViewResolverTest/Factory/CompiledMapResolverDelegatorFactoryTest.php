@@ -18,6 +18,7 @@
 
 namespace OcraCachedViewResolverTest\View\Resolver;
 
+use Interop\Container\ContainerInterface;
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 use OcraCachedViewResolver\Module;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
@@ -25,7 +26,6 @@ use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 use Zend\Cache\Storage\StorageInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Resolver\AggregateResolver;
 use Zend\View\Resolver\TemplateMapResolver;
 
@@ -42,7 +42,7 @@ use Zend\View\Resolver\TemplateMapResolver;
 class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ContainerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $locator;
 
@@ -61,7 +61,7 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->locator  = $this->createMock(ServiceLocatorInterface::class);
+        $this->locator  = $this->createMock(ContainerInterface::class);
         $this->callback = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
         $this->cache    = $this->createMock(StorageInterface::class);
 
@@ -94,7 +94,7 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $this->callback->expects($this->never())->method('__invoke');
 
         $factory  = new CompiledMapResolverDelegatorFactory();
-        $resolver = $factory->createDelegatorWithName($this->locator, 'resolver', 'resolver', $this->callback);
+        $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);
 
         $this->assertInstanceOf(AggregateResolver::class, $resolver);
 
@@ -115,7 +115,7 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $this->callback->expects($this->once())->method('__invoke')->will($this->returnValue($realResolver));
 
         $factory  = new CompiledMapResolverDelegatorFactory();
-        $resolver = $factory->createDelegatorWithName($this->locator, 'resolver', 'resolver', $this->callback);
+        $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);
 
         $this->assertInstanceOf(AggregateResolver::class, $resolver);
 
