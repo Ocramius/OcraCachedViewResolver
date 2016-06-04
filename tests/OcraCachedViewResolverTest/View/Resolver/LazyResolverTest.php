@@ -146,7 +146,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyResolverRefusesNonCallableInstantiator()
     {
-        $this->setExpectedException(InvalidResolverInstantiatorException::class);
+        $this->expectException(InvalidResolverInstantiatorException::class);
 
         new LazyResolver($this);
     }
@@ -164,7 +164,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
 
         $lazyResolver = new LazyResolver($this->resolverInstantiator);
 
-        $this->setExpectedException(InvalidResolverInstantiatorException::class);
+        $this->expectException(InvalidResolverInstantiatorException::class);
 
         $lazyResolver->resolve('foo');
     }

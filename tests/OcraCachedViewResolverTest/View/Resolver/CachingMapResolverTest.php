@@ -184,7 +184,7 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
 
         $cachingMapResolver = new CachingMapResolver($this->cache, $this->cacheKey, $this->resolverInstantiator);
 
-        $this->setExpectedException(InvalidResolverInstantiatorException::class);
+        $this->expectException(InvalidResolverInstantiatorException::class);
 
         $cachingMapResolver->resolve('foo');
     }
