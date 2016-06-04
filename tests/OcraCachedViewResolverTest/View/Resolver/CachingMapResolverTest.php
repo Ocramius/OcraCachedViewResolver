@@ -70,13 +70,15 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
 
     /**
      * {@inheritDoc}
+     *
+     * @throws \PHPUnit_Framework_Exception
      */
     protected function setUp()
     {
-        $this->resolverInstantiator = $this->getMock(stdClass::class, ['__invoke']);
-        $this->realResolver         = $this->getMock(TemplateMapResolver::class);
-        $this->renderer             = $this->getMock(RendererInterface::class);
-        $this->cache                = $this->getMock(StorageInterface::class);
+        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
+        $this->realResolver         = $this->createMock(TemplateMapResolver::class);
+        $this->renderer             = $this->createMock(RendererInterface::class);
+        $this->cache                = $this->createMock(StorageInterface::class);
         $this->cachingMapResolver   = new CachingMapResolver(
             $this->cache,
             $this->cacheKey,
@@ -85,70 +87,70 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
 
         $this
             ->realResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getMap')
-            ->will($this->returnValue(['view-name' => 'path/to/script']));
+            ->will(self::returnValue(['view-name' => 'path/to/script']));
     }
 
     public function testResolverCacheIsPopulatedOnResolve()
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->will($this->returnValue($this->realResolver));
+            ->will(self::returnValue($this->realResolver));
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with($this->cacheKey);
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setItem')
             ->with($this->cacheKey, ['view-name' => 'path/to/script']);
 
-        $this->assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
     }
 
     public function testResolvingMultipleTimesDoesNotHitResolverInstantiatorOrCache()
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->will($this->returnValue($this->realResolver));
+            ->will(self::returnValue($this->realResolver));
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with($this->cacheKey);
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setItem')
             ->with($this->cacheKey, ['view-name' => 'path/to/script']);
 
-        $this->assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
-        $this->assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
-        $this->assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
     }
 
     public function testResolvingWithNonEmptyCacheWillNotHitResolverInstantiatorOrWriteToCache()
     {
-        $this->resolverInstantiator->expects($this->never())->method('__invoke');
-        $this->cache->expects($this->never())->method('setItem');
+        $this->resolverInstantiator->expects(self::never())->method('__invoke');
+        $this->cache->expects(self::never())->method('setItem');
 
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with($this->cacheKey)
-            ->will($this->returnValue(['view-name' => 'path/to/cached/script']));
+            ->will(self::returnValue(['view-name' => 'path/to/cached/script']));
 
-        $this->assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
-        $this->assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
-        $this->assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
+        self::assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
     }
 
     /**
@@ -158,17 +160,17 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->will($this->returnValue($this->realResolver));
+            ->will(self::returnValue($this->realResolver));
         $this
             ->realResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('resolve')
             ->with('view-name', null)
-            ->will($this->returnValue('path/to/script'));
+            ->will(self::returnValue('path/to/script'));
 
-        $this->assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name'));
+        self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name'));
     }
 
     /**
@@ -178,13 +180,13 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->will($this->returnValue(null));
+            ->will(self::returnValue(null));
 
         $cachingMapResolver = new CachingMapResolver($this->cache, $this->cacheKey, $this->resolverInstantiator);
 
-        $this->setExpectedException(InvalidResolverInstantiatorException::class);
+        $this->expectException(InvalidResolverInstantiatorException::class);
 
         $cachingMapResolver->resolve('foo');
     }

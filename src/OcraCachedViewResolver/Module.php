@@ -56,7 +56,7 @@ final class Module implements ConfigProviderInterface
     /**
      * {@inheritDoc}
      */
-    public function getConfig()
+    public function getConfig() : array
     {
         return [
             self::CONFIG => [

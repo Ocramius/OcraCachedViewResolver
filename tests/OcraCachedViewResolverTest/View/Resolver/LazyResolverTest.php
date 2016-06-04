@@ -60,13 +60,13 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     /**
      * {@inheritDoc}
      *
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::__construct
+     * @throws \PHPUnit_Framework_Exception
      */
     protected function setUp()
     {
-        $this->resolverInstantiator = $this->getMock(stdClass::class, ['__invoke']);
-        $this->realResolver         = $this->getMock(ResolverInterface::class);
-        $this->renderer             = $this->getMock(RendererInterface::class);
+        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
+        $this->realResolver         = $this->createMock(ResolverInterface::class);
+        $this->renderer             = $this->createMock(RendererInterface::class);
         $this->lazyResolver         = new LazyResolver($this->resolverInstantiator);
     }
 
@@ -77,17 +77,17 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->will($this->returnValue($this->realResolver));
+            ->will(self::returnValue($this->realResolver));
         $this
             ->realResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('resolve')
             ->with('view-name', $this->renderer)
-            ->will($this->returnValue('path/to/script'));
+            ->will(self::returnValue('path/to/script'));
 
-        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
 
     /**
@@ -97,17 +97,17 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->will($this->returnValue($this->realResolver));
+            ->will(self::returnValue($this->realResolver));
         $this
             ->realResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('resolve')
             ->with('view-name', null)
-            ->will($this->returnValue('path/to/script'));
+            ->will(self::returnValue('path/to/script'));
 
-        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name'));
+        self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name'));
     }
 
     /**
@@ -115,7 +115,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
      */
     public function testRealResolverNotCreatedIfNotNeeded()
     {
-        $this->resolverInstantiator->expects($this->never())->method('__invoke');
+        $this->resolverInstantiator->expects(self::never())->method('__invoke');
 
         new LazyResolver($this->resolverInstantiator);
     }
@@ -127,18 +127,18 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->will($this->returnValue($this->realResolver));
+            ->will(self::returnValue($this->realResolver));
         $this
             ->realResolver
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('resolve')
             ->with('view-name', $this->renderer)
-            ->will($this->returnValue('path/to/script'));
+            ->will(self::returnValue('path/to/script'));
 
-        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
-        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
 
     /**
@@ -146,7 +146,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
      */
     public function testLazyResolverRefusesNonCallableInstantiator()
     {
-        $this->setExpectedException(InvalidResolverInstantiatorException::class);
+        $this->expectException(InvalidResolverInstantiatorException::class);
 
         new LazyResolver($this);
     }
@@ -158,13 +158,13 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->resolverInstantiator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->will($this->returnValue(null));
+            ->will(self::returnValue(null));
 
         $lazyResolver = new LazyResolver($this->resolverInstantiator);
 
-        $this->setExpectedException(InvalidResolverInstantiatorException::class);
+        $this->expectException(InvalidResolverInstantiatorException::class);
 
         $lazyResolver->resolve('foo');
     }

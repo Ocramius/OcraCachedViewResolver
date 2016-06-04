@@ -56,59 +56,65 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
+     *
+     * @throws \PHPUnit_Framework_Exception
      */
     public function testCompileFromUnknownResolverProducesEmptyMap()
     {
         /* @var $resolver ResolverInterface */
-        $resolver = $this->getMock(ResolverInterface::class);
+        $resolver = $this->createMock(ResolverInterface::class);
 
-        $this->assertSame([], $this->compiler->compileMap($resolver));
+        self::assertSame([], $this->compiler->compileMap($resolver));
     }
 
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplateMapResolver
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::addResolvedPath
+     *
+     * @throws \PHPUnit_Framework_Exception
      */
     public function testCompileFromMapResolver()
     {
         /* @var $mapResolver TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver = $this->getMock(TemplateMapResolver::class);
+        $mapResolver = $this->createMock(TemplateMapResolver::class);
         $mapResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getMap')
-            ->will($this->returnValue(['a' => 'b', 'c' => 'd']));
+            ->will(self::returnValue(['a' => 'b', 'c' => 'd']));
 
         $map = $this->compiler->compileMap($mapResolver);
 
-        $this->assertCount(2, $map);
-        $this->assertSame('b', $map['a']);
-        $this->assertSame('d', $map['c']);
+        self::assertCount(2, $map);
+        self::assertSame('b', $map['a']);
+        self::assertSame('d', $map['c']);
     }
 
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::addResolvedPath
+     *
+     * @throws \PHPUnit_Framework_Exception
      */
     public function testCompileFromTemplatePathStack()
     {
         /* @var $templatePathStack TemplatePathStack|\PHPUnit_Framework_MockObject_MockObject */
-        $templatePathStack = $this->getMock(TemplatePathStack::class);
-        $paths = $this->getMock(SplStack::class);
+        $templatePathStack = $this->createMock(TemplatePathStack::class);
+        $paths = $this->createMock(SplStack::class);
         $paths
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('toArray')
-            ->will($this->returnValue([__DIR__ . '/_files/subdir2', __DIR__ . '/_files/subdir1']));
+            ->will(self::returnValue([__DIR__ . '/_files/subdir2', __DIR__ . '/_files/subdir1']));
 
         $templatePathStack
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPaths')
-            ->will($this->returnValue($paths));
+            ->will(self::returnValue($paths));
         $templatePathStack
-        ->expects($this->any())
+        ->expects(self::any())
         ->method('resolve')
-        ->will($this->returnCallback(function ($name) {
+        ->willReturnCallback(function ($name) {
             $keys = [
                 'template2'       => __DIR__ . '/_files/subdir2/template2.phtml',
                 'template3'       => false,
@@ -116,62 +122,64 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
             ];
 
             return $keys[$name];
-        }));
+        });
         $map = $this->compiler->compileMap($templatePathStack);
 
-        $this->assertCount(2, $map);
+        self::assertCount(2, $map);
 
         $template2 = realpath(__DIR__ . '/_files/subdir2/template2.phtml');
         $template4 = realpath(__DIR__ . '/_files/subdir1/valid/template4.phtml');
 
-        $this->assertInternalType('string', $template2);
-        $this->assertInternalType('string', $template4);
+        self::assertInternalType('string', $template2);
+        self::assertInternalType('string', $template4);
 
-        $this->assertSame($template2, $map['template2']);
-        $this->assertSame($template4, $map['valid/template4']);
+        self::assertSame($template2, $map['template2']);
+        self::assertSame($template4, $map['valid/template4']);
     }
 
     /**
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromAggregateResolver
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::addResolvedPath
+     *
+     * @throws \PHPUnit_Framework_Exception
      */
     public function testCompileFromAggregateResolver()
     {
         /* @var $aggregateResolver AggregateResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $aggregateResolver = $this->getMock(AggregateResolver::class);
+        $aggregateResolver = $this->createMock(AggregateResolver::class);
         /* @var $mapResolver1 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver1 = $this->getMock(TemplateMapResolver::class);
+        $mapResolver1 = $this->createMock(TemplateMapResolver::class);
         $mapResolver1
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getMap')
-            ->will($this->returnValue(['a' => 'a-value', 'b' => 'b-value']));
+            ->will(self::returnValue(['a' => 'a-value', 'b' => 'b-value']));
         /* @var $mapResolver2 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver2 = $this->getMock(TemplateMapResolver::class);
+        $mapResolver2 = $this->createMock(TemplateMapResolver::class);
         $mapResolver2
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getMap')
-            ->will($this->returnValue(['c' => 'c-value', 'd' => 'd-value']));
+            ->will(self::returnValue(['c' => 'c-value', 'd' => 'd-value']));
         /* @var $mapResolver3 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver3 = $this->getMock(TemplateMapResolver::class);
+        $mapResolver3 = $this->createMock(TemplateMapResolver::class);
         $mapResolver3
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getMap')
-            ->will($this->returnValue(['a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value']));
+            ->will(self::returnValue(['a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value']));
 
         $iterator = new ArrayIterator([$mapResolver1, $mapResolver2, $mapResolver3]);
         $aggregateResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getIterator')
-            ->will($this->returnValue($iterator));
+            ->will(self::returnValue($iterator));
 
         $map = $this->compiler->compileMap($aggregateResolver);
 
-        $this->assertCount(5, $map);
-        $this->assertSame('a-value', $map['a']); // should not be overridden
-        $this->assertSame('b-value', $map['b']);
-        $this->assertSame('c-value', $map['c']);
-        $this->assertSame('d-value', $map['d']); // should not be overridden
-        $this->assertSame('e-value', $map['e']);
+        self::assertCount(5, $map);
+        self::assertSame('a-value', $map['a']); // should not be overridden
+        self::assertSame('b-value', $map['b']);
+        self::assertSame('c-value', $map['c']);
+        self::assertSame('d-value', $map['d']); // should not be overridden
+        self::assertSame('e-value', $map['e']);
     }
 }

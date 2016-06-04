@@ -18,11 +18,14 @@
 
 namespace OcraCachedViewResolverTest;
 
+use Interop\Container\Exception\ContainerException;
+use Interop\Container\Exception\NotFoundException;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
-use Zend\ServiceManager\ServiceManager;
+use Zend\Cache\Storage\StorageInterface;
 use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager\ServiceManager;
 use Zend\View\Resolver\AggregateResolver;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\Resolver\TemplateMapResolver;
@@ -56,16 +59,25 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
     /**
      * {@inheritDoc}
+     *
+     * @throws \PHPUnit_Framework_Exception
+     * @throws ContainerException
+     * @throws NotFoundException
      */
     public function setUp()
     {
-        $this->serviceManager = new ServiceManager(new ServiceManagerConfig());
+        $this->serviceManager = new ServiceManager();
+
+        (new ServiceManagerConfig())->configureServiceManager($this->serviceManager);
 
         $this->serviceManager->setAllowOverride(true);
         $this->serviceManager->setService(
             'ApplicationConfig',
             [
-                'modules' => ['OcraCachedViewResolver'],
+                'modules' => [
+                    'Zend\Router',
+                    'OcraCachedViewResolver',
+                ],
                 'module_listener_options' => [
                     'config_glob_paths'    => [
                         __DIR__ . '/../testing.config.php',
@@ -80,10 +92,10 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
         $this->originalResolver = new AggregateResolver();
         /* @var $mapResolver TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver            = $this->getMock(TemplateMapResolver::class);
-        $this->fallbackResolver = $this->getMock(ResolverInterface::class);
+        $mapResolver            = $this->createMock(TemplateMapResolver::class);
+        $this->fallbackResolver = $this->createMock(ResolverInterface::class);
 
-        $mapResolver->expects($this->any())->method('getMap')->will($this->returnValue(['a' => 'b']));
+        $mapResolver->expects(self::any())->method('getMap')->will(self::returnValue(['a' => 'b']));
 
         $this->originalResolver->attach($mapResolver, 10);
         $this->originalResolver->attach($this->fallbackResolver, 5);
@@ -99,23 +111,23 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
     public function testDefinedServices()
     {
-        $this->assertInstanceOf(
-            'Zend\\Cache\\Storage\\StorageInterface',
+        self::assertInstanceOf(
+            StorageInterface::class,
             $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
         );
 
         /* @var $resolver \Zend\View\Resolver\AggregateResolver */
         $resolver = $this->serviceManager->get('ViewResolver');
 
-        $this->assertInstanceOf(AggregateResolver::class, $resolver);
-        $this->assertSame($resolver, $this->serviceManager->get('ViewResolver'));
+        self::assertInstanceOf(AggregateResolver::class, $resolver);
+        self::assertSame($resolver, $this->serviceManager->get('ViewResolver'));
 
         foreach ($resolver->getIterator() as $previousResolver) {
-            $this->assertThat(
+            self::assertThat(
                 $previousResolver,
-                $this->logicalOr(
-                    $this->isInstanceOf(CachingMapResolver::class),
-                    $this->isInstanceOf(LazyResolver::class)
+                self::logicalOr(
+                    self::isInstanceOf(CachingMapResolver::class),
+                    self::isInstanceOf(LazyResolver::class)
                 )
             );
         }
@@ -126,16 +138,16 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
         $cache = $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache');
 
-        $this->assertFalse($cache->hasItem('testing_cache_key'));
+        self::assertFalse($cache->hasItem('testing_cache_key'));
 
         /* @var $resolver AggregateResolver */
-        $resolver = $this->serviceManager->create('ViewResolver');
+        $resolver = $this->serviceManager->build('ViewResolver');
 
-        $this->assertFalse($cache->hasItem('testing_cache_key'));
-        $this->assertSame('b', $resolver->resolve('a'));
-        $this->assertTrue($cache->hasItem('testing_cache_key'));
-        $this->assertSame(['a' => 'b'], $cache->getItem('testing_cache_key'));
-        $this->serviceManager->create('ViewResolver');
+        self::assertFalse($cache->hasItem('testing_cache_key'));
+        self::assertSame('b', $resolver->resolve('a'));
+        self::assertTrue($cache->hasItem('testing_cache_key'));
+        self::assertSame(['a' => 'b'], $cache->getItem('testing_cache_key'));
+        $this->serviceManager->build('ViewResolver');
     }
 
     public function testFallbackResolverCall()
@@ -145,11 +157,11 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
         $this
             ->fallbackResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolve')
             ->with('fallback.phtml')
-            ->will($this->returnValue('fallback-path.phtml'));
+            ->will(self::returnValue('fallback-path.phtml'));
 
-        $this->assertSame('fallback-path.phtml', $resolver->resolve('fallback.phtml'));
+        self::assertSame('fallback-path.phtml', $resolver->resolve('fallback.phtml'));
     }
 }

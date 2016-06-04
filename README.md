@@ -3,7 +3,7 @@
 OcraCachedViewResolver is performance-oriented Zend Framework 2 Module that increases performance
 in your application by caching the process of resolving template names to template paths.
 
-In ZF2, the process of resolving template paths causes a lot of stat calls. This module adds
+In ZF3, the process of resolving template paths causes a lot of stat calls. This module adds
 a cache layer to avoid that.
 
 | Tests | Releases | Downloads | Dependencies |
@@ -19,8 +19,8 @@ The recommended way to install `ocramius/ocra-cached-view-resolver` is through
 php composer.phar require ocramius/ocra-cached-view-resolver:3.0.*
 ```
 
-If you use legacy/outdated PHP versions, such as `5.3.x` and `5.4.x`, you can use any
-[`1.x`](https://github.com/Ocramius/OcraCachedViewResolver/tree/1.1.0) version 
+If you use legacy/outdated PHP versions, such as `5.5.x` and `5.6.x`, you can use any
+[`3.x`](https://github.com/Ocramius/OcraCachedViewResolver/tree/3.0.0) version
 of `ocramius/ocra-cached-view-resolver`.
 
 You can then enable the module in your `config/application.config.php` by adding

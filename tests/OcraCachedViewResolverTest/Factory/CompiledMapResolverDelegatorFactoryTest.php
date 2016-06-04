@@ -18,6 +18,7 @@
 
 namespace OcraCachedViewResolverTest\View\Resolver;
 
+use Interop\Container\ContainerInterface;
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 use OcraCachedViewResolver\Module;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
@@ -25,7 +26,6 @@ use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 use Zend\Cache\Storage\StorageInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Resolver\AggregateResolver;
 use Zend\View\Resolver\TemplateMapResolver;
 
@@ -42,7 +42,7 @@ use Zend\View\Resolver\TemplateMapResolver;
 class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ContainerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $locator;
 
@@ -58,14 +58,16 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * {@inheritDoc}
+     *
+     * @throws \PHPUnit_Framework_Exception
      */
     protected function setUp()
     {
-        $this->locator  = $this->getMock(ServiceLocatorInterface::class);
-        $this->callback = $this->getMock(stdClass::class, ['__invoke']);
-        $this->cache    = $this->getMock(StorageInterface::class);
+        $this->locator  = $this->createMock(ContainerInterface::class);
+        $this->callback = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
+        $this->cache    = $this->createMock(StorageInterface::class);
 
-        $this->locator->expects($this->any())->method('get')->will($this->returnValueMap([
+        $this->locator->expects(self::any())->method('get')->will(self::returnValueMap([
             [
                 'Config',
                 [
@@ -86,44 +88,44 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
     {
         $this
             ->cache
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with('key-name')
-            ->will($this->returnValue(['foo' => 'bar']));
+            ->will(self::returnValue(['foo' => 'bar']));
 
-        $this->callback->expects($this->never())->method('__invoke');
+        $this->callback->expects(self::never())->method('__invoke');
 
         $factory  = new CompiledMapResolverDelegatorFactory();
-        $resolver = $factory->createDelegatorWithName($this->locator, 'resolver', 'resolver', $this->callback);
+        $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);
 
-        $this->assertInstanceOf(AggregateResolver::class, $resolver);
+        self::assertInstanceOf(AggregateResolver::class, $resolver);
 
         $resolvers = $resolver->getIterator()->toArray();
 
-        $this->assertInstanceOf(LazyResolver::class, $resolvers[0]);
-        $this->assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
+        self::assertInstanceOf(LazyResolver::class, $resolvers[0]);
+        self::assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
 
-        $this->assertSame('bar', $resolver->resolve('foo'));
+        self::assertSame('bar', $resolver->resolve('foo'));
     }
 
     public function testCreateServiceWithEmptyCachedTemplateMap()
     {
         $realResolver = new TemplateMapResolver(['bar' => 'baz']);
 
-        $this->cache->expects($this->once())->method('getItem')->with('key-name')->will($this->returnValue(null));
-        $this->cache->expects($this->once())->method('setItem')->with('key-name', ['bar' => 'baz']);
-        $this->callback->expects($this->once())->method('__invoke')->will($this->returnValue($realResolver));
+        $this->cache->expects(self::once())->method('getItem')->with('key-name')->will(self::returnValue(null));
+        $this->cache->expects(self::once())->method('setItem')->with('key-name', ['bar' => 'baz']);
+        $this->callback->expects(self::once())->method('__invoke')->will(self::returnValue($realResolver));
 
         $factory  = new CompiledMapResolverDelegatorFactory();
-        $resolver = $factory->createDelegatorWithName($this->locator, 'resolver', 'resolver', $this->callback);
+        $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);
 
-        $this->assertInstanceOf(AggregateResolver::class, $resolver);
+        self::assertInstanceOf(AggregateResolver::class, $resolver);
 
         $resolvers = $resolver->getIterator()->toArray();
 
-        $this->assertInstanceOf(LazyResolver::class, $resolvers[0]);
-        $this->assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
+        self::assertInstanceOf(LazyResolver::class, $resolvers[0]);
+        self::assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
 
-        $this->assertSame('baz', $resolver->resolve('bar'));
+        self::assertSame('baz', $resolver->resolve('bar'));
     }
 }
