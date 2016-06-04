@@ -60,7 +60,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
     public function testCompileFromUnknownResolverProducesEmptyMap()
     {
         /* @var $resolver ResolverInterface */
-        $resolver = $this->getMock(ResolverInterface::class);
+        $resolver = $this->createMock(ResolverInterface::class);
 
         $this->assertSame([], $this->compiler->compileMap($resolver));
     }
@@ -73,7 +73,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
     public function testCompileFromMapResolver()
     {
         /* @var $mapResolver TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver = $this->getMock(TemplateMapResolver::class);
+        $mapResolver = $this->createMock(TemplateMapResolver::class);
         $mapResolver
             ->expects($this->any())
             ->method('getMap')
@@ -94,8 +94,8 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
     public function testCompileFromTemplatePathStack()
     {
         /* @var $templatePathStack TemplatePathStack|\PHPUnit_Framework_MockObject_MockObject */
-        $templatePathStack = $this->getMock(TemplatePathStack::class);
-        $paths = $this->getMock(SplStack::class);
+        $templatePathStack = $this->createMock(TemplatePathStack::class);
+        $paths = $this->createMock(SplStack::class);
         $paths
             ->expects($this->any())
             ->method('toArray')
@@ -139,21 +139,21 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
     public function testCompileFromAggregateResolver()
     {
         /* @var $aggregateResolver AggregateResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $aggregateResolver = $this->getMock(AggregateResolver::class);
+        $aggregateResolver = $this->createMock(AggregateResolver::class);
         /* @var $mapResolver1 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver1 = $this->getMock(TemplateMapResolver::class);
+        $mapResolver1 = $this->createMock(TemplateMapResolver::class);
         $mapResolver1
             ->expects($this->any())
             ->method('getMap')
             ->will($this->returnValue(['a' => 'a-value', 'b' => 'b-value']));
         /* @var $mapResolver2 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver2 = $this->getMock(TemplateMapResolver::class);
+        $mapResolver2 = $this->createMock(TemplateMapResolver::class);
         $mapResolver2
             ->expects($this->any())
             ->method('getMap')
             ->will($this->returnValue(['c' => 'c-value', 'd' => 'd-value']));
         /* @var $mapResolver3 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver3 = $this->getMock(TemplateMapResolver::class);
+        $mapResolver3 = $this->createMock(TemplateMapResolver::class);
         $mapResolver3
             ->expects($this->any())
             ->method('getMap')

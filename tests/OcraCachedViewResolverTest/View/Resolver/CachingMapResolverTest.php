@@ -73,10 +73,10 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->resolverInstantiator = $this->getMock(stdClass::class, ['__invoke']);
-        $this->realResolver         = $this->getMock(TemplateMapResolver::class);
-        $this->renderer             = $this->getMock(RendererInterface::class);
-        $this->cache                = $this->getMock(StorageInterface::class);
+        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
+        $this->realResolver         = $this->createMock(TemplateMapResolver::class);
+        $this->renderer             = $this->createMock(RendererInterface::class);
+        $this->cache                = $this->createMock(StorageInterface::class);
         $this->cachingMapResolver   = new CachingMapResolver(
             $this->cache,
             $this->cacheKey,

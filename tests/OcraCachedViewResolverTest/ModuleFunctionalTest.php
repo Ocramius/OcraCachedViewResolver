@@ -80,8 +80,8 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
         $this->originalResolver = new AggregateResolver();
         /* @var $mapResolver TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
-        $mapResolver            = $this->getMock(TemplateMapResolver::class);
-        $this->fallbackResolver = $this->getMock(ResolverInterface::class);
+        $mapResolver            = $this->createMock(TemplateMapResolver::class);
+        $this->fallbackResolver = $this->createMock(ResolverInterface::class);
 
         $mapResolver->expects($this->any())->method('getMap')->will($this->returnValue(['a' => 'b']));
 

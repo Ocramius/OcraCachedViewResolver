@@ -64,9 +64,9 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->resolverInstantiator = $this->getMock(stdClass::class, ['__invoke']);
-        $this->realResolver         = $this->getMock(ResolverInterface::class);
-        $this->renderer             = $this->getMock(RendererInterface::class);
+        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
+        $this->realResolver         = $this->createMock(ResolverInterface::class);
+        $this->renderer             = $this->createMock(RendererInterface::class);
         $this->lazyResolver         = new LazyResolver($this->resolverInstantiator);
     }
 

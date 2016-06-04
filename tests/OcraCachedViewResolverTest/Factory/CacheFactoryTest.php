@@ -39,7 +39,7 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
     public function testCreateService()
     {
         /* @var $locator ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $locator = $this->getMock(ServiceLocatorInterface::class);
+        $locator = $this->createMock(ServiceLocatorInterface::class);
 
         $locator->expects($this->any())->method('get')->with('Config')->will($this->returnValue([
             Module::CONFIG => [

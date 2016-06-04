@@ -61,9 +61,9 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->locator  = $this->getMock(ServiceLocatorInterface::class);
-        $this->callback = $this->getMock(stdClass::class, ['__invoke']);
-        $this->cache    = $this->getMock(StorageInterface::class);
+        $this->locator  = $this->createMock(ServiceLocatorInterface::class);
+        $this->callback = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
+        $this->cache    = $this->createMock(StorageInterface::class);
 
         $this->locator->expects($this->any())->method('get')->will($this->returnValueMap([
             [
