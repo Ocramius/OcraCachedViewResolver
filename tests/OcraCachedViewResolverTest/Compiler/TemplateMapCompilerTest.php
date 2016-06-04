@@ -108,7 +108,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         $templatePathStack
         ->expects(self::any())
         ->method('resolve')
-        ->will($this->returnCallback(function ($name) {
+        ->willReturnCallback(function ($name) {
             $keys = [
                 'template2'       => __DIR__ . '/_files/subdir2/template2.phtml',
                 'template3'       => false,
@@ -116,7 +116,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
             ];
 
             return $keys[$name];
-        }));
+        });
         $map = $this->compiler->compileMap($templatePathStack);
 
         self::assertCount(2, $map);

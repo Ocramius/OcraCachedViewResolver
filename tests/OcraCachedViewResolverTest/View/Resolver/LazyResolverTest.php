@@ -132,7 +132,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
             ->will(self::returnValue($this->realResolver));
         $this
             ->realResolver
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('resolve')
             ->with('view-name', $this->renderer)
             ->will(self::returnValue('path/to/script'));

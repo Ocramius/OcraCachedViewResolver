@@ -119,9 +119,9 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         foreach ($resolver->getIterator() as $previousResolver) {
             self::assertThat(
                 $previousResolver,
-                $this->logicalOr(
-                    $this->isInstanceOf(CachingMapResolver::class),
-                    $this->isInstanceOf(LazyResolver::class)
+                self::logicalOr(
+                    self::isInstanceOf(CachingMapResolver::class),
+                    self::isInstanceOf(LazyResolver::class)
                 )
             );
         }
