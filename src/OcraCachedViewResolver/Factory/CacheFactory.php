@@ -23,6 +23,7 @@ use Interop\Container\Exception\ContainerException;
 use Interop\Container\Exception\NotFoundException;
 use OcraCachedViewResolver\Module;
 use Zend\Cache\Exception\InvalidArgumentException;
+use Zend\Cache\Storage\StorageInterface;
 use Zend\Cache\StorageFactory;
 
 /**
@@ -41,7 +42,7 @@ final class CacheFactory
      * @throws ContainerException
      * @throws NotFoundException
      */
-    public function createService(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container) : StorageInterface
     {
         $config = $container->get('Config');
 
