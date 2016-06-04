@@ -46,6 +46,8 @@ class TemplateMapCompiler
      * @param ResolverInterface $resolver
      *
      * @return array
+     *
+     * @throws \Zend\View\Exception\DomainException
      */
     public function compileMap(ResolverInterface $resolver) : array
     {
