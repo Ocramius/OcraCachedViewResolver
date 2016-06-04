@@ -49,6 +49,6 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
             ],
         ]));
 
-        $this->assertInstanceOf(Memory::class, (new CacheFactory())->__invoke($locator));
+        self::assertInstanceOf(Memory::class, (new CacheFactory())->__invoke($locator));
     }
 }

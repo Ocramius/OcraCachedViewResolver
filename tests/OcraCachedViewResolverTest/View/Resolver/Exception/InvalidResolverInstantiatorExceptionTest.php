@@ -34,7 +34,7 @@ class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCas
 {
     public function testInstanceOfBaseExceptionInterface()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             InvalidResolverInstantiatorException::class,
             new InvalidResolverInstantiatorException()
         );
@@ -44,8 +44,8 @@ class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCas
     {
         $exception = InvalidResolverInstantiatorException::fromInvalidInstantiator(null);
 
-        $this->assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
-        $this->assertSame(
+        self::assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
+        self::assertSame(
             'Invalid instantiator given, expected `callable`, `NULL` given.',
             $exception->getMessage()
         );
@@ -55,8 +55,8 @@ class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCas
     {
         $exception = InvalidResolverInstantiatorException::fromInvalidInstantiator($this);
 
-        $this->assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
-        $this->assertSame(
+        self::assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
+        self::assertSame(
             'Invalid instantiator given, expected `callable`, `' . __CLASS__ . '` given.',
             $exception->getMessage()
         );
@@ -66,8 +66,8 @@ class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCas
     {
         $exception = InvalidResolverInstantiatorException::fromInvalidResolver(null);
 
-        $this->assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
-        $this->assertSame(
+        self::assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
+        self::assertSame(
             'Invalid resolver found, expected `Zend\View\Resolver\ResolverInterface`, `NULL` given.',
             $exception->getMessage()
         );
@@ -77,8 +77,8 @@ class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCas
     {
         $exception = InvalidResolverInstantiatorException::fromInvalidResolver($this);
 
-        $this->assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
-        $this->assertSame(
+        self::assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
+        self::assertSame(
             'Invalid resolver found, expected `Zend\View\Resolver\ResolverInterface`, `' . __CLASS__ . '` given.',
             $exception->getMessage()
         );

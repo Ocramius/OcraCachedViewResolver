@@ -87,7 +87,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
             ->with('view-name', $this->renderer)
             ->will($this->returnValue('path/to/script'));
 
-        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
 
     /**
@@ -107,7 +107,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
             ->with('view-name', null)
             ->will($this->returnValue('path/to/script'));
 
-        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name'));
+        self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name'));
     }
 
     /**
@@ -137,8 +137,8 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
             ->with('view-name', $this->renderer)
             ->will($this->returnValue('path/to/script'));
 
-        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
-        $this->assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
 
     /**

@@ -61,10 +61,10 @@ class TemplateMapCompilerFunctionalTest extends PHPUnit_Framework_TestCase
         $template2 = realpath(__DIR__ . '/_files/subdir2/template2.phtml');
         $template4 = realpath(__DIR__ . '/_files/subdir1/valid/template4.phtml');
 
-        $this->assertInternalType('string', $template2);
-        $this->assertInternalType('string', $template4);
+        self::assertInternalType('string', $template2);
+        self::assertInternalType('string', $template4);
 
-        $this->assertSame(
+        self::assertSame(
             [
                 'template2'       => $template2,
                 'valid/template4' => $template4,
@@ -82,8 +82,8 @@ class TemplateMapCompilerFunctionalTest extends PHPUnit_Framework_TestCase
         $template2 = realpath(__DIR__ . '/_files/subdir1/template2.phtml');
         $template4 = realpath(__DIR__ . '/_files/subdir1/valid/template4.phtml');
 
-        $this->assertInternalType('string', $template2);
-        $this->assertInternalType('string', $template4);
+        self::assertInternalType('string', $template2);
+        self::assertInternalType('string', $template4);
 
         // inverse directory order
         $resolver = new TemplatePathStack();
@@ -92,8 +92,8 @@ class TemplateMapCompilerFunctionalTest extends PHPUnit_Framework_TestCase
 
         $map = $this->compiler->compileMap($resolver);
 
-        $this->assertCount(2, $map);
-        $this->assertSame($template2, $map['template2']);
-        $this->assertSame($template4, $map['valid/template4']);
+        self::assertCount(2, $map);
+        self::assertSame($template2, $map['template2']);
+        self::assertSame($template4, $map['valid/template4']);
     }
 }

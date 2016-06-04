@@ -96,14 +96,14 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $factory  = new CompiledMapResolverDelegatorFactory();
         $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);
 
-        $this->assertInstanceOf(AggregateResolver::class, $resolver);
+        self::assertInstanceOf(AggregateResolver::class, $resolver);
 
         $resolvers = $resolver->getIterator()->toArray();
 
-        $this->assertInstanceOf(LazyResolver::class, $resolvers[0]);
-        $this->assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
+        self::assertInstanceOf(LazyResolver::class, $resolvers[0]);
+        self::assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
 
-        $this->assertSame('bar', $resolver->resolve('foo'));
+        self::assertSame('bar', $resolver->resolve('foo'));
     }
 
     public function testCreateServiceWithEmptyCachedTemplateMap()
@@ -117,13 +117,13 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
         $factory  = new CompiledMapResolverDelegatorFactory();
         $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);
 
-        $this->assertInstanceOf(AggregateResolver::class, $resolver);
+        self::assertInstanceOf(AggregateResolver::class, $resolver);
 
         $resolvers = $resolver->getIterator()->toArray();
 
-        $this->assertInstanceOf(LazyResolver::class, $resolvers[0]);
-        $this->assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
+        self::assertInstanceOf(LazyResolver::class, $resolvers[0]);
+        self::assertInstanceOf(CachingMapResolver::class, $resolvers[1]);
 
-        $this->assertSame('baz', $resolver->resolve('bar'));
+        self::assertSame('baz', $resolver->resolve('bar'));
     }
 }

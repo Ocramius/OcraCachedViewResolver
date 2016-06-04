@@ -108,7 +108,7 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
             ->method('setItem')
             ->with($this->cacheKey, ['view-name' => 'path/to/script']);
 
-        $this->assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
     }
 
     public function testResolvingMultipleTimesDoesNotHitResolverInstantiatorOrCache()
@@ -129,9 +129,9 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
             ->method('setItem')
             ->with($this->cacheKey, ['view-name' => 'path/to/script']);
 
-        $this->assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
-        $this->assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
-        $this->assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
     }
 
     public function testResolvingWithNonEmptyCacheWillNotHitResolverInstantiatorOrWriteToCache()
@@ -146,9 +146,9 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
             ->with($this->cacheKey)
             ->will($this->returnValue(['view-name' => 'path/to/cached/script']));
 
-        $this->assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
-        $this->assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
-        $this->assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
+        self::assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
+        self::assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
     }
 
     /**
@@ -168,7 +168,7 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
             ->with('view-name', null)
             ->will($this->returnValue('path/to/script'));
 
-        $this->assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name'));
+        self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name'));
     }
 
     /**

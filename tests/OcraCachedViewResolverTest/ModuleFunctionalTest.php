@@ -105,7 +105,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
 
     public function testDefinedServices()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             StorageInterface::class,
             $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
         );
@@ -113,11 +113,11 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         /* @var $resolver \Zend\View\Resolver\AggregateResolver */
         $resolver = $this->serviceManager->get('ViewResolver');
 
-        $this->assertInstanceOf(AggregateResolver::class, $resolver);
-        $this->assertSame($resolver, $this->serviceManager->get('ViewResolver'));
+        self::assertInstanceOf(AggregateResolver::class, $resolver);
+        self::assertSame($resolver, $this->serviceManager->get('ViewResolver'));
 
         foreach ($resolver->getIterator() as $previousResolver) {
-            $this->assertThat(
+            self::assertThat(
                 $previousResolver,
                 $this->logicalOr(
                     $this->isInstanceOf(CachingMapResolver::class),
@@ -132,15 +132,15 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
         $cache = $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache');
 
-        $this->assertFalse($cache->hasItem('testing_cache_key'));
+        self::assertFalse($cache->hasItem('testing_cache_key'));
 
         /* @var $resolver AggregateResolver */
         $resolver = $this->serviceManager->build('ViewResolver');
 
-        $this->assertFalse($cache->hasItem('testing_cache_key'));
-        $this->assertSame('b', $resolver->resolve('a'));
-        $this->assertTrue($cache->hasItem('testing_cache_key'));
-        $this->assertSame(['a' => 'b'], $cache->getItem('testing_cache_key'));
+        self::assertFalse($cache->hasItem('testing_cache_key'));
+        self::assertSame('b', $resolver->resolve('a'));
+        self::assertTrue($cache->hasItem('testing_cache_key'));
+        self::assertSame(['a' => 'b'], $cache->getItem('testing_cache_key'));
         $this->serviceManager->build('ViewResolver');
     }
 
@@ -156,6 +156,6 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
             ->with('fallback.phtml')
             ->will($this->returnValue('fallback-path.phtml'));
 
-        $this->assertSame('fallback-path.phtml', $resolver->resolve('fallback.phtml'));
+        self::assertSame('fallback-path.phtml', $resolver->resolve('fallback.phtml'));
     }
 }

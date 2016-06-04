@@ -62,7 +62,7 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         /* @var $resolver ResolverInterface */
         $resolver = $this->createMock(ResolverInterface::class);
 
-        $this->assertSame([], $this->compiler->compileMap($resolver));
+        self::assertSame([], $this->compiler->compileMap($resolver));
     }
 
     /**
@@ -81,9 +81,9 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
 
         $map = $this->compiler->compileMap($mapResolver);
 
-        $this->assertCount(2, $map);
-        $this->assertSame('b', $map['a']);
-        $this->assertSame('d', $map['c']);
+        self::assertCount(2, $map);
+        self::assertSame('b', $map['a']);
+        self::assertSame('d', $map['c']);
     }
 
     /**
@@ -119,16 +119,16 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         }));
         $map = $this->compiler->compileMap($templatePathStack);
 
-        $this->assertCount(2, $map);
+        self::assertCount(2, $map);
 
         $template2 = realpath(__DIR__ . '/_files/subdir2/template2.phtml');
         $template4 = realpath(__DIR__ . '/_files/subdir1/valid/template4.phtml');
 
-        $this->assertInternalType('string', $template2);
-        $this->assertInternalType('string', $template4);
+        self::assertInternalType('string', $template2);
+        self::assertInternalType('string', $template4);
 
-        $this->assertSame($template2, $map['template2']);
-        $this->assertSame($template4, $map['valid/template4']);
+        self::assertSame($template2, $map['template2']);
+        self::assertSame($template4, $map['valid/template4']);
     }
 
     /**
@@ -167,11 +167,11 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
 
         $map = $this->compiler->compileMap($aggregateResolver);
 
-        $this->assertCount(5, $map);
-        $this->assertSame('a-value', $map['a']); // should not be overridden
-        $this->assertSame('b-value', $map['b']);
-        $this->assertSame('c-value', $map['c']);
-        $this->assertSame('d-value', $map['d']); // should not be overridden
-        $this->assertSame('e-value', $map['e']);
+        self::assertCount(5, $map);
+        self::assertSame('a-value', $map['a']); // should not be overridden
+        self::assertSame('b-value', $map['b']);
+        self::assertSame('c-value', $map['c']);
+        self::assertSame('d-value', $map['d']); // should not be overridden
+        self::assertSame('e-value', $map['e']);
     }
 }
