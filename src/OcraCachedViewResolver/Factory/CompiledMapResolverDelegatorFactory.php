@@ -26,6 +26,7 @@ use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
 use Zend\View\Resolver\AggregateResolver;
+use Zend\View\Resolver\ResolverInterface;
 
 /**
  * Factory responsible of building a {@see \Zend\View\Resolver\TemplateMapResolver}
@@ -44,8 +45,12 @@ final class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInter
      * @throws ContainerException
      * @throws NotFoundException
      */
-    public function __invoke(ContainerInterface $container, $name, callable $callback, array $options = null)
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        $name,
+        callable $callback,
+        array $options = null
+    ) : ResolverInterface {
         $config = $container->get('Config')[Module::CONFIG];
         /* @var $cache \Zend\Cache\Storage\StorageInterface */
         $cache  = $container->get($config[Module::CONFIG_CACHE_SERVICE]);
