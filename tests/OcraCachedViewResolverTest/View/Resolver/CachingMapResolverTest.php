@@ -136,8 +136,8 @@ class CachingMapResolverTest extends PHPUnit_Framework_TestCase
 
     public function testResolvingWithNonEmptyCacheWillNotHitResolverInstantiatorOrWriteToCache()
     {
-        $this->resolverInstantiator->expects($this->never())->method('__invoke');
-        $this->cache->expects($this->never())->method('setItem');
+        $this->resolverInstantiator->expects(self::never())->method('__invoke');
+        $this->cache->expects(self::never())->method('setItem');
 
         $this
             ->cache

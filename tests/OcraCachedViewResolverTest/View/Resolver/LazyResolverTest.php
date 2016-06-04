@@ -115,7 +115,7 @@ class LazyResolverTest extends PHPUnit_Framework_TestCase
      */
     public function testRealResolverNotCreatedIfNotNeeded()
     {
-        $this->resolverInstantiator->expects($this->never())->method('__invoke');
+        $this->resolverInstantiator->expects(self::never())->method('__invoke');
 
         new LazyResolver($this->resolverInstantiator);
     }

@@ -91,7 +91,7 @@ class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
             ->with('key-name')
             ->will(self::returnValue(['foo' => 'bar']));
 
-        $this->callback->expects($this->never())->method('__invoke');
+        $this->callback->expects(self::never())->method('__invoke');
 
         $factory  = new CompiledMapResolverDelegatorFactory();
         $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);
