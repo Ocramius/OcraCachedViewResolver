@@ -18,11 +18,11 @@
 
 namespace OcraCachedViewResolverTest\View\Resolver;
 
+use Interop\Container\ContainerInterface;
 use OcraCachedViewResolver\Factory\CacheFactory;
 use OcraCachedViewResolver\Module;
 use PHPUnit_Framework_TestCase;
 use Zend\Cache\Storage\Adapter\Memory;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\Factory\CacheFactory}
@@ -38,8 +38,8 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
 {
     public function testCreateService()
     {
-        /* @var $locator ServiceLocatorInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $locator = $this->createMock(ServiceLocatorInterface::class);
+        /* @var $locator ContainerInterface|\PHPUnit_Framework_MockObject_MockObject */
+        $locator = $this->createMock(ContainerInterface::class);
 
         $locator->expects($this->any())->method('get')->with('Config')->will($this->returnValue([
             Module::CONFIG => [
@@ -49,6 +49,6 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
             ],
         ]));
 
-        $this->assertInstanceOf(Memory::class, (new CacheFactory())->createService($locator));
+        $this->assertInstanceOf(Memory::class, (new CacheFactory())->__invoke($locator));
     }
 }
