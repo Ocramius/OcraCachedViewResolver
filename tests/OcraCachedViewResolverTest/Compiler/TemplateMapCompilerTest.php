@@ -75,9 +75,9 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         /* @var $mapResolver TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
         $mapResolver = $this->createMock(TemplateMapResolver::class);
         $mapResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getMap')
-            ->will($this->returnValue(['a' => 'b', 'c' => 'd']));
+            ->will(self::returnValue(['a' => 'b', 'c' => 'd']));
 
         $map = $this->compiler->compileMap($mapResolver);
 
@@ -97,16 +97,16 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         $templatePathStack = $this->createMock(TemplatePathStack::class);
         $paths = $this->createMock(SplStack::class);
         $paths
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('toArray')
-            ->will($this->returnValue([__DIR__ . '/_files/subdir2', __DIR__ . '/_files/subdir1']));
+            ->will(self::returnValue([__DIR__ . '/_files/subdir2', __DIR__ . '/_files/subdir1']));
 
         $templatePathStack
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPaths')
-            ->will($this->returnValue($paths));
+            ->will(self::returnValue($paths));
         $templatePathStack
-        ->expects($this->any())
+        ->expects(self::any())
         ->method('resolve')
         ->will($this->returnCallback(function ($name) {
             $keys = [
@@ -143,27 +143,27 @@ class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
         /* @var $mapResolver1 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
         $mapResolver1 = $this->createMock(TemplateMapResolver::class);
         $mapResolver1
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getMap')
-            ->will($this->returnValue(['a' => 'a-value', 'b' => 'b-value']));
+            ->will(self::returnValue(['a' => 'a-value', 'b' => 'b-value']));
         /* @var $mapResolver2 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
         $mapResolver2 = $this->createMock(TemplateMapResolver::class);
         $mapResolver2
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getMap')
-            ->will($this->returnValue(['c' => 'c-value', 'd' => 'd-value']));
+            ->will(self::returnValue(['c' => 'c-value', 'd' => 'd-value']));
         /* @var $mapResolver3 TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
         $mapResolver3 = $this->createMock(TemplateMapResolver::class);
         $mapResolver3
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getMap')
-            ->will($this->returnValue(['a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value']));
+            ->will(self::returnValue(['a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value']));
 
         $iterator = new ArrayIterator([$mapResolver1, $mapResolver2, $mapResolver3]);
         $aggregateResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getIterator')
-            ->will($this->returnValue($iterator));
+            ->will(self::returnValue($iterator));
 
         $map = $this->compiler->compileMap($aggregateResolver);
 

@@ -89,7 +89,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $mapResolver            = $this->createMock(TemplateMapResolver::class);
         $this->fallbackResolver = $this->createMock(ResolverInterface::class);
 
-        $mapResolver->expects($this->any())->method('getMap')->will($this->returnValue(['a' => 'b']));
+        $mapResolver->expects(self::any())->method('getMap')->will(self::returnValue(['a' => 'b']));
 
         $this->originalResolver->attach($mapResolver, 10);
         $this->originalResolver->attach($this->fallbackResolver, 5);
@@ -154,7 +154,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('resolve')
             ->with('fallback.phtml')
-            ->will($this->returnValue('fallback-path.phtml'));
+            ->will(self::returnValue('fallback-path.phtml'));
 
         self::assertSame('fallback-path.phtml', $resolver->resolve('fallback.phtml'));
     }

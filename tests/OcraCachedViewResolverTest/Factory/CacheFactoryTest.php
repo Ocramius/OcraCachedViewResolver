@@ -41,7 +41,7 @@ class CacheFactoryTest extends PHPUnit_Framework_TestCase
         /* @var $locator ContainerInterface|\PHPUnit_Framework_MockObject_MockObject */
         $locator = $this->createMock(ContainerInterface::class);
 
-        $locator->expects($this->any())->method('get')->with('Config')->will($this->returnValue([
+        $locator->expects(self::any())->method('get')->with('Config')->will(self::returnValue([
             Module::CONFIG => [
                 Module::CONFIG_CACHE_DEFINITION => [
                     'adapter' => Memory::class,
