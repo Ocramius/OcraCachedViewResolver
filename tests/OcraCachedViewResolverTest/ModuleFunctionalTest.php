@@ -21,8 +21,9 @@ namespace OcraCachedViewResolverTest;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use PHPUnit_Framework_TestCase;
-use Zend\ServiceManager\ServiceManager;
+use Zend\Cache\Storage\StorageInterface;
 use Zend\Mvc\Service\ServiceManagerConfig;
+use Zend\ServiceManager\ServiceManager;
 use Zend\View\Resolver\AggregateResolver;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\Resolver\TemplateMapResolver;
@@ -59,13 +60,18 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->serviceManager = new ServiceManager(new ServiceManagerConfig());
+        $this->serviceManager = new ServiceManager();
+
+        (new ServiceManagerConfig())->configureServiceManager($this->serviceManager);
 
         $this->serviceManager->setAllowOverride(true);
         $this->serviceManager->setService(
             'ApplicationConfig',
             [
-                'modules' => ['OcraCachedViewResolver'],
+                'modules' => [
+                    'Zend\Router',
+                    'OcraCachedViewResolver',
+                ],
                 'module_listener_options' => [
                     'config_glob_paths'    => [
                         __DIR__ . '/../testing.config.php',
@@ -100,7 +106,7 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
     public function testDefinedServices()
     {
         $this->assertInstanceOf(
-            'Zend\\Cache\\Storage\\StorageInterface',
+            StorageInterface::class,
             $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
         );
 
@@ -129,13 +135,13 @@ class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($cache->hasItem('testing_cache_key'));
 
         /* @var $resolver AggregateResolver */
-        $resolver = $this->serviceManager->create('ViewResolver');
+        $resolver = $this->serviceManager->build('ViewResolver');
 
         $this->assertFalse($cache->hasItem('testing_cache_key'));
         $this->assertSame('b', $resolver->resolve('a'));
         $this->assertTrue($cache->hasItem('testing_cache_key'));
         $this->assertSame(['a' => 'b'], $cache->getItem('testing_cache_key'));
-        $this->serviceManager->create('ViewResolver');
+        $this->serviceManager->build('ViewResolver');
     }
 
     public function testFallbackResolverCall()
