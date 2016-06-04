@@ -19,16 +19,15 @@
     ],
     "require": {
         "php": "~5.5|~7.0",
-        "zendframework/zend-servicemanager": "~2.3",
-        "zendframework/zend-mvc": "~2.3",
-        "zendframework/zend-view": "~2.3",
-        "zendframework/zend-cache": "~2.3",
-        "zendframework/zend-config": "~2.3"
+        "zendframework/zend-servicemanager": "^3.1.0",
+        "zendframework/zend-mvc": "^3.0",
+        "zendframework/zend-view": "^2.7",
+        "zendframework/zend-cache": "^2.7.1",
+        "zendframework/zend-config": "^2.6"
     },
     "require-dev": {
-        "phpunit/phpunit":             "~4.0",
-        "squizlabs/php_codesniffer":   "~2.0",
-        "zendframework/zendframework": "2.*"
+        "phpunit/phpunit":             "^5.4.2",
+        "squizlabs/php_codesniffer":   "~2.6.1"
     },
     "autoload": {
         "psr-0": {
