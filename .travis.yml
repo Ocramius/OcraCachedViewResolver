@@ -7,17 +7,23 @@ php:
   - hhvm
 
 env:
+  global:
+    - COMPOSER_ADDITIONAL_ARGS=""
   matrix:
     - DEPENDENCIES=""
     - DEPENDENCIES="--prefer-lowest --prefer-stable"
 
 matrix:
+  include:
+    - php: hhvm
+      env:
+        - COMPOSER_ADDITIONAL_ARGS="--ignore-platform-reqs"
   allow_failures:
     - php: hhvm
 
 before_script:
   - composer self-update
-  - composer update --prefer-source $DEPENDENCIES
+  - composer update --prefer-source $DEPENDENCIES $COMPOSER_ADDITIONAL_ARGS
 
 script:
   - ./vendor/bin/phpunit --coverage-clover ./clover.xml
