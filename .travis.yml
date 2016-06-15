@@ -14,7 +14,6 @@ env:
 matrix:
   include:
     - php: 7.0
-    - php: 7.0
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
     - php: hhvm
@@ -24,7 +23,7 @@ matrix:
       env:
         - DEPENDENCIES="--prefer-lowest --prefer-stable"
         - COMPOSER_ADDITIONAL_ARGS="--ignore-platform-reqs"
-  exlude:
+  exclude:
     - php: hhvm
   allow_failures:
     - php: hhvm
