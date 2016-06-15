@@ -13,7 +13,7 @@ return [
         // configuration to be passed to `Zend\Cache\StorageFactory#factory()`
         // see http://framework.zend.com/manual/2.3/en/modules/zend.cache.storage.adapter.html#quick-start
         // Used to instantiate service `'OcraCachedViewResolver\\Cache\\ResolverCache'`
-        'cache' => [
+        Module::CONFIG_CACHE_DEFINITION => [
             'adapter' => [
                 'name'    => 'apc',
                 'options' => [
