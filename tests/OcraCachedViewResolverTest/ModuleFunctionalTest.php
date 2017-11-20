@@ -22,7 +22,7 @@ use Interop\Container\Exception\ContainerException;
 use Interop\Container\Exception\NotFoundException;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;
@@ -40,7 +40,7 @@ use Zend\View\Resolver\TemplateMapResolver;
  *
  * @coversNothing
  */
-class ModuleFunctionalTest extends PHPUnit_Framework_TestCase
+class ModuleFunctionalTest extends TestCase
 {
     /**
      * @var ServiceManager

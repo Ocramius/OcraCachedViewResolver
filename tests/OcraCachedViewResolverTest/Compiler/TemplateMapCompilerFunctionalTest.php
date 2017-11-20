@@ -18,7 +18,7 @@
 
 namespace OcraCachedViewResolverTest\Compiler;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
 use Zend\View\Resolver\TemplatePathStack;
 
@@ -31,7 +31,7 @@ use Zend\View\Resolver\TemplatePathStack;
  * @group Functional
  * @coversNothing
  */
-class TemplateMapCompilerFunctionalTest extends PHPUnit_Framework_TestCase
+class TemplateMapCompilerFunctionalTest extends TestCase
 {
     /**
      * @var TemplateMapCompiler

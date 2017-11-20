@@ -19,7 +19,7 @@
 namespace OcraCachedViewResolverTest;
 
 use OcraCachedViewResolver\Module;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\Module}
@@ -29,7 +29,7 @@ use PHPUnit_Framework_TestCase;
  *
  * @covers \OcraCachedViewResolver\Module
  */
-class ModuleTest extends PHPUnit_Framework_TestCase
+class ModuleTest extends TestCase
 {
     public function testConfigIsAnArray()
     {
