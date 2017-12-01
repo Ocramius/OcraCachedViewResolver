@@ -19,7 +19,7 @@
 namespace OcraCachedViewResolverTest\View\Resolver\Exception;
 
 use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException}
@@ -30,7 +30,7 @@ use PHPUnit_Framework_TestCase;
  * @covers \OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException
  * @covers \OcraCachedViewResolver\View\Resolver\Exception\ExceptionInterface
  */
-class InvalidResolverInstantiatorExceptionTest extends PHPUnit_Framework_TestCase
+class InvalidResolverInstantiatorExceptionTest extends TestCase
 {
     public function testInstanceOfBaseExceptionInterface()
     {

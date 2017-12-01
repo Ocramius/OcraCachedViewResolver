@@ -23,7 +23,7 @@ use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 use OcraCachedViewResolver\Module;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\View\Resolver\AggregateResolver;
@@ -39,7 +39,7 @@ use Zend\View\Resolver\TemplateMapResolver;
  *
  * @covers \OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory
  */
-class CompiledMapResolverDelegatorFactoryTest extends PHPUnit_Framework_TestCase
+class CompiledMapResolverDelegatorFactoryTest extends TestCase
 {
     /**
      * @var ContainerInterface|\PHPUnit_Framework_MockObject_MockObject

@@ -19,7 +19,7 @@
 namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use stdClass;
 use Zend\View\Renderer\RendererInterface;
@@ -35,7 +35,7 @@ use Zend\View\Resolver\ResolverInterface;
  *
  * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver
  */
-class LazyResolverTest extends PHPUnit_Framework_TestCase
+class LazyResolverTest extends TestCase
 {
     /**
      * @var callable|\PHPUnit_Framework_MockObject_MockObject

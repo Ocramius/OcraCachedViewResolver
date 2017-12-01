@@ -19,7 +19,7 @@
 namespace OcraCachedViewResolverTest\Compiler;
 
 use ArrayIterator;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
 use Zend\Stdlib\SplStack;
 use Zend\View\Resolver\AggregateResolver;
@@ -37,7 +37,7 @@ use Zend\View\Resolver\TemplatePathStack;
  *
  * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler
  */
-class TemplateMapCompilerTest extends PHPUnit_Framework_TestCase
+class TemplateMapCompilerTest extends TestCase
 {
     /**
      * @var TemplateMapCompiler

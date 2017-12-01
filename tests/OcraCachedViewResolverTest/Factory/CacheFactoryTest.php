@@ -21,7 +21,7 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 use Interop\Container\ContainerInterface;
 use OcraCachedViewResolver\Factory\CacheFactory;
 use OcraCachedViewResolver\Module;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Cache\Storage\Adapter\Memory;
 
 /**
@@ -34,7 +34,7 @@ use Zend\Cache\Storage\Adapter\Memory;
  *
  * @covers \OcraCachedViewResolver\Factory\CacheFactory
  */
-class CacheFactoryTest extends PHPUnit_Framework_TestCase
+class CacheFactoryTest extends TestCase
 {
     public function testCreateService()
     {
