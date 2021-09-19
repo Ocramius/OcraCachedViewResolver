@@ -20,9 +20,9 @@ namespace OcraCachedViewResolver;
 
 use OcraCachedViewResolver\Factory\CacheFactory;
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
-use Zend\Cache\Storage\Adapter\Apc;
-use Zend\Cache\Storage\Adapter\BlackHole;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Laminas\Cache\Storage\Adapter\Apc;
+use Laminas\Cache\Storage\Adapter\BlackHole;
+use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 
 /**
  * OcraCachedViewResolver module
@@ -39,7 +39,7 @@ final class Module implements ConfigProviderInterface
 
     /**
      * Name of the config key referencing the array with cache definitions to be passed to
-     * the {@see \Zend\Cache\StorageFactory}
+     * the {@see \Laminas\Cache\StorageFactory}
      */
     const CONFIG_CACHE_DEFINITION = 'cache';
 

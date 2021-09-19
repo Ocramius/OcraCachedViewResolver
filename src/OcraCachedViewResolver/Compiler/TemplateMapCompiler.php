@@ -22,17 +22,17 @@ use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
-use Zend\Stdlib\ArrayUtils;
-use Zend\View\Resolver\AggregateResolver;
-use Zend\View\Resolver\ResolverInterface;
-use Zend\View\Resolver\TemplateMapResolver;
-use Zend\View\Resolver\TemplatePathStack;
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\ResolverInterface;
+use Laminas\View\Resolver\TemplateMapResolver;
+use Laminas\View\Resolver\TemplatePathStack;
 
 /**
  * Template map generator that can build template map arrays from either
- * an {@see \Zend\View\Resolver\TemplateMapResolver}, a
- * {@see \Zend\View\Resolver\TemplatePathStack} or a
- * {@see \Zend\View\Resolver\AggregateResolver}
+ * an {@see \Laminas\View\Resolver\TemplateMapResolver}, a
+ * {@see \Laminas\View\Resolver\TemplatePathStack} or a
+ * {@see \Laminas\View\Resolver\AggregateResolver}
  *
  * @author  Marco Pivetta <ocramius@gmail.com>
  * @license MIT
@@ -47,7 +47,7 @@ class TemplateMapCompiler
      *
      * @return array
      *
-     * @throws \Zend\View\Exception\DomainException
+     * @throws \Laminas\View\Exception\DomainException
      */
     public function compileMap(ResolverInterface $resolver) : array
     {
@@ -83,7 +83,7 @@ class TemplateMapCompiler
      *
      * @return array
      *
-     * @throws \Zend\View\Exception\DomainException
+     * @throws \Laminas\View\Exception\DomainException
      */
     protected function compileFromTemplatePathStack(TemplatePathStack $resolver) : array
     {
@@ -119,7 +119,7 @@ class TemplateMapCompiler
      *
      * @return void
      *
-     * @throws \Zend\View\Exception\DomainException
+     * @throws \Laminas\View\Exception\DomainException
      */
     private function addResolvedPath(SplFileInfo $file, array & $map, $basePath, TemplatePathStack $resolver)
     {

@@ -20,11 +20,12 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Resolver\TemplateMapResolver;
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\TemplateMapResolver;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\View\Resolver\CachingMapResolver}
@@ -39,22 +40,22 @@ use Zend\View\Resolver\TemplateMapResolver;
 class CachingMapResolverTest extends TestCase
 {
     /**
-     * @var callable|\PHPUnit_Framework_MockObject_MockObject
+     * @var callable&MockObject
      */
     private $resolverInstantiator;
 
     /**
-     * @var TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var TemplateMapResolver&MockObject
      */
     private $realResolver;
 
     /**
-     * @var RendererInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var RendererInterface&MockObject
      */
     private $renderer;
 
     /**
-     * @var StorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var StorageInterface&MockObject
      */
     private $cache;
 
@@ -68,13 +69,10 @@ class CachingMapResolverTest extends TestCase
      */
     private $cachingMapResolver;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws \PHPUnit_Framework_Exception
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
+
         $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
         $this->realResolver         = $this->createMock(TemplateMapResolver::class);
         $this->renderer             = $this->createMock(RendererInterface::class);

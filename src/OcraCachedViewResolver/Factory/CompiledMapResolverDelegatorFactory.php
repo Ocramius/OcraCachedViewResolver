@@ -24,12 +24,12 @@ use Interop\Container\Exception\NotFoundException;
 use OcraCachedViewResolver\Module;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
-use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
-use Zend\View\Resolver\AggregateResolver;
-use Zend\View\Resolver\ResolverInterface;
+use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\ResolverInterface;
 
 /**
- * Factory responsible of building a {@see \Zend\View\Resolver\TemplateMapResolver}
+ * Factory responsible of building a {@see \Laminas\View\Resolver\TemplateMapResolver}
  * from cached template definitions
  *
  * @author  Marco Pivetta <ocramius@gmail.com>
@@ -52,7 +52,7 @@ final class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInter
         array $options = null
     ) : ResolverInterface {
         $config = $container->get('Config')[Module::CONFIG];
-        /* @var $cache \Zend\Cache\Storage\StorageInterface */
+        /* @var $cache \Laminas\Cache\Storage\StorageInterface */
         $cache  = $container->get($config[Module::CONFIG_CACHE_SERVICE]);
 
         $resolver = new AggregateResolver();

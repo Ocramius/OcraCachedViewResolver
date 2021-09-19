@@ -22,12 +22,12 @@ use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Interop\Container\Exception\NotFoundException;
 use OcraCachedViewResolver\Module;
-use Zend\Cache\Exception\InvalidArgumentException;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\Cache\StorageFactory;
+use Laminas\Cache\Exception\InvalidArgumentException;
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\Cache\StorageFactory;
 
 /**
- * Factory responsible of building a {@see \Zend\Cache\Storage\StorageInterface}
+ * Factory responsible of building a {@see \Laminas\Cache\Storage\StorageInterface}
  * for the resolver
  *
  * @author  Marco Pivetta <ocramius@gmail.com>

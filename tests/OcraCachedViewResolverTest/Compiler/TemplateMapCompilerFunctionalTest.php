@@ -20,7 +20,7 @@ namespace OcraCachedViewResolverTest\Compiler;
 
 use PHPUnit\Framework\TestCase;
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
-use Zend\View\Resolver\TemplatePathStack;
+use Laminas\View\Resolver\TemplatePathStack;
 
 /**
  * Template map compiler functional tests
@@ -41,7 +41,7 @@ class TemplateMapCompilerFunctionalTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +52,7 @@ class TemplateMapCompilerFunctionalTest extends TestCase
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
      *
-     * @throws \Zend\View\Exception\InvalidArgumentException
+     * @throws \Laminas\View\Exception\InvalidArgumentException
      */
     public function testCompileFromTemplatePathStack()
     {
@@ -63,8 +63,8 @@ class TemplateMapCompilerFunctionalTest extends TestCase
         $template2 = realpath(__DIR__ . '/_files/subdir2/template2.phtml');
         $template4 = realpath(__DIR__ . '/_files/subdir1/valid/template4.phtml');
 
-        self::assertInternalType('string', $template2);
-        self::assertInternalType('string', $template4);
+        self::assertIsString($template2);
+        self::assertIsString($template4);
 
         self::assertSame(
             [
@@ -79,15 +79,15 @@ class TemplateMapCompilerFunctionalTest extends TestCase
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
      *
-     * @throws \Zend\View\Exception\InvalidArgumentException
+     * @throws \Laminas\View\Exception\InvalidArgumentException
      */
     public function testCompileFromTemplatePathStackWithDifferentPaths()
     {
         $template2 = realpath(__DIR__ . '/_files/subdir1/template2.phtml');
         $template4 = realpath(__DIR__ . '/_files/subdir1/valid/template4.phtml');
 
-        self::assertInternalType('string', $template2);
-        self::assertInternalType('string', $template4);
+        self::assertIsString($template2);
+        self::assertIsString($template4);
 
         // inverse directory order
         $resolver = new TemplatePathStack();

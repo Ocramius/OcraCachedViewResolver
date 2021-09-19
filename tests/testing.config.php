@@ -17,7 +17,7 @@
  */
 
 use OcraCachedViewResolver\Module;
-use Zend\Cache\Storage\Adapter\Memory;
+use Laminas\Cache\Storage\Adapter\Memory;
 
 return [
     Module::CONFIG => [

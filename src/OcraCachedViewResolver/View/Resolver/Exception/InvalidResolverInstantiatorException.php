@@ -19,7 +19,7 @@
 namespace OcraCachedViewResolver\View\Resolver\Exception;
 
 use InvalidArgumentException;
-use Zend\View\Resolver\ResolverInterface;
+use Laminas\View\Resolver\ResolverInterface;
 
 /**
  * Exception for invalid instantiators

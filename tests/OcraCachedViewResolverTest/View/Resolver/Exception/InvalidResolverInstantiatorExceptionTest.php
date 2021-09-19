@@ -68,7 +68,7 @@ class InvalidResolverInstantiatorExceptionTest extends TestCase
 
         self::assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
         self::assertSame(
-            'Invalid resolver found, expected `Zend\View\Resolver\ResolverInterface`, `NULL` given.',
+            'Invalid resolver found, expected `Laminas\View\Resolver\ResolverInterface`, `NULL` given.',
             $exception->getMessage()
         );
     }
@@ -79,7 +79,7 @@ class InvalidResolverInstantiatorExceptionTest extends TestCase
 
         self::assertInstanceOf(InvalidResolverInstantiatorException::class, $exception);
         self::assertSame(
-            'Invalid resolver found, expected `Zend\View\Resolver\ResolverInterface`, `' . __CLASS__ . '` given.',
+            'Invalid resolver found, expected `Laminas\View\Resolver\ResolverInterface`, `' . __CLASS__ . '` given.',
             $exception->getMessage()
         );
     }

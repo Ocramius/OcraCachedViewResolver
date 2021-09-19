@@ -20,9 +20,9 @@ namespace OcraCachedViewResolver\View\Resolver;
 
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
 use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Resolver\ResolverInterface;
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
 
 /**
  * OcraCachedViewResolver module

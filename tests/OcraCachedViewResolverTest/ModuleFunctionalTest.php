@@ -22,13 +22,14 @@ use Interop\Container\Exception\ContainerException;
 use Interop\Container\Exception\NotFoundException;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\Mvc\Service\ServiceManagerConfig;
-use Zend\ServiceManager\ServiceManager;
-use Zend\View\Resolver\AggregateResolver;
-use Zend\View\Resolver\ResolverInterface;
-use Zend\View\Resolver\TemplateMapResolver;
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\Mvc\Service\ServiceManagerConfig;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\ResolverInterface;
+use Laminas\View\Resolver\TemplateMapResolver;
 
 /**
  * Functional test to verify that the module initializes services correctly
@@ -48,24 +49,25 @@ class ModuleFunctionalTest extends TestCase
     protected $serviceManager;
 
     /**
-     * @var AggregateResolver|\Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
+     * @var AggregateResolver&\Laminas\View\Resolver\ResolverInterface&MockObject;
      */
     protected $originalResolver;
 
     /**
-     * @var \Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject;
+     * @var \Laminas\View\Resolver\ResolverInterface&MockObject;
      */
     protected $fallbackResolver;
 
     /**
      * {@inheritDoc}
      *
-     * @throws \PHPUnit_Framework_Exception
      * @throws ContainerException
      * @throws NotFoundException
      */
-    public function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
+
         $this->serviceManager = new ServiceManager();
 
         (new ServiceManagerConfig())->configureServiceManager($this->serviceManager);
@@ -75,7 +77,7 @@ class ModuleFunctionalTest extends TestCase
             'ApplicationConfig',
             [
                 'modules' => [
-                    'Zend\Router',
+                    'Laminas\Router',
                     'OcraCachedViewResolver',
                 ],
                 'module_listener_options' => [
@@ -86,12 +88,11 @@ class ModuleFunctionalTest extends TestCase
             ]
         );
 
-        /* @var $moduleManager \Zend\ModuleManager\ModuleManager */
+        /* @var $moduleManager \Laminas\ModuleManager\ModuleManager */
         $moduleManager = $this->serviceManager->get('ModuleManager');
         $moduleManager->loadModules();
 
         $this->originalResolver = new AggregateResolver();
-        /* @var $mapResolver TemplateMapResolver|\PHPUnit_Framework_MockObject_MockObject */
         $mapResolver            = $this->createMock(TemplateMapResolver::class);
         $this->fallbackResolver = $this->createMock(ResolverInterface::class);
 
@@ -116,7 +117,7 @@ class ModuleFunctionalTest extends TestCase
             $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
         );
 
-        /* @var $resolver \Zend\View\Resolver\AggregateResolver */
+        /* @var $resolver \Laminas\View\Resolver\AggregateResolver */
         $resolver = $this->serviceManager->get('ViewResolver');
 
         self::assertInstanceOf(AggregateResolver::class, $resolver);
@@ -135,7 +136,7 @@ class ModuleFunctionalTest extends TestCase
 
     public function testCachesResolvedTemplates()
     {
-        /* @var $cache \Zend\Cache\Storage\StorageInterface */
+        /* @var $cache \Laminas\Cache\Storage\StorageInterface */
         $cache = $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache');
 
         self::assertFalse($cache->hasItem('testing_cache_key'));
@@ -152,7 +153,7 @@ class ModuleFunctionalTest extends TestCase
 
     public function testFallbackResolverCall()
     {
-        /* @var $resolver \Zend\View\Resolver\TemplateMapResolver */
+        /* @var $resolver \Laminas\View\Resolver\TemplateMapResolver */
         $resolver = $this->serviceManager->get('ViewResolver');
 
         $this

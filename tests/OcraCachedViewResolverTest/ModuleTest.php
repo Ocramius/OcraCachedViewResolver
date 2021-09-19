@@ -33,7 +33,7 @@ class ModuleTest extends TestCase
 {
     public function testConfigIsAnArray()
     {
-        self::assertInternalType('array', (new Module())->getConfig());
+        self::assertIsArray((new Module())->getConfig());
     }
 
     public function testConfigIsSerializable()

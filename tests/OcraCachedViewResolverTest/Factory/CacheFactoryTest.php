@@ -22,7 +22,7 @@ use Interop\Container\ContainerInterface;
 use OcraCachedViewResolver\Factory\CacheFactory;
 use OcraCachedViewResolver\Module;
 use PHPUnit\Framework\TestCase;
-use Zend\Cache\Storage\Adapter\Memory;
+use Laminas\Cache\Storage\Adapter\Memory;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\Factory\CacheFactory}
@@ -38,10 +38,9 @@ class CacheFactoryTest extends TestCase
 {
     public function testCreateService()
     {
-        /* @var $locator ContainerInterface|\PHPUnit_Framework_MockObject_MockObject */
         $locator = $this->createMock(ContainerInterface::class);
 
-        $locator->expects(self::any())->method('get')->with('Config')->will(self::returnValue([
+        $locator->method('get')->with('Config')->will(self::returnValue([
             Module::CONFIG => [
                 Module::CONFIG_CACHE_DEFINITION => [
                     'adapter' => Memory::class,

@@ -19,11 +19,12 @@
 namespace OcraCachedViewResolverTest\View\Resolver;
 
 use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
 use stdClass;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Resolver\ResolverInterface;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\View\Resolver\LazyResolver}
@@ -38,17 +39,17 @@ use Zend\View\Resolver\ResolverInterface;
 class LazyResolverTest extends TestCase
 {
     /**
-     * @var callable|\PHPUnit_Framework_MockObject_MockObject
+     * @var callable&MockObject
      */
     private $resolverInstantiator;
 
     /**
-     * @var \Zend\View\Resolver\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Laminas\View\Resolver\ResolverInterface&MockObject
      */
     private $realResolver;
 
     /**
-     * @var \Zend\View\Renderer\RendererInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Laminas\View\Renderer\RendererInterface&MockObject
      */
     private $renderer;
 
@@ -57,22 +58,16 @@ class LazyResolverTest extends TestCase
      */
     private $lazyResolver;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws \PHPUnit_Framework_Exception
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
+
         $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
         $this->realResolver         = $this->createMock(ResolverInterface::class);
         $this->renderer             = $this->createMock(RendererInterface::class);
         $this->lazyResolver         = new LazyResolver($this->resolverInstantiator);
     }
 
-    /**
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
-     */
     public function testResolve()
     {
         $this
@@ -90,9 +85,6 @@ class LazyResolverTest extends TestCase
         self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
 
-    /**
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
-     */
     public function testResolveWithoutRenderer()
     {
         $this
@@ -102,7 +94,6 @@ class LazyResolverTest extends TestCase
             ->will(self::returnValue($this->realResolver));
         $this
             ->realResolver
-            ->expects(self::any())
             ->method('resolve')
             ->with('view-name', null)
             ->will(self::returnValue('path/to/script'));
@@ -110,9 +101,6 @@ class LazyResolverTest extends TestCase
         self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name'));
     }
 
-    /**
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::__construct
-     */
     public function testRealResolverNotCreatedIfNotNeeded()
     {
         $this->resolverInstantiator->expects(self::never())->method('__invoke');
@@ -120,9 +108,6 @@ class LazyResolverTest extends TestCase
         new LazyResolver($this->resolverInstantiator);
     }
 
-    /**
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
-     */
     public function testResolveCausesRealResolverInstantiationOnlyOnce()
     {
         $this
@@ -141,9 +126,6 @@ class LazyResolverTest extends TestCase
         self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
 
-    /**
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
-     */
     public function testLazyResolverRefusesNonCallableInstantiator()
     {
         $this->expectException(InvalidResolverInstantiatorException::class);
@@ -151,9 +133,6 @@ class LazyResolverTest extends TestCase
         new LazyResolver($this);
     }
 
-    /**
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
-     */
     public function testLazyResolverRefusesInvalidRealResolver()
     {
         $this

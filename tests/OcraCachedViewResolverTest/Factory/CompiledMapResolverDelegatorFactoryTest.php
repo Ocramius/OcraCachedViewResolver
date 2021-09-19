@@ -23,11 +23,12 @@ use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 use OcraCachedViewResolver\Module;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\View\Resolver\AggregateResolver;
-use Zend\View\Resolver\TemplateMapResolver;
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\TemplateMapResolver;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory}
@@ -42,32 +43,29 @@ use Zend\View\Resolver\TemplateMapResolver;
 class CompiledMapResolverDelegatorFactoryTest extends TestCase
 {
     /**
-     * @var ContainerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var ContainerInterface&MockObject
      */
     private $locator;
 
     /**
-     * @var callable|\PHPUnit_Framework_MockObject_MockObject
+     * @var callable&MockObject
      */
     private $callback;
 
     /**
-     * @var StorageInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var StorageInterface&MockObject
      */
     private $cache;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws \PHPUnit_Framework_Exception
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
+        parent::setUp();
+
         $this->locator  = $this->createMock(ContainerInterface::class);
         $this->callback = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
         $this->cache    = $this->createMock(StorageInterface::class);
 
-        $this->locator->expects(self::any())->method('get')->will(self::returnValueMap([
+        $this->locator->method('get')->will(self::returnValueMap([
             [
                 'Config',
                 [

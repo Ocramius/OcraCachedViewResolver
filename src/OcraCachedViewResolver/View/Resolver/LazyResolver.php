@@ -19,8 +19,8 @@
 namespace OcraCachedViewResolver\View\Resolver;
 
 use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Resolver\ResolverInterface;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
 
 /**
  * Lazy resolver, only instantiates the actual resolver if it is needed
