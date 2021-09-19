@@ -16,6 +16,7 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 
 use function assert;
+use function is_string;
 use function pathinfo;
 use function realpath;
 use function str_replace;
@@ -63,6 +64,7 @@ class TemplateMapCompiler
 
         foreach ($resolver->getIterator() as $queuedResolver) {
             assert($queuedResolver instanceof ResolverInterface);
+            /** @psalm-var array<string, string> $map */
             $map = ArrayUtils::merge($this->compileMap($queuedResolver), $map);
         }
 
@@ -79,7 +81,9 @@ class TemplateMapCompiler
         $map = [];
 
         foreach ($resolver->getPaths()->toArray() as $path) {
-            $path     = realpath($path);
+            assert(is_string($path));
+            $path = realpath($path);
+            /** @var iterable<SplFileInfo> $iterator */
             $iterator = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::LEAVES_ONLY
@@ -93,7 +97,11 @@ class TemplateMapCompiler
         return $map;
     }
 
-    /** @psalm-return array<string, string> */
+    /**
+     * @psalm-return array<string, string>
+     *
+     * @psalm-suppress MixedReturnTypeCoercion the {@see TemplateMapResolver} does not have refined type declarations
+     */
     protected function compileFromTemplateMapResolver(TemplateMapResolver $resolver): array
     {
         return $resolver->getMap();

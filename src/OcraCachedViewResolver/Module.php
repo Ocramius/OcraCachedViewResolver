@@ -12,6 +12,14 @@ use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 
 /**
  * OcraCachedViewResolver module
+ *
+ * @psalm-type OcraCachedViewResolverConfiguration = array{
+ *   ocra_cached_view_resolver: array{
+ *     cache: array,
+ *     cached_template_map_key: non-empty-string,
+ *     cache_service: non-empty-string,
+ *   },
+ * }
  */
 final class Module implements ConfigProviderInterface
 {

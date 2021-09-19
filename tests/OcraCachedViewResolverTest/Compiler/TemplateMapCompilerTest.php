@@ -46,7 +46,7 @@ class TemplateMapCompilerTest extends TestCase
         $mapResolver = $this->createMock(TemplateMapResolver::class);
         $mapResolver
             ->method('getMap')
-            ->will(self::returnValue(['a' => 'b', 'c' => 'd']));
+            ->willReturn(['a' => 'b', 'c' => 'd']);
 
         $map = $this->compiler->compileMap($mapResolver);
 
@@ -61,14 +61,14 @@ class TemplateMapCompilerTest extends TestCase
         $paths             = $this->createMock(SplStack::class);
         $paths
             ->method('toArray')
-            ->will(self::returnValue([__DIR__ . '/_files/subdir2', __DIR__ . '/_files/subdir1']));
+            ->willReturn([__DIR__ . '/_files/subdir2', __DIR__ . '/_files/subdir1']);
 
         $templatePathStack
             ->method('getPaths')
-            ->will(self::returnValue($paths));
+            ->willReturn($paths);
         $templatePathStack
         ->method('resolve')
-        ->willReturnCallback(static function ($name) {
+        ->willReturnCallback(static function (string $name) {
             $keys = [
                 'template2'       => __DIR__ . '/_files/subdir2/template2.phtml',
                 'template3'       => false,
@@ -97,20 +97,20 @@ class TemplateMapCompilerTest extends TestCase
         $mapResolver1      = $this->createMock(TemplateMapResolver::class);
         $mapResolver1
             ->method('getMap')
-            ->will(self::returnValue(['a' => 'a-value', 'b' => 'b-value']));
+            ->willReturn(['a' => 'a-value', 'b' => 'b-value']);
         $mapResolver2 = $this->createMock(TemplateMapResolver::class);
         $mapResolver2
             ->method('getMap')
-            ->will(self::returnValue(['c' => 'c-value', 'd' => 'd-value']));
+            ->willReturn(['c' => 'c-value', 'd' => 'd-value']);
         $mapResolver3 = $this->createMock(TemplateMapResolver::class);
         $mapResolver3
             ->method('getMap')
-            ->will(self::returnValue(['a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value']));
+            ->willReturn(['a' => 'override-a-value', 'd' => 'override-d-value', 'e' => 'e-value']);
 
         $iterator = new ArrayIterator([$mapResolver1, $mapResolver2, $mapResolver3]);
         $aggregateResolver
             ->method('getIterator')
-            ->will(self::returnValue($iterator));
+            ->willReturn($iterator);
 
         $map = $this->compiler->compileMap($aggregateResolver);
 

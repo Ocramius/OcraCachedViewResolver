@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace OcraCachedViewResolver\Factory;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Interop\Container\Exception\NotFoundException;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 use Laminas\View\Resolver\AggregateResolver;
@@ -20,29 +18,32 @@ use function assert;
 /**
  * Factory responsible of building a {@see \Laminas\View\Resolver\TemplateMapResolver}
  * from cached template definitions
+ *
+ * @see Module
+ *
+ * @psalm-import-type OcraCachedViewResolverConfiguration from Module
  */
 final class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     *
-     * @return AggregateResolver
-     *
-     * @throws ContainerException
-     * @throws NotFoundException
-     */
+    /** {@inheritDoc} */
     public function __invoke(
         ContainerInterface $container,
         $name,
         callable $callback,
         ?array $options = null
     ): ResolverInterface {
-        $config = $container->get('Config')[Module::CONFIG];
-        $cache  = $container->get($config[Module::CONFIG_CACHE_SERVICE]);
+        /** @psalm-var OcraCachedViewResolverConfiguration $allConfig */
+        $allConfig = $container->get('Config');
+        $config    = $allConfig[Module::CONFIG];
+        $cache     = $container->get($config[Module::CONFIG_CACHE_SERVICE]);
         assert($cache instanceof StorageInterface);
 
         $resolver = new AggregateResolver();
 
+//phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
+//phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.NoAssignment
+        /** @var callable(): ResolverInterface $callback */
+//phpcs:enable
         $resolver->attach(new LazyResolver($callback), 50);
         $resolver->attach(new CachingMapResolver($cache, $config[Module::CONFIG_CACHE_KEY], $callback), 100);
 

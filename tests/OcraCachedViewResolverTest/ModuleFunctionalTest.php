@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace OcraCachedViewResolverTest;
 
-use Interop\Container\Exception\ContainerException;
-use Interop\Container\Exception\NotFoundException;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\Service\ServiceManagerConfig;
@@ -30,18 +28,12 @@ class ModuleFunctionalTest extends TestCase
 {
     protected ServiceManager $serviceManager;
 
-    /** @var AggregateResolver&ResolverInterface&MockObject ; */
-    protected $originalResolver;
+    /** @var AggregateResolver ; */
+    protected AggregateResolver $originalResolver;
 
     /** @var ResolverInterface&MockObject ; */
     protected $fallbackResolver;
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws ContainerException
-     * @throws NotFoundException
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -74,7 +66,7 @@ class ModuleFunctionalTest extends TestCase
         $mapResolver            = $this->createMock(TemplateMapResolver::class);
         $this->fallbackResolver = $this->createMock(ResolverInterface::class);
 
-        $mapResolver->expects(self::any())->method('getMap')->will(self::returnValue(['a' => 'b']));
+        $mapResolver->method('getMap')->willReturn(['a' => 'b']);
 
         $this->originalResolver->attach($mapResolver, 10);
         $this->originalResolver->attach($this->fallbackResolver, 5);
@@ -102,6 +94,7 @@ class ModuleFunctionalTest extends TestCase
         self::assertSame($resolver, $this->serviceManager->get('ViewResolver'));
 
         foreach ($resolver->getIterator() as $previousResolver) {
+            assert($previousResolver instanceof ResolverInterface);
             self::assertThat(
                 $previousResolver,
                 self::logicalOr(
@@ -140,7 +133,7 @@ class ModuleFunctionalTest extends TestCase
             ->expects(self::once())
             ->method('resolve')
             ->with('fallback.phtml')
-            ->will(self::returnValue('fallback-path.phtml'));
+            ->willReturn('fallback-path.phtml');
 
         self::assertSame('fallback-path.phtml', $resolver->resolve('fallback.phtml'));
     }

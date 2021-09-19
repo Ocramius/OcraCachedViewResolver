@@ -6,9 +6,9 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
 use Laminas\View\Resolver\TemplateMapResolver;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
-use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -21,8 +21,7 @@ use stdClass;
  */
 class CachingMapResolverTest extends TestCase
 {
-    /** @var callable&MockObject */
-    private $resolverInstantiator;
+    private MockObject $resolverInstantiator;
 
     /** @var TemplateMapResolver&MockObject */
     private $realResolver;
@@ -41,21 +40,23 @@ class CachingMapResolverTest extends TestCase
     {
         parent::setUp();
 
-        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
+        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->addMethods(['__invoke'])->getMock();
         $this->realResolver         = $this->createMock(TemplateMapResolver::class);
         $this->renderer             = $this->createMock(RendererInterface::class);
         $this->cache                = $this->createMock(StorageInterface::class);
-        $this->cachingMapResolver   = new CachingMapResolver(
+        /** @psalm-var callable(): ResolverInterface $resolverInstantiator */
+        $resolverInstantiator     = $this->resolverInstantiator;
+        $this->cachingMapResolver = new CachingMapResolver(
             $this->cache,
             $this->cacheKey,
-            $this->resolverInstantiator
+            $resolverInstantiator
         );
 
         $this
             ->realResolver
             ->expects(self::any())
             ->method('getMap')
-            ->will(self::returnValue(['view-name' => 'path/to/script']));
+            ->willReturn(['view-name' => 'path/to/script']);
     }
 
     public function testResolverCacheIsPopulatedOnResolve(): void
@@ -64,7 +65,7 @@ class CachingMapResolverTest extends TestCase
             ->resolverInstantiator
             ->expects(self::once())
             ->method('__invoke')
-            ->will(self::returnValue($this->realResolver));
+            ->willReturn($this->realResolver);
         $this
             ->cache
             ->expects(self::once())
@@ -85,7 +86,7 @@ class CachingMapResolverTest extends TestCase
             ->resolverInstantiator
             ->expects(self::once())
             ->method('__invoke')
-            ->will(self::returnValue($this->realResolver));
+            ->willReturn($this->realResolver);
         $this
             ->cache
             ->expects(self::once())
@@ -112,48 +113,27 @@ class CachingMapResolverTest extends TestCase
             ->expects(self::once())
             ->method('getItem')
             ->with($this->cacheKey)
-            ->will(self::returnValue(['view-name' => 'path/to/cached/script']));
+            ->willReturn(['view-name' => 'path/to/cached/script']);
 
         self::assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
         self::assertSame('path/to/cached/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
         self::assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
     }
 
-    /**
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
-     */
     public function testResolveWithoutRenderer(): void
     {
         $this
             ->resolverInstantiator
             ->expects(self::once())
             ->method('__invoke')
-            ->will(self::returnValue($this->realResolver));
+            ->willReturn($this->realResolver);
         $this
             ->realResolver
             ->expects(self::any())
             ->method('resolve')
             ->with('view-name', null)
-            ->will(self::returnValue('path/to/script'));
+            ->willReturn('path/to/script');
 
         self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name'));
-    }
-
-    /**
-     * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
-     */
-    public function testLazyResolverRefusesInvalidRealResolver(): void
-    {
-        $this
-            ->resolverInstantiator
-            ->expects(self::once())
-            ->method('__invoke')
-            ->will(self::returnValue(null));
-
-        $cachingMapResolver = new CachingMapResolver($this->cache, $this->cacheKey, $this->resolverInstantiator);
-
-        $this->expectException(InvalidResolverInstantiatorException::class);
-
-        $cachingMapResolver->resolve('foo');
     }
 }

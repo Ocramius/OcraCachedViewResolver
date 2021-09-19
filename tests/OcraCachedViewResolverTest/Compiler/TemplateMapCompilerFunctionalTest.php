@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OcraCachedViewResolverTest\Compiler;
 
-use Laminas\View\Exception\InvalidArgumentException;
 use Laminas\View\Resolver\TemplatePathStack;
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
 use PHPUnit\Framework\TestCase;
@@ -28,12 +27,6 @@ class TemplateMapCompilerFunctionalTest extends TestCase
         $this->compiler = new TemplateMapCompiler();
     }
 
-    /**
-     * @throws InvalidArgumentException
-     *
-     * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
-     * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
-     */
     public function testCompileFromTemplatePathStack(): void
     {
         $resolver = new TemplatePathStack();
@@ -55,12 +48,6 @@ class TemplateMapCompilerFunctionalTest extends TestCase
         );
     }
 
-    /**
-     * @throws InvalidArgumentException
-     *
-     * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
-     * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
-     */
     public function testCompileFromTemplatePathStackWithDifferentPaths(): void
     {
         $template2 = realpath(__DIR__ . '/_files/subdir1/template2.phtml');

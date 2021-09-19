@@ -19,8 +19,7 @@ use stdClass;
  */
 class LazyResolverTest extends TestCase
 {
-    /** @var callable&MockObject */
-    private $resolverInstantiator;
+    private MockObject $resolverInstantiator;
 
     /** @var ResolverInterface&MockObject */
     private $realResolver;
@@ -34,10 +33,13 @@ class LazyResolverTest extends TestCase
     {
         parent::setUp();
 
-        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->setMethods(['__invoke'])->getMock();
+        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->addMethods(['__invoke'])->getMock();
         $this->realResolver         = $this->createMock(ResolverInterface::class);
         $this->renderer             = $this->createMock(RendererInterface::class);
-        $this->lazyResolver         = new LazyResolver($this->resolverInstantiator);
+        /** @psalm-var callable(): ResolverInterface $resolverInstantiator */
+        $resolverInstantiator = $this->resolverInstantiator;
+
+        $this->lazyResolver = new LazyResolver($resolverInstantiator);
     }
 
     public function testResolve(): void
@@ -46,13 +48,13 @@ class LazyResolverTest extends TestCase
             ->resolverInstantiator
             ->expects(self::once())
             ->method('__invoke')
-            ->will(self::returnValue($this->realResolver));
+            ->willReturn($this->realResolver);
         $this
             ->realResolver
             ->expects(self::any())
             ->method('resolve')
             ->with('view-name', $this->renderer)
-            ->will(self::returnValue('path/to/script'));
+            ->willReturn('path/to/script');
 
         self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
     }
@@ -63,12 +65,12 @@ class LazyResolverTest extends TestCase
             ->resolverInstantiator
             ->expects(self::once())
             ->method('__invoke')
-            ->will(self::returnValue($this->realResolver));
+            ->willReturn($this->realResolver);
         $this
             ->realResolver
             ->method('resolve')
             ->with('view-name', null)
-            ->will(self::returnValue('path/to/script'));
+            ->willReturn('path/to/script');
 
         self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name'));
     }
@@ -77,7 +79,10 @@ class LazyResolverTest extends TestCase
     {
         $this->resolverInstantiator->expects(self::never())->method('__invoke');
 
-        new LazyResolver($this->resolverInstantiator);
+        /** @psalm-var callable(): ResolverInterface $resolverInstantiator */
+        $resolverInstantiator = $this->resolverInstantiator;
+
+        new LazyResolver($resolverInstantiator);
     }
 
     public function testResolveCausesRealResolverInstantiationOnlyOnce(): void
@@ -86,13 +91,13 @@ class LazyResolverTest extends TestCase
             ->resolverInstantiator
             ->expects(self::once())
             ->method('__invoke')
-            ->will(self::returnValue($this->realResolver));
+            ->willReturn($this->realResolver);
         $this
             ->realResolver
             ->expects(self::exactly(2))
             ->method('resolve')
             ->with('view-name', $this->renderer)
-            ->will(self::returnValue('path/to/script'));
+            ->willReturn('path/to/script');
 
         self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
         self::assertSame('path/to/script', $this->lazyResolver->resolve('view-name', $this->renderer));
