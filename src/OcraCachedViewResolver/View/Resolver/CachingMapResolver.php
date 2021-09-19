@@ -1,79 +1,46 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license.
- */
+
+declare(strict_types=1);
 
 namespace OcraCachedViewResolver\View\Resolver;
 
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
 use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
-use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Resolver\ResolverInterface;
 
-/**
- * OcraCachedViewResolver module
- *
- * @author  Marco Pivetta <ocramius@gmail.com>
- * @license MIT
- */
+use function is_array;
+
 final class CachingMapResolver implements ResolverInterface
 {
-    /**
-     * @var callable
-     */
+    /** @var callable(): ResolverInterface */
     private $realResolverInstantiator;
 
-    /**
-     * @var StorageInterface
-     */
-    private $cache;
+    private StorageInterface $cache;
 
-    /**
-     * @var string
-     */
-    private $cacheKey;
+    private string $cacheKey;
 
-    /**
-     * @var null|array
-     */
-    private $map;
+    /** @var array<string, string>|null */
+    private ?array $map = null;
 
-    /**
-     * @param StorageInterface $cache
-     * @param string           $cacheKey
-     * @param callable         $realResolverInstantiator
-     */
-    public function __construct(StorageInterface $cache, $cacheKey, callable $realResolverInstantiator)
+    /** @param callable(): ResolverInterface $realResolverInstantiator */
+    public function __construct(StorageInterface $cache, string $cacheKey, callable $realResolverInstantiator)
     {
         $this->cache                    = $cache;
-        $this->cacheKey                 = (string) $cacheKey;
+        $this->cacheKey                 = $cacheKey;
         $this->realResolverInstantiator = $realResolverInstantiator;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function resolve($name, RendererInterface $renderer = null)
+    public function resolve($name, ?RendererInterface $renderer = null)
     {
         if (isset($this->map[$name])) {
             return $this->map[$name];
         }
 
-        if (null !== $this->map) {
+        if ($this->map !== null) {
             return false;
         }
 
@@ -85,22 +52,18 @@ final class CachingMapResolver implements ResolverInterface
     /**
      * Load the template map into memory
      */
-    private function loadMap()
+    private function loadMap(): void
     {
-        $this->map = $this->cache->getItem($this->cacheKey);
+        /** @var array<string, string>|false $map */
+        $map = $this->cache->getItem($this->cacheKey);
 
-        if (is_array($this->map)) {
+        if (is_array($map)) {
+            $this->map = $map;
+
             return;
         }
 
-        $realResolverInstantiator = $this->realResolverInstantiator;
-        $realResolver             = $realResolverInstantiator();
-
-        if (! $realResolver instanceof ResolverInterface) {
-            throw InvalidResolverInstantiatorException::fromInvalidResolver($realResolver);
-        }
-
-        $this->map = (new TemplateMapCompiler())->compileMap($realResolver);
+        $this->map = (new TemplateMapCompiler())->compileMap(($this->realResolverInstantiator)());
 
         $this->cache->setItem($this->cacheKey, $this->map);
     }

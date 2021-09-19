@@ -1,37 +1,22 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license.
- */
+
+declare(strict_types=1);
 
 namespace OcraCachedViewResolver\Factory;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Interop\Container\Exception\NotFoundException;
+use Laminas\Cache\Exception\InvalidArgumentException;
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\Cache\StorageFactory;
 use OcraCachedViewResolver\Module;
-use Zend\Cache\Exception\InvalidArgumentException;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\Cache\StorageFactory;
 
 /**
- * Factory responsible of building a {@see \Zend\Cache\Storage\StorageInterface}
+ * Factory responsible of building a {@see \Laminas\Cache\Storage\StorageInterface}
  * for the resolver
  *
- * @author  Marco Pivetta <ocramius@gmail.com>
- * @license MIT
+ * @see Module
+ *
+ * @psalm-import-type OcraCachedViewResolverConfiguration from Module
  */
 final class CacheFactory
 {
@@ -39,11 +24,10 @@ final class CacheFactory
      * {@inheritDoc}
      *
      * @throws InvalidArgumentException
-     * @throws ContainerException
-     * @throws NotFoundException
      */
-    public function __invoke(ContainerInterface $container) : StorageInterface
+    public function __invoke(ContainerInterface $container): StorageInterface
     {
+        /** @psalm-var OcraCachedViewResolverConfiguration $config */
         $config = $container->get('Config');
 
         return StorageFactory::factory($config[Module::CONFIG][Module::CONFIG_CACHE_DEFINITION]);

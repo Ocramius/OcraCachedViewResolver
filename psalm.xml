@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<psalm
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    totallyTyped="true"
+    rememberPropertyAssignmentsAfterCall="false"
+    findUnusedPsalmSuppress="true"
+>
+    <projectFiles>
+        <directory name="src"/>
+        <directory name="tests"/>
+    </projectFiles>
+
+    <issueHandlers>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+
+        <DeprecatedClass>
+            <errorLevel type="suppress">
+                <!-- we still use the cache factory, for now -->
+                <referencedClass name="Laminas\Cache\StorageFactory"/>
+            </errorLevel>
+        </DeprecatedClass>
+    </issueHandlers>
+
+</psalm>

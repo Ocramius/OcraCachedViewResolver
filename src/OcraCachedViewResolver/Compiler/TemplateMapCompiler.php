@@ -1,41 +1,34 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license.
- */
+
+declare(strict_types=1);
 
 namespace OcraCachedViewResolver\Compiler;
 
 use FilesystemIterator;
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\View\Exception\DomainException;
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\ResolverInterface;
+use Laminas\View\Resolver\TemplateMapResolver;
+use Laminas\View\Resolver\TemplatePathStack;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
-use Zend\Stdlib\ArrayUtils;
-use Zend\View\Resolver\AggregateResolver;
-use Zend\View\Resolver\ResolverInterface;
-use Zend\View\Resolver\TemplateMapResolver;
-use Zend\View\Resolver\TemplatePathStack;
+
+use function assert;
+use function is_string;
+use function pathinfo;
+use function realpath;
+use function str_replace;
+use function trim;
+
+use const PATHINFO_FILENAME;
 
 /**
  * Template map generator that can build template map arrays from either
- * an {@see \Zend\View\Resolver\TemplateMapResolver}, a
- * {@see \Zend\View\Resolver\TemplatePathStack} or a
- * {@see \Zend\View\Resolver\AggregateResolver}
- *
- * @author  Marco Pivetta <ocramius@gmail.com>
- * @license MIT
+ * an {@see \Laminas\View\Resolver\TemplateMapResolver}, a
+ * {@see \Laminas\View\Resolver\TemplatePathStack} or a
+ * {@see \Laminas\View\Resolver\AggregateResolver}
  */
 class TemplateMapCompiler
 {
@@ -43,13 +36,11 @@ class TemplateMapCompiler
      * Generates a list of all existing templates in the given resolver,
      * with their names being keys, and absolute paths being values
      *
-     * @param ResolverInterface $resolver
+     * @return array<string, string>
      *
-     * @return array
-     *
-     * @throws \Zend\View\Exception\DomainException
+     * @throws DomainException
      */
-    public function compileMap(ResolverInterface $resolver) : array
+    public function compileMap(ResolverInterface $resolver): array
     {
         if ($resolver instanceof AggregateResolver) {
             return $this->compileFromAggregateResolver($resolver);
@@ -66,12 +57,14 @@ class TemplateMapCompiler
         return [];
     }
 
-    protected function compileFromAggregateResolver(AggregateResolver $resolver) : array
+    /** @psalm-return array<string, string> */
+    protected function compileFromAggregateResolver(AggregateResolver $resolver): array
     {
         $map = [];
 
-        /* @var $queuedResolver ResolverInterface */
         foreach ($resolver->getIterator() as $queuedResolver) {
+            assert($queuedResolver instanceof ResolverInterface);
+            /** @psalm-var array<string, string> $map */
             $map = ArrayUtils::merge($this->compileMap($queuedResolver), $map);
         }
 
@@ -79,32 +72,37 @@ class TemplateMapCompiler
     }
 
     /**
-     * @param TemplatePathStack $resolver
+     * @return array<string, string>
      *
-     * @return array
-     *
-     * @throws \Zend\View\Exception\DomainException
+     * @throws DomainException
      */
-    protected function compileFromTemplatePathStack(TemplatePathStack $resolver) : array
+    protected function compileFromTemplatePathStack(TemplatePathStack $resolver): array
     {
         $map = [];
 
         foreach ($resolver->getPaths()->toArray() as $path) {
-            $path     = realpath($path);
+            assert(is_string($path));
+            $path = realpath($path);
+            /** @var iterable<SplFileInfo> $iterator */
             $iterator = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::LEAVES_ONLY
             );
 
             foreach ($iterator as $file) {
-                $this->addResolvedPath($file, $map, $path, $resolver);
+                $map = $this->addResolvedPath($file, $map, $path, $resolver);
             }
         }
 
         return $map;
     }
 
-    protected function compileFromTemplateMapResolver(TemplateMapResolver $resolver) : array
+    /**
+     * @psalm-return array<string, string>
+     *
+     * @psalm-suppress MixedReturnTypeCoercion the {@see TemplateMapResolver} does not have refined type declarations
+     */
+    protected function compileFromTemplateMapResolver(TemplateMapResolver $resolver): array
     {
         return $resolver->getMap();
     }
@@ -112,24 +110,31 @@ class TemplateMapCompiler
     /**
      * Add the given file to the map if it corresponds to a resolved view
      *
-     * @param SplFileInfo       $file
-     * @param array             $map
-     * @param string            $basePath
-     * @param TemplatePathStack $resolver
+     * @param array<string, string> $map
      *
-     * @return void
+     * @return array<string, string>
      *
-     * @throws \Zend\View\Exception\DomainException
+     * @throws DomainException
      */
-    private function addResolvedPath(SplFileInfo $file, array & $map, $basePath, TemplatePathStack $resolver)
+    private function addResolvedPath(SplFileInfo $file, array $map, string $basePath, TemplatePathStack $resolver): array
     {
-        $filePath      = $file->getRealPath();
-        $fileName      = pathinfo($filePath, PATHINFO_FILENAME);
-        $relativePath  = trim(str_replace($basePath, '', $file->getPath()), '/\\');
-        $templateName  = str_replace('\\', '/', trim($relativePath . '/' . $fileName, '/'));
+        $filePath     = $file->getRealPath();
+        $fileName     = pathinfo($filePath, PATHINFO_FILENAME);
+        $relativePath = trim(str_replace($basePath, '', $file->getPath()), '/\\');
+        $templateName = str_replace('\\', '/', trim($relativePath . '/' . $fileName, '/'));
 
-        if ($fileName && ($resolvedPath = $resolver->resolve($templateName))) {
-            $map[$templateName] = realpath($resolvedPath);
+        if (! $fileName) {
+            return $map;
         }
+
+        $resolvedPath = $resolver->resolve($templateName);
+
+        if (! $resolvedPath) {
+            return $map;
+        }
+
+        $map[$templateName] = realpath($resolvedPath);
+
+        return $map;
     }
 }
