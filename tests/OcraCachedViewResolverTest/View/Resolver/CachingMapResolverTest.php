@@ -1,73 +1,41 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license.
- */
+
+declare(strict_types=1);
 
 namespace OcraCachedViewResolverTest\View\Resolver;
 
+use Laminas\Cache\Storage\StorageInterface;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\TemplateMapResolver;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Laminas\Cache\Storage\StorageInterface;
-use Laminas\View\Renderer\RendererInterface;
-use Laminas\View\Resolver\TemplateMapResolver;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\View\Resolver\CachingMapResolver}
  *
- * @author  Marco Pivetta <ocramius@gmail.com>
- * @license MIT
- *
  * @group Coverage
- *
  * @covers \OcraCachedViewResolver\View\Resolver\CachingMapResolver
  */
 class CachingMapResolverTest extends TestCase
 {
-    /**
-     * @var callable&MockObject
-     */
+    /** @var callable&MockObject */
     private $resolverInstantiator;
 
-    /**
-     * @var TemplateMapResolver&MockObject
-     */
+    /** @var TemplateMapResolver&MockObject */
     private $realResolver;
 
-    /**
-     * @var RendererInterface&MockObject
-     */
+    /** @var RendererInterface&MockObject */
     private $renderer;
 
-    /**
-     * @var StorageInterface&MockObject
-     */
+    /** @var StorageInterface&MockObject */
     private $cache;
 
-    /**
-     * @var string
-     */
-    private $cacheKey = 'cache-key';
+    private string $cacheKey = 'cache-key';
 
-    /**
-     * @var CachingMapResolver
-     */
-    private $cachingMapResolver;
+    private CachingMapResolver $cachingMapResolver;
 
     protected function setUp(): void
     {
@@ -90,7 +58,7 @@ class CachingMapResolverTest extends TestCase
             ->will(self::returnValue(['view-name' => 'path/to/script']));
     }
 
-    public function testResolverCacheIsPopulatedOnResolve()
+    public function testResolverCacheIsPopulatedOnResolve(): void
     {
         $this
             ->resolverInstantiator
@@ -111,7 +79,7 @@ class CachingMapResolverTest extends TestCase
         self::assertSame('path/to/script', $this->cachingMapResolver->resolve('view-name', $this->renderer));
     }
 
-    public function testResolvingMultipleTimesDoesNotHitResolverInstantiatorOrCache()
+    public function testResolvingMultipleTimesDoesNotHitResolverInstantiatorOrCache(): void
     {
         $this
             ->resolverInstantiator
@@ -134,7 +102,7 @@ class CachingMapResolverTest extends TestCase
         self::assertFalse($this->cachingMapResolver->resolve('unknown-view-name', $this->renderer));
     }
 
-    public function testResolvingWithNonEmptyCacheWillNotHitResolverInstantiatorOrWriteToCache()
+    public function testResolvingWithNonEmptyCacheWillNotHitResolverInstantiatorOrWriteToCache(): void
     {
         $this->resolverInstantiator->expects(self::never())->method('__invoke');
         $this->cache->expects(self::never())->method('setItem');
@@ -154,7 +122,7 @@ class CachingMapResolverTest extends TestCase
     /**
      * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
      */
-    public function testResolveWithoutRenderer()
+    public function testResolveWithoutRenderer(): void
     {
         $this
             ->resolverInstantiator
@@ -174,7 +142,7 @@ class CachingMapResolverTest extends TestCase
     /**
      * @covers \OcraCachedViewResolver\View\Resolver\LazyResolver::resolve
      */
-    public function testLazyResolverRefusesInvalidRealResolver()
+    public function testLazyResolverRefusesInvalidRealResolver(): void
     {
         $this
             ->resolverInstantiator

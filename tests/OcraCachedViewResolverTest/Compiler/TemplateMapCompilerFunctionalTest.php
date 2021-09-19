@@ -1,46 +1,26 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license.
- */
+
+declare(strict_types=1);
 
 namespace OcraCachedViewResolverTest\Compiler;
 
-use PHPUnit\Framework\TestCase;
-use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
+use Laminas\View\Exception\InvalidArgumentException;
 use Laminas\View\Resolver\TemplatePathStack;
+use OcraCachedViewResolver\Compiler\TemplateMapCompiler;
+use PHPUnit\Framework\TestCase;
+
+use function realpath;
 
 /**
  * Template map compiler functional tests
- *
- * @author  Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  *
  * @group Functional
  * @coversNothing
  */
 class TemplateMapCompilerFunctionalTest extends TestCase
 {
-    /**
-     * @var TemplateMapCompiler
-     */
-    protected $compiler;
+    protected TemplateMapCompiler $compiler;
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -49,12 +29,12 @@ class TemplateMapCompilerFunctionalTest extends TestCase
     }
 
     /**
+     * @throws InvalidArgumentException
+     *
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
-     *
-     * @throws \Laminas\View\Exception\InvalidArgumentException
      */
-    public function testCompileFromTemplatePathStack()
+    public function testCompileFromTemplatePathStack(): void
     {
         $resolver = new TemplatePathStack();
         $resolver->addPath(__DIR__ . '/_files/subdir1');
@@ -76,12 +56,12 @@ class TemplateMapCompilerFunctionalTest extends TestCase
     }
 
     /**
+     * @throws InvalidArgumentException
+     *
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileMap
      * @covers \OcraCachedViewResolver\Compiler\TemplateMapCompiler::compileFromTemplatePathStack
-     *
-     * @throws \Laminas\View\Exception\InvalidArgumentException
      */
-    public function testCompileFromTemplatePathStackWithDifferentPaths()
+    public function testCompileFromTemplatePathStackWithDifferentPaths(): void
     {
         $template2 = realpath(__DIR__ . '/_files/subdir1/template2.phtml');
         $template4 = realpath(__DIR__ . '/_files/subdir1/valid/template4.phtml');

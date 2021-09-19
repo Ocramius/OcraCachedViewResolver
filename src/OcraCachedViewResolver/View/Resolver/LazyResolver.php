@@ -1,68 +1,35 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license.
- */
+
+declare(strict_types=1);
 
 namespace OcraCachedViewResolver\View\Resolver;
 
-use OcraCachedViewResolver\View\Resolver\Exception\InvalidResolverInstantiatorException;
 use Laminas\View\Renderer\RendererInterface;
 use Laminas\View\Resolver\ResolverInterface;
 
 /**
  * Lazy resolver, only instantiates the actual resolver if it is needed
- *
- * @author  Marco Pivetta <ocramius@gmail.com>
- * @license MIT
  */
 final class LazyResolver implements ResolverInterface
 {
-    /**
-     * @var callable
-     */
-    private $resolverInstantiator;
+    /** @var callable(): ResolverInterface $makeResolver */
+    private $makeResolver;
 
-    /**
-     * @var ResolverInterface|null
-     */
-    private $resolver;
+    private ?ResolverInterface $resolver = null;
 
-    public function __construct($resolverInstantiator)
+    /** @param callable(): ResolverInterface $makeResolver */
+    public function __construct(callable $makeResolver)
     {
-        if (! is_callable($resolverInstantiator)) {
-            throw InvalidResolverInstantiatorException::fromInvalidInstantiator($resolverInstantiator);
-        }
-
-        $this->resolverInstantiator = $resolverInstantiator;
+        $this->makeResolver = $makeResolver;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function resolve($name, RendererInterface $renderer = null)
+    public function resolve($name, ?RendererInterface $renderer = null)
     {
         if (! $this->resolver) {
-            $resolverInstantiator = $this->resolverInstantiator;
-            $resolver             =  $resolverInstantiator();
-
-            if (! $resolver instanceof ResolverInterface) {
-                throw InvalidResolverInstantiatorException::fromInvalidResolver($resolver);
-            }
-
-            $this->resolver = $resolver;
+            $this->resolver = ($this->makeResolver)();
         }
 
         return $this->resolver->resolve($name, $renderer);
