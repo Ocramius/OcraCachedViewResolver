@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11789003aa21452703d4f5f180d0f758",
+    "content-hash": "6d7b5031345695041fac74f2e111f8be",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -2023,16 +2023,16 @@
         },
         {
             "name": "laminas/laminas-view",
-            "version": "2.12.0",
+            "version": "2.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-view.git",
-                "reference": "3ef103da6887809f08ecf52f42c31a76c9bf08b1"
+                "reference": "23fc886670e05d3fae34d3ba2c5089e2d29beb03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/3ef103da6887809f08ecf52f42c31a76c9bf08b1",
-                "reference": "3ef103da6887809f08ecf52f42c31a76c9bf08b1",
+                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/23fc886670e05d3fae34d3ba2c5089e2d29beb03",
+                "reference": "23fc886670e05d3fae34d3ba2c5089e2d29beb03",
                 "shasum": ""
             },
             "require": {
@@ -2044,6 +2044,7 @@
                 "php": "^7.3 || ~8.0.0"
             },
             "conflict": {
+                "laminas/laminas-router": "<3.0.1",
                 "laminas/laminas-servicemanager": "<3.3"
             },
             "replace": {
@@ -2063,7 +2064,9 @@
                 "laminas/laminas-log": "^2.7",
                 "laminas/laminas-modulemanager": "^2.7.1",
                 "laminas/laminas-mvc": "^2.7.14 || ^3.0",
-                "laminas/laminas-navigation": "^2.5",
+                "laminas/laminas-mvc-i18n": "^1.1",
+                "laminas/laminas-mvc-plugin-flashmessenger": "^1.2",
+                "laminas/laminas-navigation": "^2.8.1",
                 "laminas/laminas-paginator": "^2.5",
                 "laminas/laminas-permissions-acl": "^2.6",
                 "laminas/laminas-router": "^3.0.1",
@@ -2123,7 +2126,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-01-01T14:07:41+00:00"
+            "time": "2021-10-12T16:49:06+00:00"
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
