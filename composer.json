@@ -22,7 +22,7 @@
         "laminas/laminas-servicemanager": "^3.10.0",
         "laminas/laminas-mvc":            "^3.2.0",
         "laminas/laminas-modulemanager":  "^2.10.2",
-        "laminas/laminas-view":           "^2.12.1",
+        "laminas/laminas-view":           "^2.14.1",
         "laminas/laminas-cache":          "^2.13.0"
     },
     "require-dev": {
