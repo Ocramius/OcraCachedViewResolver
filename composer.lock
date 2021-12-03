@@ -1322,16 +1322,16 @@
         },
         {
             "name": "laminas/laminas-http",
-            "version": "2.15.0",
+            "version": "2.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-http.git",
-                "reference": "e1f3420ab35e21ea135913d213b8d570e5e7b513"
+                "reference": "261f079c3dffcf6f123484db43c40e44c4bf1c79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-http/zipball/e1f3420ab35e21ea135913d213b8d570e5e7b513",
-                "reference": "e1f3420ab35e21ea135913d213b8d570e5e7b513",
+                "url": "https://api.github.com/repos/laminas/laminas-http/zipball/261f079c3dffcf6f123484db43c40e44c4bf1c79",
+                "reference": "261f079c3dffcf6f123484db43c40e44c4bf1c79",
                 "shasum": ""
             },
             "require": {
@@ -1345,6 +1345,7 @@
                 "zendframework/zend-http": "*"
             },
             "require-dev": {
+                "ext-curl": "*",
                 "laminas/laminas-coding-standard": "~2.2.1",
                 "phpunit/phpunit": "^9.5.5"
             },
@@ -1382,7 +1383,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-09-10T10:45:31+00:00"
+            "time": "2021-12-03T10:17:11+00:00"
         },
         {
             "name": "laminas/laminas-json",
