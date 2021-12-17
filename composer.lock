@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d6a92f31442d37f259f71ecb1fc1ff0",
+    "content-hash": "9e3b400a578e6b0694abbaf223787c9c",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -2021,16 +2021,16 @@
         },
         {
             "name": "laminas/laminas-view",
-            "version": "2.14.2",
+            "version": "2.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-view.git",
-                "reference": "ced4133462b917c62d1efc26f982a62b5e319b4b"
+                "reference": "af2f714e45eea7f1b1fa6acca2124b824cab3b0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/ced4133462b917c62d1efc26f982a62b5e319b4b",
-                "reference": "ced4133462b917c62d1efc26f982a62b5e319b4b",
+                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/af2f714e45eea7f1b1fa6acca2124b824cab3b0b",
+                "reference": "af2f714e45eea7f1b1fa6acca2124b824cab3b0b",
                 "shasum": ""
             },
             "require": {
@@ -2121,7 +2121,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-11-17T12:05:00+00:00"
+            "time": "2021-12-17T11:25:32+00:00"
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
