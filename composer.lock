@@ -2844,16 +2844,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "ec6aa897c8b6cab05ebaeddade62bb6e4a69ef38"
+                "reference": "12f1b79476638a5615ed00ea6adbb269cec96fd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/ec6aa897c8b6cab05ebaeddade62bb6e4a69ef38",
-                "reference": "ec6aa897c8b6cab05ebaeddade62bb6e4a69ef38",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/12f1b79476638a5615ed00ea6adbb269cec96fd8",
+                "reference": "12f1b79476638a5615ed00ea6adbb269cec96fd8",
                 "shasum": ""
             },
             "require": {
@@ -2890,7 +2890,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/xdebug-handler/issues",
-                "source": "https://github.com/composer/xdebug-handler/tree/3.0.0"
+                "source": "https://github.com/composer/xdebug-handler/tree/3.0.1"
             },
             "funding": [
                 {
@@ -2906,7 +2906,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-23T21:03:16+00:00"
+            "time": "2022-01-04T18:29:42+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
