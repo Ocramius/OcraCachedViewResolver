@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8103a5bcc402472805cab13a9a9a4d25",
+    "content-hash": "d273768614a1c6c150620ca38719c488",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -2021,16 +2021,16 @@
         },
         {
             "name": "laminas/laminas-view",
-            "version": "2.18.0",
+            "version": "2.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-view.git",
-                "reference": "196589217721163f950f8c5d6ae5a25337e78216"
+                "reference": "8ffe5d28aea1b1b071ac55d93b5399847ee1a26d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/196589217721163f950f8c5d6ae5a25337e78216",
-                "reference": "196589217721163f950f8c5d6ae5a25337e78216",
+                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/8ffe5d28aea1b1b071ac55d93b5399847ee1a26d",
+                "reference": "8ffe5d28aea1b1b071ac55d93b5399847ee1a26d",
                 "shasum": ""
             },
             "require": {
@@ -2058,7 +2058,7 @@
                 "laminas/laminas-http": "^2.15",
                 "laminas/laminas-i18n": "^2.6",
                 "laminas/laminas-modulemanager": "^2.7.1",
-                "laminas/laminas-mvc": "^2.7.14 || ^3.0",
+                "laminas/laminas-mvc": "^3.0",
                 "laminas/laminas-mvc-i18n": "^1.1",
                 "laminas/laminas-mvc-plugin-flashmessenger": "^1.5.0",
                 "laminas/laminas-navigation": "^2.13.1",
@@ -2121,7 +2121,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-01-09T21:12:26+00:00"
+            "time": "2022-01-11T12:07:03+00:00"
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
