@@ -1,6 +1,6 @@
 # OcraCachedViewResolver
 
-OcraCachedViewResolver is performance-oriented Laminas MVC 2 Module that increases performance
+OcraCachedViewResolver is performance-oriented `laminas/laminas-mvc` Module that increases performance
 in your application by caching the process of resolving template names to template paths.
 
 In [`laminas/laminas-mvc-skeleton`](https://github.com/laminas/laminas-mvc-skeleton), the process of resolving template
