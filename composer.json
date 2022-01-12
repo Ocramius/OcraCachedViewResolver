@@ -26,10 +26,10 @@
         "laminas/laminas-view":           "^2.19.0"
     },
     "require-dev": {
-        "doctrine/coding-standard": "^9.0.0",
+        "doctrine/coding-standard":                     "^9.0.0",
         "laminas/laminas-cache-storage-adapter-memory": "^2.0.0",
-        "phpunit/phpunit":          "^9.5.11",
-        "vimeo/psalm":              "^4.18"
+        "phpunit/phpunit":                              "^9.5.11",
+        "vimeo/psalm":                                  "^4.18"
     },
     "autoload": {
         "psr-0": {
