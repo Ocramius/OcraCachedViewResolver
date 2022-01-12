@@ -17,8 +17,13 @@ The recommended way to install `ocramius/ocra-cached-view-resolver` is through
 [composer](http://getcomposer.org/):
 
 ```sh
-php composer.phar require ocramius/ocra-cached-view-resolver
+php composer.phar require \
+  ocramius/ocra-cached-view-resolver \
+  laminas/laminas-cache-storage-adapter-filesystem
 ```
+
+You can pick any [`laminas/laminas-cache-storage-implementation`](https://packagist.org/providers/laminas/laminas-cache-storage-implementation)
+you want, as long as you provide one, and later configure it.
 
 You can then enable the module in your `config/application.config.php` by adding
 `'OcraCachedViewResolver'` to the `'modules'` section.
