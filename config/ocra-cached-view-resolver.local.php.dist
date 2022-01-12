@@ -1,7 +1,7 @@
 <?php
 /**
  * This configuration is for OcraCachedViewResolver - copy it to the `config/autoload`
- * directory of your ZF2 application and remove the `.dist` extension from its name.
+ * directory of your MVC application and remove the `.dist` extension from its name.
  *
  * Don't forget to tweak it for your needs!
  */
@@ -10,22 +10,15 @@ use OcraCachedViewResolver\Module;
 
 return [
     Module::CONFIG => [
-        // configuration to be passed to `Zend\Cache\StorageFactory#factory()`
-        // see http://framework.zend.com/manual/2.3/en/modules/zend.cache.storage.adapter.html#quick-start
-        // Used to instantiate service `'OcraCachedViewResolver\\Cache\\ResolverCache'`
-        Module::CONFIG_CACHE_DEFINITION => [
-            'adapter' => [
-                'name'    => 'apc',
-                'options' => [
-                    'ttl' => 86400,
-                    'namespace' => 'app_view_resolver_' . sha1(realpath(__FILE__)),
-                ],
-            ],
-        ],
-
         // following is the key used to store the template map in the cache adapter
         Module::CONFIG_CACHE_KEY     => 'cached_template_map',
-        // name of a service implementing the `Zend\Cache\Storage\StorageInterface`, used to cache the template map
-        Module::CONFIG_CACHE_SERVICE => 'OcraCachedViewResolver\\Cache\\ResolverCache',
+        // name of a service implementing the `Zend\Cache\Storage\StorageInterface`, used to cache the template map.
+        // please provide your own here!
+        Module::CONFIG_CACHE_SERVICE => 'your-cache-service-id-here',
+    ],
+    'service_manager' => [
+        'factories' => [
+            'your-cache-service-id-here' => YourFactoryForTheCacheStorage::class,
+        ],
     ],
 ];

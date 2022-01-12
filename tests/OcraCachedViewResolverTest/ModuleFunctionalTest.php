@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OcraCachedViewResolverTest;
 
+use Laminas\Cache\Storage\Adapter\Memory;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\Service\ServiceManagerConfig;
@@ -82,11 +83,6 @@ class ModuleFunctionalTest extends TestCase
 
     public function testDefinedServices(): void
     {
-        self::assertInstanceOf(
-            StorageInterface::class,
-            $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache')
-        );
-
         $resolver = $this->serviceManager->get('ViewResolver');
         assert($resolver instanceof AggregateResolver);
 
@@ -107,7 +103,7 @@ class ModuleFunctionalTest extends TestCase
 
     public function testCachesResolvedTemplates(): void
     {
-        $cache = $this->serviceManager->get('OcraCachedViewResolver\\Cache\\ResolverCache');
+        $cache = $this->serviceManager->get(Memory::class);
         assert($cache instanceof StorageInterface);
 
         self::assertFalse($cache->hasItem('testing_cache_key'));
