@@ -29,6 +29,7 @@
         "doctrine/coding-standard":                     "^9.0.0",
         "laminas/laminas-cache-storage-adapter-memory": "^2.0.0",
         "phpunit/phpunit":                              "^9.5.11",
+        "roave/infection-static-analysis-plugin":       "^1.15",
         "vimeo/psalm":                                  "^4.18"
     },
     "autoload": {

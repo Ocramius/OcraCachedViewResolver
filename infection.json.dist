@@ -1,0 +1,19 @@
+{
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "php://stderr",
+        "github": true,
+        "stryker": {
+            "report": "/^\\d+\\.\\d+\\.x$/"
+        }
+    },
+    "mutators": {
+        "@default": true
+    },
+    "minMsi": 81,
+    "minCoveredMsi": 81
+}
