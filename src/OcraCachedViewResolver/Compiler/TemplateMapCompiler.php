@@ -16,7 +16,6 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 
 use function assert;
-use function is_string;
 use function pathinfo;
 use function realpath;
 use function str_replace;
@@ -81,7 +80,6 @@ class TemplateMapCompiler
         $map = [];
 
         foreach ($resolver->getPaths()->toArray() as $path) {
-            assert(is_string($path));
             $path = realpath($path);
             /** @var iterable<SplFileInfo> $iterator */
             $iterator = new RecursiveIteratorIterator(
