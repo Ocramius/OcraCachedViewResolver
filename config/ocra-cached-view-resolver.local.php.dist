@@ -12,7 +12,7 @@ return [
     Module::CONFIG => [
         // following is the key used to store the template map in the cache adapter
         Module::CONFIG_CACHE_KEY     => 'cached_template_map',
-        // name of a service implementing the `Zend\Cache\Storage\StorageInterface`, used to cache the template map.
+        // name of a service implementing the `Laminas\Cache\Storage\StorageInterface`, used to cache the template map.
         // please provide your own here!
         Module::CONFIG_CACHE_SERVICE => 'your-cache-service-id-here',
     ],
