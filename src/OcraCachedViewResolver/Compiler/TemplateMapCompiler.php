@@ -81,7 +81,6 @@ class TemplateMapCompiler
         $map = [];
 
         foreach ($resolver->getPaths()->toArray() as $path) {
-            assert(is_string($path));
             $path = realpath($path);
             /** @var iterable<SplFileInfo> $iterator */
             $iterator = new RecursiveIteratorIterator(
