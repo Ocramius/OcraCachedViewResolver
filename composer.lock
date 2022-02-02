@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7d41736e40b57fcbaa4ab43c433e262",
+    "content-hash": "6f7c415609937db367887b1f43bc6087",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -699,16 +699,16 @@
         },
         {
             "name": "laminas/laminas-mvc",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-mvc.git",
-                "reference": "215d0ff1b504bfbc299346aae20acb362c38d139"
+                "reference": "e00129958df85fb071e1ff5c931d01df05485c7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mvc/zipball/215d0ff1b504bfbc299346aae20acb362c38d139",
-                "reference": "215d0ff1b504bfbc299346aae20acb362c38d139",
+                "url": "https://api.github.com/repos/laminas/laminas-mvc/zipball/e00129958df85fb071e1ff5c931d01df05485c7f",
+                "reference": "e00129958df85fb071e1ff5c931d01df05485c7f",
                 "shasum": ""
             },
             "require": {
@@ -777,7 +777,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-10-13T17:48:28+00:00"
+            "time": "2022-02-02T12:53:57+00:00"
         },
         {
             "name": "laminas/laminas-router",
