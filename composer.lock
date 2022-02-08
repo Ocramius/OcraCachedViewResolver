@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00bef808bcc2f40436dbda20947e65bd",
+    "content-hash": "5725719ad48dcf4c72f46595d5d22c21",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -699,16 +699,16 @@
         },
         {
             "name": "laminas/laminas-mvc",
-            "version": "3.3.1",
+            "version": "3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-mvc.git",
-                "reference": "e00129958df85fb071e1ff5c931d01df05485c7f"
+                "reference": "16bb3bc6bed6cc42ef4d2e5e7dc4a5c97841c6a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mvc/zipball/e00129958df85fb071e1ff5c931d01df05485c7f",
-                "reference": "e00129958df85fb071e1ff5c931d01df05485c7f",
+                "url": "https://api.github.com/repos/laminas/laminas-mvc/zipball/16bb3bc6bed6cc42ef4d2e5e7dc4a5c97841c6a2",
+                "reference": "16bb3bc6bed6cc42ef4d2e5e7dc4a5c97841c6a2",
                 "shasum": ""
             },
             "require": {
@@ -777,7 +777,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-02-02T12:53:57+00:00"
+            "time": "2022-02-08T21:08:00+00:00"
         },
         {
             "name": "laminas/laminas-router",
@@ -5796,12 +5796,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php73\\": ""
-                },
                 "files": [
                     "bootstrap.php"
                 ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php73\\": ""
+                },
                 "classmap": [
                     "Resources/stubs"
                 ]
