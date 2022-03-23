@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce6dcb1440c1f0c0fa78df3cf67c7bbb",
+    "content-hash": "b40df89388ea8d79d4626e34b1b80781",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -1146,24 +1146,30 @@
         },
         {
             "name": "laminas/laminas-view",
-            "version": "2.19.1",
+            "version": "2.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-view.git",
-                "reference": "5f2ed1af896543e986090afb6433e32409c99d4d"
+                "reference": "2cd6973a3e042be3d244260fe93f435668f5c2b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/5f2ed1af896543e986090afb6433e32409c99d4d",
-                "reference": "5f2ed1af896543e986090afb6433e32409c99d4d",
+                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/2cd6973a3e042be3d244260fe93f435668f5c2b4",
+                "reference": "2cd6973a3e042be3d244260fe93f435668f5c2b4",
                 "shasum": ""
             },
             "require": {
+                "container-interop/container-interop": "^1.2",
+                "ext-dom": "*",
+                "ext-filter": "*",
                 "ext-json": "*",
+                "laminas/laminas-escaper": "^2.5",
                 "laminas/laminas-eventmanager": "^3.4",
                 "laminas/laminas-json": "^3.3",
+                "laminas/laminas-servicemanager": "^3.10",
                 "laminas/laminas-stdlib": "^3.6",
-                "php": "^7.4 || ~8.0.0 || ~8.1.0"
+                "php": "^7.4 || ~8.0.0 || ~8.1.0",
+                "psr/container": "^1 || ^2"
             },
             "conflict": {
                 "container-interop/container-interop": "<1.2",
@@ -1173,11 +1179,9 @@
                 "zendframework/zend-view": "*"
             },
             "require-dev": {
-                "ext-dom": "*",
                 "laminas/laminas-authentication": "^2.5",
                 "laminas/laminas-coding-standard": "~2.3.0",
                 "laminas/laminas-console": "^2.6",
-                "laminas/laminas-escaper": "^2.5",
                 "laminas/laminas-feed": "^2.15",
                 "laminas/laminas-filter": "^2.13.0",
                 "laminas/laminas-http": "^2.15",
@@ -1190,7 +1194,6 @@
                 "laminas/laminas-paginator": "^2.11.0",
                 "laminas/laminas-permissions-acl": "^2.6",
                 "laminas/laminas-router": "^3.0.1",
-                "laminas/laminas-servicemanager": "^3.4",
                 "laminas/laminas-uri": "^2.5",
                 "phpspec/prophecy": "^1.12",
                 "phpspec/prophecy-phpunit": "^2.0",
@@ -1246,7 +1249,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-01-12T16:20:05+00:00"
+            "time": "2022-02-22T13:52:44+00:00"
         },
         {
             "name": "nikic/php-parser",
