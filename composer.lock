@@ -753,16 +753,16 @@
         },
         {
             "name": "laminas/laminas-router",
-            "version": "3.7.0",
+            "version": "3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-router.git",
-                "reference": "0227cc29f62583dd1ca50d17d117b832edaa8cd8"
+                "reference": "ed52d0ea58809bd765d05e6e46aed00d8773402a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-router/zipball/0227cc29f62583dd1ca50d17d117b832edaa8cd8",
-                "reference": "0227cc29f62583dd1ca50d17d117b832edaa8cd8",
+                "url": "https://api.github.com/repos/laminas/laminas-router/zipball/ed52d0ea58809bd765d05e6e46aed00d8773402a",
+                "reference": "ed52d0ea58809bd765d05e6e46aed00d8773402a",
                 "shasum": ""
             },
             "require": {
@@ -775,7 +775,7 @@
                 "zendframework/zend-router": "*"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~2.2.1",
+                "laminas/laminas-coding-standard": "~2.4.0",
                 "laminas/laminas-i18n": "^2.15.0",
                 "phpunit/phpunit": "^9.5.5",
                 "psalm/plugin-phpunit": "^0.17.0",
@@ -820,7 +820,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-07-18T01:39:51+00:00"
+            "time": "2022-08-29T11:35:39+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
