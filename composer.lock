@@ -753,16 +753,16 @@
         },
         {
             "name": "laminas/laminas-router",
-            "version": "3.8.0",
+            "version": "3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-router.git",
-                "reference": "ed52d0ea58809bd765d05e6e46aed00d8773402a"
+                "reference": "ebd084f7fda7520394b9ddc1e9ec2cbdf2094daa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-router/zipball/ed52d0ea58809bd765d05e6e46aed00d8773402a",
-                "reference": "ed52d0ea58809bd765d05e6e46aed00d8773402a",
+                "url": "https://api.github.com/repos/laminas/laminas-router/zipball/ebd084f7fda7520394b9ddc1e9ec2cbdf2094daa",
+                "reference": "ebd084f7fda7520394b9ddc1e9ec2cbdf2094daa",
                 "shasum": ""
             },
             "require": {
@@ -820,7 +820,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-08-29T11:35:39+00:00"
+            "time": "2022-08-30T22:41:24+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
