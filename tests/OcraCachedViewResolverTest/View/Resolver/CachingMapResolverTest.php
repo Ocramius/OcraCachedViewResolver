@@ -49,7 +49,7 @@ class CachingMapResolverTest extends TestCase
         $this->cachingMapResolver = new CachingMapResolver(
             $this->cache,
             $this->cacheKey,
-            $resolverInstantiator
+            $resolverInstantiator,
         );
 
         $this

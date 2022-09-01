@@ -44,7 +44,7 @@ class TemplateMapCompilerFunctionalTest extends TestCase
                 'template2'       => $template2,
                 'valid/template4' => $template4,
             ],
-            $this->compiler->compileMap($resolver)
+            $this->compiler->compileMap($resolver),
         );
     }
 
