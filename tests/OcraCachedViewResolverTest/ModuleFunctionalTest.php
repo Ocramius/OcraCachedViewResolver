@@ -56,7 +56,7 @@ class ModuleFunctionalTest extends TestCase
                         __DIR__ . '/../testing.config.php',
                     ],
                 ],
-            ]
+            ],
         );
 
         $moduleManager = $this->serviceManager->get('ModuleManager');
@@ -77,7 +77,7 @@ class ModuleFunctionalTest extends TestCase
             'ViewResolver',
             static function () use ($originalResolver) {
                 return $originalResolver;
-            }
+            },
         );
     }
 
@@ -95,8 +95,8 @@ class ModuleFunctionalTest extends TestCase
                 $previousResolver,
                 self::logicalOr(
                     self::isInstanceOf(CachingMapResolver::class),
-                    self::isInstanceOf(LazyResolver::class)
-                )
+                    self::isInstanceOf(LazyResolver::class),
+                ),
             );
         }
     }

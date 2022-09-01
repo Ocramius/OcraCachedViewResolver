@@ -84,7 +84,7 @@ class TemplateMapCompiler
             /** @var iterable<SplFileInfo> $iterator */
             $iterator = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
-                RecursiveIteratorIterator::LEAVES_ONLY
+                RecursiveIteratorIterator::LEAVES_ONLY,
             );
 
             foreach ($iterator as $file) {
