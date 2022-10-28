@@ -28,7 +28,7 @@
     "require-dev": {
         "doctrine/coding-standard":                     "^10.0.0",
         "laminas/laminas-cache-storage-adapter-memory": "^2.0.0",
-        "phpunit/phpunit":                              "^9.5.25",
+        "phpunit/phpunit":                              "^9.5.26",
         "roave/infection-static-analysis-plugin":       "^1.18",
         "vimeo/psalm":                                  "^4.29"
     },
