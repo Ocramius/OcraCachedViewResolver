@@ -18,18 +18,18 @@
         }
     ],
     "require": {
-        "php":                            "^7.4.7 || ~8.0.0 || ~8.1.0",
+        "php":                            "~8.1.0",
         "laminas/laminas-cache":          "^3.6.0",
-        "laminas/laminas-modulemanager":  "^2.12.0",
-        "laminas/laminas-mvc":            "^3.3.5",
-        "laminas/laminas-servicemanager": "^3.17.0",
-        "laminas/laminas-view":           "^2.23.0"
+        "laminas/laminas-modulemanager":  "^2.14.0",
+        "laminas/laminas-mvc":            "^3.5.0",
+        "laminas/laminas-servicemanager": "^3.19.0",
+        "laminas/laminas-view":           "^2.24.0"
     },
     "require-dev": {
         "doctrine/coding-standard":                     "^10.0.0",
-        "laminas/laminas-cache-storage-adapter-memory": "^2.0.0",
-        "phpunit/phpunit":                              "^9.5.25",
-        "roave/infection-static-analysis-plugin":       "^1.18",
+        "laminas/laminas-cache-storage-adapter-memory": "^2.2.0",
+        "phpunit/phpunit":                              "^9.5.26",
+        "roave/infection-static-analysis-plugin":       "^1.25.0",
         "vimeo/psalm":                                  "^4.29"
     },
     "autoload": {
@@ -51,6 +51,9 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "infection/extension-installer": false
+        },
+        "platform": {
+            "php": "8.1.99"
         }
     }
 }
