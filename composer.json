@@ -23,7 +23,7 @@
         "laminas/laminas-modulemanager":  "^2.14.0",
         "laminas/laminas-mvc":            "^3.5.0",
         "laminas/laminas-servicemanager": "^3.19.0",
-        "laminas/laminas-view":           "^2.24.0"
+        "laminas/laminas-view":           "^2.25.0"
     },
     "require-dev": {
         "doctrine/coding-standard":                     "^10.0.0",
