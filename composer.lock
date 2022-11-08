@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d304d7fa53f9f703f6778e180f2b404",
+    "content-hash": "f2eed28fd571ab415b23521a04df9793",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -57,16 +57,16 @@
         },
         {
             "name": "laminas/laminas-cache",
-            "version": "3.7.0",
+            "version": "3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cache.git",
-                "reference": "3c8cfd05af5f9ceace005bf3697faf8536ebd0f9"
+                "reference": "b756eb5905f499695c09ab4f3a3e2bafeece8d88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cache/zipball/3c8cfd05af5f9ceace005bf3697faf8536ebd0f9",
-                "reference": "3c8cfd05af5f9ceace005bf3697faf8536ebd0f9",
+                "url": "https://api.github.com/repos/laminas/laminas-cache/zipball/b756eb5905f499695c09ab4f3a3e2bafeece8d88",
+                "reference": "b756eb5905f499695c09ab4f3a3e2bafeece8d88",
                 "shasum": ""
             },
             "require": {
@@ -153,7 +153,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-08T10:07:28+00:00"
+            "time": "2022-11-08T15:24:00+00:00"
         },
         {
             "name": "laminas/laminas-cache-storage-adapter-memory",

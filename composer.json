@@ -19,7 +19,7 @@
     ],
     "require": {
         "php":                            "~8.1.12",
-        "laminas/laminas-cache":          "^3.7.0",
+        "laminas/laminas-cache":          "^3.8.0",
         "laminas/laminas-modulemanager":  "^2.14.0",
         "laminas/laminas-mvc":            "^3.5.0",
         "laminas/laminas-servicemanager": "^3.19.0",
