@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a37c3db59774d063946d0d7d8429d5d3",
+    "content-hash": "f94a544ea16e19a0d6e08467b6f369e1",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -354,16 +354,16 @@
         },
         {
             "name": "laminas/laminas-eventmanager",
-            "version": "3.9.0",
+            "version": "3.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-eventmanager.git",
-                "reference": "74c091fb0da37744e7d215ef5bd3564c77f6385e"
+                "reference": "55f7c337f4e49baf6dca87220619d40d9518e6b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-eventmanager/zipball/74c091fb0da37744e7d215ef5bd3564c77f6385e",
-                "reference": "74c091fb0da37744e7d215ef5bd3564c77f6385e",
+                "url": "https://api.github.com/repos/laminas/laminas-eventmanager/zipball/55f7c337f4e49baf6dca87220619d40d9518e6b6",
+                "reference": "55f7c337f4e49baf6dca87220619d40d9518e6b6",
                 "shasum": ""
             },
             "require": {
@@ -418,7 +418,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-12-10T16:36:52+00:00"
+            "time": "2022-12-20T19:45:38+00:00"
         },
         {
             "name": "laminas/laminas-http",
@@ -1122,16 +1122,16 @@
         },
         {
             "name": "laminas/laminas-view",
-            "version": "2.25.0",
+            "version": "2.25.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-view.git",
-                "reference": "77a4b6d78445ae2f30625c5af09a05ad4e4434eb"
+                "reference": "ab40dc844cb5d54739db021a9c819de115a710e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/77a4b6d78445ae2f30625c5af09a05ad4e4434eb",
-                "reference": "77a4b6d78445ae2f30625c5af09a05ad4e4434eb",
+                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/ab40dc844cb5d54739db021a9c819de115a710e9",
+                "reference": "ab40dc844cb5d54739db021a9c819de115a710e9",
                 "shasum": ""
             },
             "require": {
@@ -1219,7 +1219,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-07T08:01:13+00:00"
+            "time": "2022-12-21T11:35:32+00:00"
         },
         {
             "name": "nikic/php-parser",
