@@ -28,10 +28,8 @@ use const PATHINFO_FILENAME;
  * an {@see \Laminas\View\Resolver\TemplateMapResolver}, a
  * {@see \Laminas\View\Resolver\TemplatePathStack} or a
  * {@see \Laminas\View\Resolver\AggregateResolver}
- * 
- * @internal this is an internal concept of the library: do not rely on it.
  */
-final class TemplateMapCompiler
+class TemplateMapCompiler
 {
     /**
      * Generates a list of all existing templates in the given resolver,
@@ -59,7 +57,7 @@ final class TemplateMapCompiler
     }
 
     /** @psalm-return array<string, string> */
-    private function compileFromAggregateResolver(AggregateResolver $resolver): array
+    protected function compileFromAggregateResolver(AggregateResolver $resolver): array
     {
         $map = [];
 
@@ -77,7 +75,7 @@ final class TemplateMapCompiler
      *
      * @throws DomainException
      */
-    private function compileFromTemplatePathStack(TemplatePathStack $resolver): array
+    protected function compileFromTemplatePathStack(TemplatePathStack $resolver): array
     {
         $map = [];
 
@@ -102,7 +100,7 @@ final class TemplateMapCompiler
      *
      * @psalm-suppress MixedReturnTypeCoercion the {@see TemplateMapResolver} does not have refined type declarations
      */
-    private function compileFromTemplateMapResolver(TemplateMapResolver $resolver): array
+    protected function compileFromTemplateMapResolver(TemplateMapResolver $resolver): array
     {
         return $resolver->getMap();
     }
