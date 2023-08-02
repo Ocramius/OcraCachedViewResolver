@@ -33,7 +33,8 @@
         "laminas/laminas-cache-storage-adapter-memory": "^2.2.0",
         "phpunit/phpunit":                              "^10.2.7",
         "roave/infection-static-analysis-plugin":       "^1.32.0",
-        "vimeo/psalm":                                  "^5.14.1"
+        "vimeo/psalm":                                  "^5.14.1",
+        "ext-pcov":                                     "*"
     },
     "autoload": {
         "psr-0": {
