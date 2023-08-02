@@ -2,16 +2,17 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-    colors="true"
-    verbose="true"
     beStrictAboutOutputDuringTests="true"
+    beStrictAboutChangesToGlobalState="true"
+    requireCoverageMetadata="true"
 >
     <testsuite name="AssetManager tests">
         <directory>./tests/OcraCachedViewResolverTest</directory>
     </testsuite>
-    <coverage>
+
+    <source>
         <include>
-            <directory suffix=".php">./src</directory>
+            <directory>src</directory>
         </include>
-    </coverage>
+    </source>
 </phpunit>
