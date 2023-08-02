@@ -1,5 +1,4 @@
 *.php text eol=lf
-*.phpt text eol=lf
 /.github/ export-ignore
 /build/ export-ignore
 /test/ export-ignore
