@@ -1,13 +1,16 @@
 {
     "name": "ocramius/ocra-cached-view-resolver",
-    "description": "Cached view template path resolver to speed up the ZF2 view layer by avoiding stat calls",
+    "description": "Cached view template path resolver to speed up the Laminas MVC view layer by avoiding stat calls",
     "license": "MIT",
     "type": "library",
     "keywords": [
         "zf2",
         "zendframework",
         "zend framework 2",
-        "performance"
+        "performance",
+        "laminas",
+        "laminas-view",
+        "laminas-mvc"
     ],
     "homepage": "https://github.com/Ocramius/OcraCachedViewResolver",
     "authors": [
@@ -28,7 +31,7 @@
     "require-dev": {
         "doctrine/coding-standard":                     "^12.0.0",
         "laminas/laminas-cache-storage-adapter-memory": "^2.2.0",
-        "phpunit/phpunit":                              "^9.6.10",
+        "phpunit/phpunit":                              "^10.2.7",
         "roave/infection-static-analysis-plugin":       "^1.32.0",
         "vimeo/psalm":                                  "^5.14.1"
     },
@@ -40,11 +43,6 @@
     "autoload-dev": {
         "psr-0": {
             "OcraCachedViewResolverTest\\": "tests/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.1.x-dev"
         }
     },
     "config": {

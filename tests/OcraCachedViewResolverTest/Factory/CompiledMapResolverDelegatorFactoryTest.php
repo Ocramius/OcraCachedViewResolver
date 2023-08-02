@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-namespace OcraCachedViewResolverTest\View\Resolver;
+namespace OcraCachedViewResolverTest\Factory;
 
 use Interop\Container\ContainerInterface;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\View\Resolver\AggregateResolver;
-use Laminas\View\Resolver\ResolverInterface;
 use Laminas\View\Resolver\TemplateMapResolver;
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 use OcraCachedViewResolver\Module;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
+use OcraCachedViewResolverTest\Factory\Asset\InvokableObject;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory}
@@ -28,6 +27,7 @@ class CompiledMapResolverDelegatorFactoryTest extends TestCase
     /** @var ContainerInterface&MockObject */
     private $locator;
 
+    /** @var InvokableObject&MockObject  */
     private MockObject $callback;
 
     /** @var StorageInterface&MockObject */
@@ -38,7 +38,7 @@ class CompiledMapResolverDelegatorFactoryTest extends TestCase
         parent::setUp();
 
         $this->locator  = $this->createMock(ContainerInterface::class);
-        $this->callback = $this->getMockBuilder(stdClass::class)->addMethods(['__invoke'])->getMock();
+        $this->callback = $this->createMock(InvokableObject::class);
         $this->cache    = $this->createMock(StorageInterface::class);
 
         $this->locator->method('get')->will(self::returnValueMap([
@@ -69,10 +69,8 @@ class CompiledMapResolverDelegatorFactoryTest extends TestCase
 
         $this->callback->expects(self::never())->method('__invoke');
 
-        /** @var callable(): ResolverInterface $callback */
-        $callback = $this->callback;
         $factory  = new CompiledMapResolverDelegatorFactory();
-        $resolver = $factory->__invoke($this->locator, 'resolver', $callback);
+        $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);
 
         self::assertInstanceOf(AggregateResolver::class, $resolver);
 
@@ -92,10 +90,8 @@ class CompiledMapResolverDelegatorFactoryTest extends TestCase
         $this->cache->expects(self::once())->method('setItem')->with('key-name', ['bar' => 'baz']);
         $this->callback->expects(self::once())->method('__invoke')->willReturn($realResolver);
 
-        /** @var callable(): ResolverInterface $callback */
-        $callback = $this->callback;
         $factory  = new CompiledMapResolverDelegatorFactory();
-        $resolver = $factory->__invoke($this->locator, 'resolver', $callback);
+        $resolver = $factory->__invoke($this->locator, 'resolver', $this->callback);
 
         self::assertInstanceOf(AggregateResolver::class, $resolver);
 

@@ -6,12 +6,11 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\View\Renderer\RendererInterface;
-use Laminas\View\Resolver\ResolverInterface;
 use Laminas\View\Resolver\TemplateMapResolver;
 use OcraCachedViewResolver\View\Resolver\CachingMapResolver;
+use OcraCachedViewResolverTest\Factory\Asset\InvokableObject;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\View\Resolver\CachingMapResolver}
@@ -21,6 +20,7 @@ use stdClass;
  */
 class CachingMapResolverTest extends TestCase
 {
+    /** @var InvokableObject&MockObject */
     private MockObject $resolverInstantiator;
 
     /** @var TemplateMapResolver&MockObject */
@@ -40,16 +40,14 @@ class CachingMapResolverTest extends TestCase
     {
         parent::setUp();
 
-        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->addMethods(['__invoke'])->getMock();
+        $this->resolverInstantiator = $this->createMock(InvokableObject::class);
         $this->realResolver         = $this->createMock(TemplateMapResolver::class);
         $this->renderer             = $this->createMock(RendererInterface::class);
         $this->cache                = $this->createMock(StorageInterface::class);
-        /** @psalm-var callable(): ResolverInterface $resolverInstantiator */
-        $resolverInstantiator     = $this->resolverInstantiator;
-        $this->cachingMapResolver = new CachingMapResolver(
+        $this->cachingMapResolver   = new CachingMapResolver(
             $this->cache,
             $this->cacheKey,
-            $resolverInstantiator,
+            $this->resolverInstantiator,
         );
 
         $this

@@ -7,9 +7,9 @@ namespace OcraCachedViewResolverTest\View\Resolver;
 use Laminas\View\Renderer\RendererInterface;
 use Laminas\View\Resolver\ResolverInterface;
 use OcraCachedViewResolver\View\Resolver\LazyResolver;
+use OcraCachedViewResolverTest\Factory\Asset\InvokableObject;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 /**
  * Tests for {@see \OcraCachedViewResolver\View\Resolver\LazyResolver}
@@ -19,6 +19,7 @@ use stdClass;
  */
 class LazyResolverTest extends TestCase
 {
+    /** @var InvokableObject&MockObject */
     private MockObject $resolverInstantiator;
 
     /** @var ResolverInterface&MockObject */
@@ -33,13 +34,10 @@ class LazyResolverTest extends TestCase
     {
         parent::setUp();
 
-        $this->resolverInstantiator = $this->getMockBuilder(stdClass::class)->addMethods(['__invoke'])->getMock();
+        $this->resolverInstantiator = $this->createMock(InvokableObject::class);
         $this->realResolver         = $this->createMock(ResolverInterface::class);
         $this->renderer             = $this->createMock(RendererInterface::class);
-        /** @psalm-var callable(): ResolverInterface $resolverInstantiator */
-        $resolverInstantiator = $this->resolverInstantiator;
-
-        $this->lazyResolver = new LazyResolver($resolverInstantiator);
+        $this->lazyResolver         = new LazyResolver($this->resolverInstantiator);
     }
 
     public function testResolve(): void
@@ -79,10 +77,7 @@ class LazyResolverTest extends TestCase
     {
         $this->resolverInstantiator->expects(self::never())->method('__invoke');
 
-        /** @psalm-var callable(): ResolverInterface $resolverInstantiator */
-        $resolverInstantiator = $this->resolverInstantiator;
-
-        new LazyResolver($resolverInstantiator);
+        new LazyResolver($this->resolverInstantiator);
     }
 
     public function testResolveCausesRealResolverInstantiationOnlyOnce(): void
