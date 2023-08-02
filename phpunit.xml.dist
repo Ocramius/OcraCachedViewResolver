@@ -4,7 +4,6 @@
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     beStrictAboutOutputDuringTests="true"
     beStrictAboutChangesToGlobalState="true"
-    requireCoverageMetadata="true"
 >
     <testsuite name="AssetManager tests">
         <directory>./tests/OcraCachedViewResolverTest</directory>
