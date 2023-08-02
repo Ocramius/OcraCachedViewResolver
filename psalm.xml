@@ -6,6 +6,7 @@
     errorLevel="1"
     rememberPropertyAssignmentsAfterCall="false"
     findUnusedPsalmSuppress="true"
+    findUnusedBaselineEntry="true"
 >
     <projectFiles>
         <directory name="src"/>

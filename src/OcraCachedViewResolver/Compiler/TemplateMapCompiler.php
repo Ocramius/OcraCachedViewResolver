@@ -116,15 +116,14 @@ class TemplateMapCompiler
      */
     private function addResolvedPath(SplFileInfo $file, array $map, string $basePath, TemplatePathStack $resolver): array
     {
-        $filePath     = $file->getRealPath();
-        $fileName     = pathinfo($filePath, PATHINFO_FILENAME);
-        $relativePath = trim(str_replace($basePath, '', $file->getPath()), '/\\');
-        $templateName = str_replace('\\', '/', trim($relativePath . '/' . $fileName, '/'));
+        $fileName = pathinfo($file->getRealPath(), PATHINFO_FILENAME);
 
         if (! $fileName) {
             return $map;
         }
 
+        $relativePath = trim(str_replace($basePath, '', $file->getPath()), '/\\');
+        $templateName = str_replace('\\', '/', trim($relativePath . '/' . $fileName, '/'));
         $resolvedPath = $resolver->resolve($templateName);
 
         if (! $resolvedPath) {

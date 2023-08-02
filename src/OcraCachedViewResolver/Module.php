@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace OcraCachedViewResolver;
 
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
+use Laminas\ServiceManager\ServiceManager;
 use OcraCachedViewResolver\Factory\CompiledMapResolverDelegatorFactory;
 
 /**
- * OcraCachedViewResolver module
- *
+ * @psalm-import-type ServiceManagerConfiguration from ServiceManager
  * @psalm-type OcraCachedViewResolverConfiguration = array{
  *   ocra_cached_view_resolver: array{
- *     cache: array,
  *     cached_template_map_key: non-empty-string,
  *     cache_service: non-empty-string,
  *   },
+ *   service_manager: ServiceManagerConfiguration
  * }
  */
 final class Module implements ConfigProviderInterface
@@ -35,9 +35,7 @@ final class Module implements ConfigProviderInterface
      */
     public const CONFIG_CACHE_KEY = 'cached_template_map_key';
 
-    /**
-     * {@inheritDoc}
-     */
+    /** @return OcraCachedViewResolverConfiguration */
     public function getConfig(): array
     {
         return [
