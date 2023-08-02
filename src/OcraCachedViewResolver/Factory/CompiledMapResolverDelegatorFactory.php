@@ -25,6 +25,9 @@ use function assert;
  */
 final class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInterface
 {
+    private const LAZY_REAL_RESOLVER_PRIORITY = 50;
+    private const CACHED_RESOLVER_PRIORITY    = 100;
+
     /** {@inheritDoc} */
     public function __invoke(
         ContainerInterface $container,
@@ -44,8 +47,11 @@ final class CompiledMapResolverDelegatorFactory implements DelegatorFactoryInter
 //phpcs:disable SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.NoAssignment
         /** @var callable(): ResolverInterface $callback */
 //phpcs:enable
-        $resolver->attach(new LazyResolver($callback), 50);
-        $resolver->attach(new CachingMapResolver($cache, $config[Module::CONFIG_CACHE_KEY], $callback), 100);
+        $resolver->attach(new LazyResolver($callback), self::LAZY_REAL_RESOLVER_PRIORITY);
+        $resolver->attach(
+            new CachingMapResolver($cache, $config[Module::CONFIG_CACHE_KEY], $callback),
+            self::CACHED_RESOLVER_PRIORITY,
+        );
 
         return $resolver;
     }

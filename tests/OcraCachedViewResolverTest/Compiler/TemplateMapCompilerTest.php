@@ -121,4 +121,43 @@ class TemplateMapCompilerTest extends TestCase
         self::assertSame('d-value', $map['d']); // should not be overridden
         self::assertSame('e-value', $map['e']);
     }
+
+    public function testCompileFromTemplatePathStackWillTrimPaths(): void
+    {
+        $templatePathStack = $this->createMock(TemplatePathStack::class);
+        $paths             = $this->createMock(SplStack::class);
+        $paths
+            ->method('toArray')
+            ->willReturn([
+                __DIR__ . '/_files/subdir2/',
+                __DIR__ . '/_files/subdir1/',
+            ]);
+
+        $templatePathStack
+            ->method('getPaths')
+            ->willReturn($paths);
+        $templatePathStack
+            ->method('resolve')
+            ->willReturnCallback(static function (string $name) {
+                $keys = [
+                    'template2'       => __DIR__ . '/_files/subdir2/template2.phtml',
+                    'template3'       => false,
+                    'valid/template4' => __DIR__ . '/_files/subdir1/valid/template4.phtml',
+                ];
+
+                return $keys[$name];
+            });
+        $map = $this->compiler->compileMap($templatePathStack);
+
+        self::assertCount(2, $map);
+
+        $template2 = realpath(__DIR__ . '/_files/subdir2/template2.phtml');
+        $template4 = realpath(__DIR__ . '/_files/subdir1/valid/template4.phtml');
+
+        self::assertIsString($template2);
+        self::assertIsString($template4);
+
+        self::assertSame($template2, $map['template2']);
+        self::assertSame($template4, $map['valid/template4']);
+    }
 }
