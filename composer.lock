@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c3df6aa4f8de6f99c45437a4843e9a9",
+    "content-hash": "d3abf1feb68dc110872c8672d972e41f",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -1121,16 +1121,16 @@
         },
         {
             "name": "laminas/laminas-view",
-            "version": "2.29.0",
+            "version": "2.30.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-view.git",
-                "reference": "b3ae82de4783e899717d2db7bb82b33542c12908"
+                "reference": "055623fd0634f2ab2a51defa03c22ddee4e89df7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/b3ae82de4783e899717d2db7bb82b33542c12908",
-                "reference": "b3ae82de4783e899717d2db7bb82b33542c12908",
+                "url": "https://api.github.com/repos/laminas/laminas-view/zipball/055623fd0634f2ab2a51defa03c22ddee4e89df7",
+                "reference": "055623fd0634f2ab2a51defa03c22ddee4e89df7",
                 "shasum": ""
             },
             "require": {
@@ -1217,7 +1217,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-07-20T08:57:28+00:00"
+            "time": "2023-08-17T10:28:59+00:00"
         },
         {
             "name": "nikic/php-parser",
